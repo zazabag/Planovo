@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планово — Умная система расписаний и планирования</title>
+    <meta name="description" content="Планово — мультиподключаемая система для создания, управления и публикации расписаний. Колледжи, школы, спортивные секции, клубы и мероприятия.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon"><i class="fas fa-calendar-alt"></i></span>
+                <span class="logo-text">Планово</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">О системе</a></li>
+                <li><a href="#niches">Ниши</a></li>
+                <li><a href="#how-it-works">Как работает</a></li>
+                <li><a href="#features">Возможности</a></li>
+                <li><a href="#contact" class="nav-cta">Обсудить проект</a></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    Мультиподключаемая система
+                </div>
+                <h1 class="hero-title">
+                    Расписания, которые 
+                    <span class="gradient-text">работают</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Планово — это умная экосистема для создания, управления и публикации расписаний. 
+                    От колледжей до спортивных секций и клубов. Мы закрываем боль организаторов 
+                    и делаем жизнь участников проще.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#niches" class="btn btn-primary">Посмотреть решения</a>
+                    <a href="#contact" class="btn btn-secondary">Обсудить проект</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">3+</span>
+                        <span class="stat-label">Ниши</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Роли: админ и участник</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Платформа</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <a href="#about" class="scroll-indicator">
+                <span class="scroll-mouse"></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Проблема</span>
+                <h2 class="section-title">Почему расписание — это <span class="highlight">головная боль</span></h2>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <h3>Таблицы и таблицы</h3>
+                    <p>Учебная часть в Excel, преподаватели в чатах, студенты — в растерянности. Одно изменение — и цепная реакция правок во всех копиях.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                    <h3>Конфликты и накладки</h3>
+                    <p>Двойные бронирования, пересечения занятий, забитые аудитории. Проверять всё вручную — невозможно при масштабе.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Ужасный доступ</h3>
+                    <p>Расписание на сайте в PDF, на доске в коридоре, в сторис инстаграма. Участникам неудобно — они пропускают занятия и ивенты.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3>Нет единой системы</h3>
+                    <p>Каждый бизнес решает проблему заново: колледж, секция, клуб — все страдают от одних и тех же проблем, но по-разному.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution">
+        <div class="container">
+            <div class="solution-content">
+                <div class="solution-text">
+                    <span class="section-tag">Решение</span>
+                    <h2 class="section-title">Один бренд. <span class="gradient-text">Любая ниша.</span> Готовая архитектура.</h2>
+                    <p class="solution-description">
+                        Планово — это не просто софт для колледжей. Это <strong>мультиподключаемая платформа</strong>, 
+                        которую мы адаптируем под любой бизнес, где есть расписание, события и записи. 
+                        Мы закладываем архитектуру один раз, а под каждый проект дорабатываем интерфейс и функционал.
+                    </p>
+                    <div class="solution-points">
+                        <div class="point">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Удобный бэк-энд</strong> для тех, кто создаёт расписание</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Красивый фронт-энд</strong> для тех, кто им пользуется</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Мгновенная публикация</strong> — одна кнопка, и всё видно</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Адаптация под бизнес</strong> — каждый клиент получает свой продукт</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="solution-visual">
+                    <div class="mockup-container">
+                        <div class="mockup-header">
+                            <div class="mockup-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="mockup-title">Планово — Админ-панель</div>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="mockup-sidebar">
+                                <div class="mockup-nav-item active"><i class="fas fa-calendar"></i> Расписание</div>
+                                <div class="mockup-nav-item"><i class="fas fa-users"></i> Группы</div>
+                                <div class="mockup-nav-item"><i class="fas fa-chalkboard-teacher"></i> Преподаватели</div>
+                                <div class="mockup-nav-item"><i class="fas fa-door-open"></i> Аудитории</div>
+                                <div class="mockup-nav-item"><i class="fas fa-cog"></i> Настройки</div>
+                            </div>
+                            <div class="mockup-main">
+                                <div class="mockup-toolbar">
+                                    <div class="mockup-btn">+ Добавить занятие</div>
+                                    <div class="mockup-btn secondary">Опубликовать</div>
+                                </div>
+                                <div class="mockup-timetable">
+                                    <div class="mockup-row header">
+                                        <div></div>
+                                        <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div>
+                                    </div>
+                                    <div class="mockup-row">
+                                        <div class="time">9:00</div>
+                                        <div class="cell filled">Математика<br><small>А-101</small></div>
+                                        <div class="cell"></div>
+                                        <div class="cell filled">Физика<br><small>Л-202</small></div>
+                                        <div class="cell"></div>
+                                        <div class="cell filled">Информатика<br><small>А-103</small></div>
+                                    </div>
+                                    <div class="mockup-row">
+                                        <div class="time">11:00</div>
+                                        <div class="cell"></div>
+                                        <div class="cell filled">Английский<br><small>А-105</small></div>
+                                        <div class="cell"></div>
+                                        <div class="cell filled">Математика<br><small>А-101</small></div>
+                                        <div class="cell"></div>
+                                    </div>
+                                    <div class="mockup-row">
+                                        <div class="time">13:00</div>
+                                        <div class="cell filled">Программирование<br><small>Л-305</small></div>
+                                        <div class="cell"></div>
+                                        <div class="cell"></div>
+                                        <div class="cell filled">Английский<br><small>А-105</small></div>
+                                        <div class="cell"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Niches Section -->
+    <section class="niches" id="niches">
+        <div class="container">
+            <div class="section-header center">
+                <span class="section-tag">Ниши</span>
+                <h2 class="section-title">Для кого работает <span class="gradient-text">Планово</span></h2>
+                <p class="section-subtitle">Каждый бизнес получает свой интерфейс и функционал. Мы адаптируем платформу под ваши процессы.</p>
+            </div>
+            <div class="niches-grid">
+                <!-- Education -->
+                <div class="niche-card" data-niche="education">
+                    <div class="niche-header">
+                        <div class="niche-icon education">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="niche-badge">Самая востребованная</div>
+                    </div>
+                    <h3 class="niche-title">Учебные заведения</h3>
+                    <p class="niche-description">Колледжи, техникумы, школы, детские сады. Полный цикл управления учебным процессом.</p>
+                    <div class="niche-features">
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Создание расписания по группам, преподавателям и аудиториям</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Автоматическая проверка конфликтов и накладок</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Ученик видит только своё расписание по группе</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Преподаватель видит свою загрузку по дням</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Публикация одной кнопкой — мгновенный доступ для всех</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Замены и изменения в реальном времени</span>
+                        </div>
+                    </div>
+                    <div class="niche-footer">
+                        <span class="niche-target">Для: учебной части, преподавателей, студентов</span>
+                    </div>
+                </div>
+
+                <!-- Sports -->
+                <div class="niche-card" data-niche="sports">
+                    <div class="niche-header">
+                        <div class="niche-icon sports">
+                            <i class="fas fa-running"></i>
+                        </div>
+                    </div>
+                    <h3 class="niche-title">Спортивные секции</h3>
+                    <p class="niche-description">Фитнес-клубы, секции, тренировочные группы, бассейны, танцевальные студии.</p>
+                    <div class="niche-features">
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Расписание тренировок по группам и уровням</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Запись на занятие через личный кабинет</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Учёт посещаемости и прогресс каждого участника</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Уведомления о переносах и отменах тренировок</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Личный профиль спортсмена с историей</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Тренер управляет группами и видит загрузку залов</span>
+                        </div>
+                    </div>
+                    <div class="niche-footer">
+                        <span class="niche-target">Для: руководителей секций, тренеров, спортсменов</span>
+                    </div>
+                </div>
+
+                <!-- Clubs & Events -->
+                <div class="niche-card" data-niche="clubs">
+                    <div class="niche-header">
+                        <div class="niche-icon clubs">
+                            <i class="fas fa-glass-cheers"></i>
+                        </div>
+                    </div>
+                    <h3 class="niche-title">Клубы и мероприятия</h3>
+                    <p class="niche-description">Покерные клубы, борды, квизы, игротеки, творческие встречи, мастер-классы.</p>
+                    <div class="niche-features">
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Ивент-календарь с типами событий и лимитами мест</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Запись на ивент с подтверждением профиля</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Оплата при записи или на месте (интеграция платежей)</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Личный кабинет участника с историей посещений</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Управление столами, зонами и вместимостью</span>
+                        </div>
+                        <div class="niche-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Аналитика: популярные ивенты, загрузка, выручка</span>
+                        </div>
+                    </div>
+                    <div class="niche-footer">
+                        <span class="niche-target">Для: организаторов, администраторов, участников</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header center">
+                <span class="section-tag">Процесс</span>
+                <h2 class="section-title">Как мы <span class="gradient-text">внедряем</span> Планово</h2>
+                <p class="section-subtitle">От первой встречи до запуска — чёткий план без сюрпризов.</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Анализ ваших процессов</h3>
+                        <p>Мы изучаем, как сейчас строится расписание, какие боли есть у админов и участников, что нужно доработать.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Проектирование архитектуры</h3>
+                        <p>На базе ядра Планово проектируем уникальный интерфейс и функционал под ваш бизнес и аудиторию.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Разработка и тестирование</h3>
+                        <p>Пишем код, адаптируем дизайн, тестируем с вашей командой. Правим, пока не будет идеально.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3>Запуск и поддержка</h3>
+                        <p>Публикуем систему, обучаем администраторов, остаёмся на связи для обновлений и доработок.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header center">
+                <span class="section-tag">Возможности</span>
+                <h2 class="section-title">Что вы получаете <span class="gradient-text">с Планово</span></h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Мгновенная публикация</h3>
+                    <p>Одна кнопка — и расписание доступно всем. Без PDF, без рассылок, без "посмотрите на доске".</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Защита от ошибок</h3>
+                    <p>Система сама проверяет конфликты: двойные бронирования, пересечения, перегрузку преподавателей.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-screen"></i>
+                    </div>
+                    <h3>Мобильный доступ</h3>
+                    <p>Участники смотрят расписание с телефона. Удобно, быстро, всегда под рукой.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <h3>Разные роли</h3>
+                    <p>Админ видит всё. Преподаватель — свою загрузку. Ученик — только свою группу. Гибкость без хаоса.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3>Готовая платформа</h3>
+                    <p>Мы не пишем с нуля каждый раз. Ядро Планово адаптируется — вы получаете быстрее и дешевле.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Аналитика</h3>
+                    <p>Загрузка аудиторий, посещаемость, популярные ивенты. Данные для принятия решений.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Готовы обсудить ваш проект?</h2>
+                <p class="cta-text">
+                    Расскажите, как у вас сейчас работает расписание, и мы предложим, 
+                    как Планово может закрыть ваши боли. Без шаблонных решений — только под ваш бизнес.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://t.me/" target="_blank" class="btn btn-primary btn-large">
+                        <i class="fab fa-telegram-plane"></i>
+                        Написать в Telegram
+                    </a>
+                    <a href="mailto:hello@planovo.ru" class="btn btn-secondary btn-large">
+                        <i class="fas fa-envelope"></i>
+                        hello@planovo.ru
+                    </a>
+                </div>
+                <p class="cta-note">Ответим в течение дня. Без спама, только по делу.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-icon"><i class="fas fa-calendar-alt"></i></span>
+                        <span class="logo-text">Планово</span>
+                    </a>
+                    <p>Мультиподключаемая система для расписаний и планирования. Создаём удобные инструменты для организаторов и участников.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Навигация</h4>
+                        <ul>
+                            <li><a href="#about">О системе</a></li>
+                            <li><a href="#niches">Ниши</a></li>
+                            <li><a href="#how-it-works">Как работает</a></li>
+                            <li><a href="#features">Возможности</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Ниши</h4>
+                        <ul>
+                            <li><a href="#niches">Учебные заведения</a></li>
+                            <li><a href="#niches">Спортивные секции</a></li>
+                            <li><a href="#niches">Клубы и мероприятия</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Контакты</h4>
+                        <ul>
+                            <li><a href="mailto:hello@planovo.ru">hello@planovo.ru</a></li>
+                            <li><a href="https://t.me/" target="_blank">Telegram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Планово. Все права защищены.</p>
+                <p>Сделано с фокусом на людей, а не на процессы.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
