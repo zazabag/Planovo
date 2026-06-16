@@ -113,6 +113,14 @@ const DAYS = [{
   short: "Сб",
   full: "Суббота"
 }];
+// Demoplan: compact demo window (see docs/Demoplan.md)
+const DEMO_DAY_KEYS = ["mon", "wed"];
+const DEMO_DAYS = DAYS.filter((d) => DEMO_DAY_KEYS.includes(d.key));
+const DEMO_SLOT_COUNT = 2;
+const DEMO_SLOTS = TIME_SLOTS.slice(0, DEMO_SLOT_COUNT);
+function pickDemoDay(rng) {
+  return DEMO_DAY_KEYS[Math.floor(rng() * DEMO_DAY_KEYS.length)];
+}
 const GROUPS = [{
   code: "ОЭ-11",
   direction: "Экономика и право",
@@ -144,6 +152,7 @@ const GROUPS = [{
   course: 3,
   label: "ОЭ-32 (3 курс)"
 }];
+const DEMO_GROUPS = GROUPS.filter((g) => g.code === "ОЭ-11" || g.code === "ОЭ-12");
 const TEACHERS = [{
   id: "t1",
   surname: "Буфеев",
@@ -513,15 +522,13 @@ function generateSchedule(seed = "planovo-demo-2025") {
       let attempt = 0;
       while (!placed && attempt < 50) {
         attempt++;
-        const isSaturday = rng() < 0.15;
-        const dayKey = isSaturday ? "sat" : DAYS[Math.floor(rng() * 5)].key;
-        const isSatDay = dayKey === "sat";
-        const maxSlot = isSatDay ? 3 : 5;
+        const dayKey = pickDemoDay(rng);
+        const maxSlot = DEMO_SLOT_COUNT;
         const slotIndex = Math.floor(rng() * maxSlot);
         if ((teacherDailyLoad[teacherId][dayKey] || 0) >= teacher.maxDaily) continue;
         const currentWeekly = Object.values(teacherDailyLoad[teacherId]).reduce((a, b) => a + b, 0);
         if (currentWeekly >= teacher.maxWeekly) break;
-        if ((groupDailyLoad[groupCode][dayKey] || 0) >= (isSatDay ? 3 : 5)) continue;
+        if ((groupDailyLoad[groupCode][dayKey] || 0) >= DEMO_SLOT_COUNT) continue;
         let slotOk = true;
         for (const p of parities) {
           if (teacherSlotOccupied[teacherId].has(`${dayKey}:${slotIndex}:${p}`)) {
@@ -566,8 +573,8 @@ function generateSchedule(seed = "planovo-demo-2025") {
     teacherId: "t6"
   }]];
   for (const [groups, info] of combinedPairs) {
-    const dayKey = DAYS[Math.floor(rng() * 5)].key;
-    const slotIndex = Math.floor(rng() * 4);
+    const dayKey = pickDemoDay(rng);
+    const slotIndex = Math.floor(rng() * DEMO_SLOT_COUNT);
     const roomId = pickRoom(info.subjectId);
     const combinedKey = `combined-${groups[0]}-${groups[1]}-${info.subjectId}`;
     for (const g of groups) {
@@ -627,8 +634,8 @@ function generateSchedule(seed = "planovo-demo-2025") {
   }];
   for (const pos of parityOnly) {
     const parity = rng() < 0.5 ? "even" : "odd";
-    const dayKey = DAYS[Math.floor(rng() * 5)].key;
-    const slotIndex = Math.floor(rng() * 4);
+    const dayKey = pickDemoDay(rng);
+    const slotIndex = Math.floor(rng() * DEMO_SLOT_COUNT);
     const roomId = pickRoom(pos.subjectId);
     const existing = cells.find(c => c.groupCode === pos.groupCode && c.dayKey === dayKey && c.slotIndex === slotIndex && c.parity === parity);
     if (existing) continue;
@@ -656,12 +663,11 @@ function generateAvailability(seed = "planovo-avail-2025") {
     const blockedSlots = new Set();
     const numBlocked = 2 + Math.floor(rng() * 3);
     for (let i = 0; i < numBlocked; i++) {
-      blockedSlots.add(`${DAYS[Math.floor(rng() * DAYS.length)].key}:${Math.floor(rng() * TIME_SLOTS.length)}`);
+      blockedSlots.add(`${pickDemoDay(rng)}:${Math.floor(rng() * DEMO_SLOT_COUNT)}`);
     }
     const cells = [];
-    for (const day of DAYS) {
-      const maxSlot = day.key === "sat" ? 3 : TIME_SLOTS.length;
-      for (let si = 0; si < maxSlot; si++) {
+    for (const day of DEMO_DAYS) {
+      for (let si = 0; si < DEMO_SLOT_COUNT; si++) {
         if (!blockedSlots.has(`${day.key}:${si}`)) {
           cells.push({
             dayKey: day.key,
@@ -1001,7 +1007,6 @@ function StudentView({
   selectedGroupCode,
   setSelectedGroupCode
 }) {
-  const [searchQuery, setSearchQuery] = useState('');
   const [mobileDay, setMobileDay] = useState('mon');
   const [nowInfo, setNowInfo] = useState({
     currentSlot: null,
@@ -1020,11 +1025,7 @@ function StudentView({
     if (!selectedGroupCode) return null;
     return buildGroupSchedule(cells, selectedGroupCode);
   }, [cells, selectedGroupCode]);
-  const filteredGroups = useMemo(() => {
-    if (!searchQuery.trim()) return GROUPS;
-    const q = searchQuery.toLowerCase();
-    return GROUPS.filter(g => g.code.toLowerCase().includes(q) || g.direction.toLowerCase().includes(q));
-  }, [searchQuery]);
+  const filteredGroups = DEMO_GROUPS;
   const getDisplayPair = (dayKey, slotIndex) => {
     if (!weekSchedule?.[dayKey]?.[slotIndex]) return null;
     const pair = weekSchedule[dayKey][slotIndex][currentParity];
@@ -1086,18 +1087,6 @@ function StudentView({
   }, /*#__PURE__*/React.createElement("div", {
     className: "section"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "search-wrapper",
-    style: {
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-search"
-  }), /*#__PURE__*/React.createElement("input", {
-    className: "search-input",
-    placeholder: "Поиск группы...",
-    value: searchQuery,
-    onChange: e => setSearchQuery(e.target.value)
-  })), /*#__PURE__*/React.createElement("div", {
     className: "group-selector"
   }, filteredGroups.map(g => /*#__PURE__*/React.createElement("button", {
     key: g.code,
@@ -1111,17 +1100,14 @@ function StudentView({
     className: "course"
   }, g.course, " курс"))))), /*#__PURE__*/React.createElement("div", {
     className: "section"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "parity-selector"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "parity-label"
-  }, "Неделя:"), /*#__PURE__*/React.createElement("button", {
-    className: `parity-btn ${currentParity === 'even' ? 'active' : ''}`,
-    onClick: () => {/* handled by parent */}
-  }, "Чётная"), /*#__PURE__*/React.createElement("button", {
-    className: `parity-btn ${currentParity === 'odd' ? 'active' : ''}`,
-    onClick: () => {/* handled by parent */}
-  }, "Нечётная"))), nowInfo.isLive && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "demo-schedule-hint",
+    style: {
+      fontSize: 13,
+      color: 'var(--gray-500)',
+      marginBottom: 12
+    }
+  }, "Демо: фрагмент расписания · Понедельник и Среда")), nowInfo.isLive && /*#__PURE__*/React.createElement("div", {
     className: "now-indicator"
   }, /*#__PURE__*/React.createElement("div", {
     className: "now-pulse"
@@ -1209,7 +1195,7 @@ function StudentView({
     className: "grid-header"
   }, /*#__PURE__*/React.createElement("div", {
     className: "grid-header-cell"
-  }, "Время"), DAYS.map(d => /*#__PURE__*/React.createElement("div", {
+  }, "Время"), DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("div", {
     key: d.key,
     className: `grid-header-cell ${isCurrentDay(d.key) ? 'today' : ''}`
   }, /*#__PURE__*/React.createElement("div", null, d.full), isCurrentDay(d.key) && /*#__PURE__*/React.createElement("div", {
@@ -1223,7 +1209,7 @@ function StudentView({
       fontWeight: 600,
       display: 'inline-block'
     }
-  }, "Сегодня")))), TIME_SLOTS.slice(0, 6).map(slot => /*#__PURE__*/React.createElement("div", {
+  }, "Сегодня")))), DEMO_SLOTS.map(slot => /*#__PURE__*/React.createElement("div", {
     key: slot.index,
     className: `grid-row ${isCurrentSlot(slot.index) ? 'current-slot' : ''}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -1232,7 +1218,7 @@ function StudentView({
     className: "time"
   }, slot.start, "–", slot.end), /*#__PURE__*/React.createElement("span", {
     className: "label"
-  }, slot.label)), DAYS.map(d => {
+  }, slot.label)), DEMO_DAYS.map(d => {
     const pair = getDisplayPair(d.key, slot.index);
     return /*#__PURE__*/React.createElement("div", {
       key: d.key,
@@ -1253,7 +1239,7 @@ function StudentView({
     className: "mobile-schedule"
   }, /*#__PURE__*/React.createElement("div", {
     className: "mobile-day-tabs"
-  }, DAYS.map(d => /*#__PURE__*/React.createElement("button", {
+  }, DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("button", {
     key: d.key,
     className: `mobile-day-tab ${mobileDay === d.key ? 'active' : ''}`,
     onClick: () => setMobileDay(d.key)
@@ -1266,7 +1252,7 @@ function StudentView({
       background: 'var(--primary)',
       marginLeft: 4
     }
-  })))), /*#__PURE__*/React.createElement("div", null, TIME_SLOTS.slice(0, 6).map(slot => {
+  })))), /*#__PURE__*/React.createElement("div", null, DEMO_SLOTS.map(slot => {
     const pair = getDisplayPair(mobileDay, slot.index);
     return /*#__PURE__*/React.createElement("div", {
       key: slot.index,
@@ -1299,12 +1285,15 @@ function TeacherView({
   selectedTeacherId,
   setSelectedTeacherId,
   availabilities,
-  setAvailability
+  setAvailability,
+  showcase = false,
+  showcaseFixedTab = null
 }) {
   const [availParity, setAvailParity] = useState('even');
   const [localAvail, setLocalAvail] = useState({});
   const [activeTab, setActiveTab] = useState('schedule');
   const [saved, setSaved] = useState(false);
+  const tab = showcaseFixedTab || activeTab;
   const weekSchedule = useMemo(() => {
     if (!selectedTeacherId) return null;
     return buildTeacherSchedule(cells, selectedTeacherId);
@@ -1313,9 +1302,8 @@ function TeacherView({
   const initLocalAvail = useCallback(() => {
     if (!teacherAvail) return;
     const map = {};
-    for (const day of DAYS) {
-      const maxSlot = day.key === "sat" ? 3 : TIME_SLOTS.length;
-      for (let si = 0; si < maxSlot; si++) {
+    for (const day of DEMO_DAYS) {
+      for (let si = 0; si < DEMO_SLOT_COUNT; si++) {
         const key = `${day.key}:${si}:${availParity}`;
         map[key] = teacherAvail.cells.some(c => c.dayKey === day.key && c.slotIndex === si && c.parity === availParity);
       }
@@ -1335,9 +1323,8 @@ function TeacherView({
   const submitAvailability = () => {
     if (!selectedTeacherId) return;
     const newCells = [];
-    for (const day of DAYS) {
-      const maxSlot = day.key === "sat" ? 3 : TIME_SLOTS.length;
-      for (let si = 0; si < maxSlot; si++) {
+    for (const day of DEMO_DAYS) {
+      for (let si = 0; si < DEMO_SLOT_COUNT; si++) {
         for (const p of ["even", "odd"]) {
           const key = `${day.key}:${si}:${p}`;
           if (p === availParity) {
@@ -1370,9 +1357,8 @@ function TeacherView({
     const newLocalAvail = {
       ...localAvail
     };
-    for (const day of DAYS) {
-      const maxSlot = day.key === "sat" ? 3 : TIME_SLOTS.length;
-      for (let si = 0; si < maxSlot; si++) {
+    for (const day of DEMO_DAYS) {
+      for (let si = 0; si < DEMO_SLOT_COUNT; si++) {
         const targetKey = `${day.key}:${si}:${availParity}`;
         const sourceAvail = teacherAvail?.cells.some(c => c.dayKey === day.key && c.slotIndex === si && c.parity === otherParity);
         newLocalAvail[targetKey] = !!sourceAvail;
@@ -1407,16 +1393,16 @@ function TeacherView({
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "fade-in"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, (!showcaseFixedTab || showcase) && /*#__PURE__*/React.createElement("div", {
     className: "admin-header"
   }, /*#__PURE__*/React.createElement("select", {
     className: "teacher-select",
     value: selectedTeacherId,
     onChange: e => setSelectedTeacherId(e.target.value)
-  }, TEACHERS.map(t => /*#__PURE__*/React.createElement("option", {
+  }, (showcase ? DEMO_TEACHERS : TEACHERS).map(t => /*#__PURE__*/React.createElement("option", {
     key: t.id,
     value: t.id
-  }, t.full))), /*#__PURE__*/React.createElement("div", {
+  }, t.full))), !showcase && /*#__PURE__*/React.createElement("div", {
     className: "parity-selector"
   }, /*#__PURE__*/React.createElement("span", {
     className: "parity-label"
@@ -1424,7 +1410,7 @@ function TeacherView({
     className: `parity-btn ${currentParity === 'even' ? 'active' : ''}`
   }, "Чётная"), /*#__PURE__*/React.createElement("button", {
     className: `parity-btn ${currentParity === 'odd' ? 'active' : ''}`
-  }, "Нечётная"))), /*#__PURE__*/React.createElement("div", {
+  }, "Нечётная"))), !showcaseFixedTab && /*#__PURE__*/React.createElement("div", {
     className: "tab-bar"
   }, /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'schedule' ? 'active' : ''}`,
@@ -1432,7 +1418,7 @@ function TeacherView({
   }, "Моё расписание"), /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'availability' ? 'active' : ''}`,
     onClick: () => setActiveTab('availability')
-  }, "Доступность")), activeTab === 'schedule' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "Доступность")), tab === 'schedule' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "desktop-schedule"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card"
@@ -1444,10 +1430,10 @@ function TeacherView({
     className: "grid-header"
   }, /*#__PURE__*/React.createElement("div", {
     className: "grid-header-cell"
-  }, "Время"), DAYS.map(d => /*#__PURE__*/React.createElement("div", {
+  }, "Время"), DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("div", {
     key: d.key,
     className: `grid-header-cell ${isCurrentDay(d.key) ? 'today' : ''}`
-  }, d.full))), TIME_SLOTS.slice(0, 6).map(slot => /*#__PURE__*/React.createElement("div", {
+  }, d.full))), DEMO_SLOTS.map(slot => /*#__PURE__*/React.createElement("div", {
     key: slot.index,
     className: "grid-row"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1456,7 +1442,7 @@ function TeacherView({
     className: "time"
   }, slot.start, "–", slot.end), /*#__PURE__*/React.createElement("span", {
     className: "label"
-  }, slot.label)), DAYS.map(d => {
+  }, slot.label)), DEMO_DAYS.map(d => {
     const pair = getDisplayPair(d.key, slot.index);
     return /*#__PURE__*/React.createElement("div", {
       key: d.key,
@@ -1475,8 +1461,8 @@ function TeacherView({
     })))));
   }))))))), /*#__PURE__*/React.createElement("div", {
     className: "mobile-schedule"
-  }, DAYS.map(day => {
-    const dayPairs = TIME_SLOTS.slice(0, 6).map(slot => ({
+  }, DEMO_DAYS.map(day => {
+    const dayPairs = DEMO_SLOTS.map(slot => ({
       slot,
       pair: getDisplayPair(day.key, slot.index)
     })).filter(item => item.pair !== null);
@@ -1528,7 +1514,7 @@ function TeacherView({
       currentParity: currentParity,
       showGroup: true
     })))));
-  }))), activeTab === 'availability' && /*#__PURE__*/React.createElement("div", {
+  }))), tab === 'availability' && /*#__PURE__*/React.createElement("div", {
     className: "card"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1615,13 +1601,13 @@ function TeacherView({
     style: {
       padding: 8
     }
-  }, "Время"), DAYS.map(d => /*#__PURE__*/React.createElement("div", {
+  }, "Время"), DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("div", {
     key: d.key,
     className: "grid-header-cell",
     style: {
       padding: 8
     }
-  }, d.short))), TIME_SLOTS.slice(0, 6).map(slot => /*#__PURE__*/React.createElement("div", {
+  }, d.short))), DEMO_SLOTS.map(slot => /*#__PURE__*/React.createElement("div", {
     key: slot.index,
     className: "grid-row"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1631,7 +1617,7 @@ function TeacherView({
     }
   }, /*#__PURE__*/React.createElement("span", {
     className: "time"
-  }, slot.start, "–", slot.end)), DAYS.map(d => {
+  }, slot.start, "–", slot.end)), DEMO_DAYS.map(d => {
     const key = `${d.key}:${slot.index}:${availParity}`;
     const isAvailable = localAvail[key] ?? false;
     return /*#__PURE__*/React.createElement("div", {
@@ -1661,7 +1647,7 @@ function TeacherView({
     onClick: submitAvailability
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-paper-plane"
-  }), saved ? 'Сохранено ✓' : 'Отправить учебной части'), /*#__PURE__*/React.createElement("button", {
+  }), saved ? 'Сохранено ✓' : 'Отправить учебной части'), !showcase && /*#__PURE__*/React.createElement("button", {
     className: "btn",
     onClick: copyFromOtherParity
   }, /*#__PURE__*/React.createElement("i", {
@@ -1674,12 +1660,15 @@ function AdminView({
   cells,
   setCells,
   currentParity,
-  availabilities
+  availabilities,
+  showcase = false,
+  showcaseFixedTab = null
 }) {
   const [adminGroupCode, setAdminGroupCode] = useState('ОЭ-11');
   const [adminDayKey, setAdminDayKey] = useState('mon');
   const [adminParity, setAdminParity] = useState('even');
   const [activeTab, setActiveTab] = useState('constructor');
+  const tab = showcaseFixedTab || activeTab;
   const [isGenerating, setIsGenerating] = useState(false);
   const [genProgress, setGenProgress] = useState([]);
   const [genResult, setGenResult] = useState(null);
@@ -1772,7 +1761,7 @@ function AdminView({
   };
   return /*#__PURE__*/React.createElement("div", {
     className: "fade-in"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, !showcase && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
@@ -1806,34 +1795,40 @@ function AdminView({
     style: {
       color: conflicts.length > 0 ? 'var(--error)' : undefined
     }
-  }, "Конфликтов"))), /*#__PURE__*/React.createElement("div", {
+  }, "Конфликтов"))), showcase && conflicts.length > 0 && /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 13,
+      color: 'var(--gray-500)',
+      marginBottom: 16
+    }
+  }, "Конфликтов в демо: ", /*#__PURE__*/React.createElement("strong", null, conflicts.length)), !showcaseFixedTab && /*#__PURE__*/React.createElement("div", {
     className: "tab-bar"
   }, /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'constructor' ? 'active' : ''}`,
     onClick: () => setActiveTab('constructor')
-  }, "Конструктор"), /*#__PURE__*/React.createElement("button", {
+  }, showcase ? "Расписание" : "Конструктор"), !showcase && /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'autogen' ? 'active' : ''}`,
     onClick: () => setActiveTab('autogen')
   }, "Автогенерация"), /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'conflicts' ? 'active' : ''}`,
     onClick: () => setActiveTab('conflicts')
-  }, "Конфликты")), activeTab === 'constructor' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "Конфликты")), tab === 'constructor' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "admin-header"
   }, /*#__PURE__*/React.createElement("select", {
     className: "teacher-select",
     value: adminGroupCode,
     onChange: e => setAdminGroupCode(e.target.value)
-  }, GROUPS.map(g => /*#__PURE__*/React.createElement("option", {
+  }, (showcase ? DEMO_GROUPS : GROUPS).map(g => /*#__PURE__*/React.createElement("option", {
     key: g.code,
     value: g.code
   }, g.label))), /*#__PURE__*/React.createElement("select", {
     className: "teacher-select",
     value: adminDayKey,
     onChange: e => setAdminDayKey(e.target.value)
-  }, DAYS.map(d => /*#__PURE__*/React.createElement("option", {
+  }, DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("option", {
     key: d.key,
     value: d.key
-  }, d.full))), /*#__PURE__*/React.createElement("div", {
+  }, d.full))), !showcase && /*#__PURE__*/React.createElement("div", {
     className: "parity-selector"
   }, /*#__PURE__*/React.createElement("button", {
     className: `parity-btn btn-sm ${adminParity === 'even' ? 'active' : ''}`,
@@ -1846,7 +1841,16 @@ function AdminView({
     onClick: () => setShowAddModal(true)
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-plus"
-  }), " Добавить занятие")), /*#__PURE__*/React.createElement("div", {
+  }), " Добавить занятие"), showcase && /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-sm",
+    onClick: () => {
+      setActiveTab("autogen");
+      autoGenerate();
+    },
+    disabled: isGenerating
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-wand-magic-sparkles"
+  }), " Автогенерация")), /*#__PURE__*/React.createElement("div", {
     className: "card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "schedule-wrapper"
@@ -1856,10 +1860,10 @@ function AdminView({
     className: "grid-header"
   }, /*#__PURE__*/React.createElement("div", {
     className: "grid-header-cell"
-  }, "Время"), DAYS.map(d => /*#__PURE__*/React.createElement("div", {
+  }, "Время"), DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("div", {
     key: d.key,
     className: "grid-header-cell"
-  }, d.full))), TIME_SLOTS.slice(0, 6).map(slot => /*#__PURE__*/React.createElement("div", {
+  }, d.full))), DEMO_SLOTS.map(slot => /*#__PURE__*/React.createElement("div", {
     key: slot.index,
     className: "grid-row"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1868,7 +1872,7 @@ function AdminView({
     className: "time"
   }, slot.start, "–", slot.end), /*#__PURE__*/React.createElement("span", {
     className: "label"
-  }, slot.label)), DAYS.map(d => {
+  }, slot.label)), DEMO_DAYS.map(d => {
     const pair = getDisplayPair(d.key, slot.index);
     return /*#__PURE__*/React.createElement("div", {
       key: d.key,
@@ -1963,7 +1967,7 @@ function AdminView({
   }, "Добавить"), /*#__PURE__*/React.createElement("button", {
     className: "btn",
     onClick: () => setShowAddModal(false)
-  }, "Отмена"))))), activeTab === 'autogen' && /*#__PURE__*/React.createElement("div", {
+  }, "Отмена"))))), tab === 'autogen' && /*#__PURE__*/React.createElement("div", {
     className: "card"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2052,7 +2056,7 @@ function AdminView({
     } : {}
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-globe"
-  }), " ", isPublished ? 'Опубликовано ✓' : 'Опубликовать расписание')))), activeTab === 'conflicts' && /*#__PURE__*/React.createElement("div", {
+  }), " ", isPublished ? 'Опубликовано ✓' : 'Опубликовать расписание')))), tab === 'conflicts' && /*#__PURE__*/React.createElement("div", {
     className: "card"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2086,7 +2090,7 @@ function AdminView({
     }
   }, "Конфликтов не обнаружено")) : /*#__PURE__*/React.createElement("div", {
     className: "conflict-list"
-  }, conflicts.map((c, i) => /*#__PURE__*/React.createElement("div", {
+  }, (showcase ? conflicts.slice(0, 2) : conflicts).map((c, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     className: `conflict-item ${c.severity === 'error' ? 'conflict-error' : 'conflict-warning'}`
   }, /*#__PURE__*/React.createElement("i", {
@@ -2095,15 +2099,356 @@ function AdminView({
 }
 
 // ═══════════════════════════════════════════════
+// EDUCATION SHOWCASE (visual example + commentary)
+// ═══════════════════════════════════════════════
+const STUDENT_SHOWCASE_BLOCKS = [{
+  n: 1,
+  icon: "fa-calendar-day",
+  title: "День из расписания",
+  text: "Ученик открывает ссылку и сразу видит пары на день: во сколько, какой предмет, кто ведёт и в какой аудитории. Всё в карточках — не PDF в чате группы."
+}, {
+  n: 2,
+  icon: "fa-users",
+  title: "Своя группа",
+  text: "Каждый ученик видит расписание своего потока. Переключите группу — в первом блоке обновятся пары (в продукте список групп у каждого свой)."
+}, {
+  n: 3,
+  icon: "fa-table-columns",
+  title: "Фрагмент недели",
+  text: "Понедельник и среда на одном экране — удобно на телефоне, без горизонтального скролла всей недели."
+}];
+const SHOWCASE_FOOTER_NOTE = {
+  icon: "fa-layer-group",
+  title: "В полной версии",
+  text: "Преподаватели отмечают доступность, учебная часть собирает сетку и видит конфликты. Переключите вкладку в шапке — там упрощённые примеры."
+};
+const TEACHER_SHOWCASE_NOTES = [{
+  n: 1,
+  icon: "fa-calendar-days",
+  title: "Моё расписание",
+  text: "Преподаватель видит только свои пары — по дням и времени, без лишних групп и кабинетов чужих потоков."
+}, {
+  n: 2,
+  icon: "fa-users",
+  title: "Группы в карточках",
+  text: "Если ведёт несколько групп, они указаны на карточке. Удобно, когда один преподаватель закреплён за разными потоками."
+}, {
+  n: 3,
+  icon: "fa-check-square",
+  title: "Доступность",
+  text: "Во вкладке «Доступность» отмечает, когда свободен. Учебная часть учитывает это при сборке сетки — не нужно обзванивать по списку."
+}, {
+  n: 4,
+  icon: "fa-paper-plane",
+  title: "Отправка в учебную часть",
+  text: "Один клик — и окна переданы методистам. Не таблица в почте, а живые данные в системе."
+}];
+const ADMIN_SHOWCASE_NOTES = [{
+  n: 1,
+  icon: "fa-table-columns",
+  title: "Конструктор расписания",
+  text: "Методист видит сетку группы и может добавить или поправить занятие. Всё на одном экране вместо разрозненных Excel-файлов."
+}, {
+  n: 2,
+  icon: "fa-triangle-exclamation",
+  title: "Конфликты сразу видны",
+  text: "Система подсвечивает пересечения: один преподаватель в двух местах, занятая аудитория. Не нужно вручную сверять таблицы."
+}, {
+  n: 3,
+  icon: "fa-wand-magic-sparkles",
+  title: "Автогенерация черновика",
+  text: "Кнопка «Автогенерация» собирает первый вариант сетки по правилам. Методист дорабатывает вручную, а не начинает с пустого листа."
+}, {
+  n: 4,
+  icon: "fa-bullhorn",
+  title: "Публикация для всех",
+  text: "Готовое расписание ученики и преподаватели открывают по ссылке — всегда одна актуальная версия."
+}];
+const DEMO_TEACHERS = TEACHERS.slice(0, 4);
+function ShowcaseBlock({
+  note,
+  children
+}) {
+  return /*#__PURE__*/React.createElement("section", {
+    className: "showcase-block"
+  }, /*#__PURE__*/React.createElement("aside", {
+    className: "showcase-block-note",
+    "aria-label": note.title
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "showcase-block-note-head"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "showcase-note-num"
+  }, note.n), /*#__PURE__*/React.createElement("i", {
+    className: `fas ${note.icon} showcase-note-icon`
+  })), /*#__PURE__*/React.createElement("h3", {
+    className: "showcase-block-title"
+  }, note.title), /*#__PURE__*/React.createElement("p", {
+    className: "showcase-block-text"
+  }, note.text)), /*#__PURE__*/React.createElement("div", {
+    className: "showcase-block-demo"
+  }, children));
+}
+function ShowcaseDemoChrome({
+  icon,
+  label,
+  meta
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-demo-chrome"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${icon}`
+  }), /*#__PURE__*/React.createElement("span", null, label), meta && /*#__PURE__*/React.createElement("span", {
+    className: "showcase-panel-meta"
+  }, meta));
+}
+function ShowcaseDayList({
+  dayKey,
+  getDisplayPair,
+  currentParity,
+  groupCode
+}) {
+  const day = DEMO_DAYS.find(d => d.key === dayKey) || DAYS.find(d => d.key === dayKey);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "card showcase-day-card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "showcase-day-header"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-calendar-day"
+  }), /*#__PURE__*/React.createElement("span", null, day?.full || dayKey), groupCode && /*#__PURE__*/React.createElement("span", {
+    className: "showcase-panel-meta"
+  }, "· ", groupCode)), /*#__PURE__*/React.createElement("div", {
+    className: "showcase-day-slots"
+  }, DEMO_SLOTS.map(slot => {
+    const pair = getDisplayPair(dayKey, slot.index);
+    return /*#__PURE__*/React.createElement("div", {
+      key: slot.index,
+      className: "showcase-day-slot"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "showcase-day-slot-time"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "time"
+    }, slot.start, "–", slot.end), /*#__PURE__*/React.createElement("span", {
+      className: "label"
+    }, slot.label)), pair ? /*#__PURE__*/React.createElement(PairCardFull, {
+      pair: pair,
+      currentParity: currentParity
+    }) : /*#__PURE__*/React.createElement("div", {
+      className: "empty-slot"
+    }, /*#__PURE__*/React.createElement("p", null, "Нет занятия")));
+  })));
+}
+function ShowcaseScheduleGrid({
+  getDisplayPair,
+  currentParity
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "desktop-schedule"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "schedule-wrapper"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "schedule-grid"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid-header"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid-header-cell"
+  }, "Время"), DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("div", {
+    key: d.key,
+    className: "grid-header-cell"
+  }, d.full))), DEMO_SLOTS.map(slot => /*#__PURE__*/React.createElement("div", {
+    key: slot.index,
+    className: "grid-row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "time-cell"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "time"
+  }, slot.start, "–", slot.end), /*#__PURE__*/React.createElement("span", {
+    className: "label"
+  }, slot.label)), DEMO_DAYS.map(d => {
+    const pair = getDisplayPair(d.key, slot.index);
+    return /*#__PURE__*/React.createElement("div", {
+      key: d.key,
+      className: "day-cell"
+    }, pair ? /*#__PURE__*/React.createElement(PairCardCompact, {
+      pair: pair,
+      currentParity: currentParity
+    }) : /*#__PURE__*/React.createElement("div", {
+      className: "empty-cell"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "empty-dots"
+    }, [0, 1, 2].map(i => /*#__PURE__*/React.createElement("div", {
+      key: i,
+      className: "empty-dot"
+    })))));
+  }))))));
+}
+function ShowcaseMobileSchedule({
+  getDisplayPair,
+  currentParity,
+  mobileDay,
+  setMobileDay
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "mobile-schedule"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mobile-day-tabs"
+  }, DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("button", {
+    key: d.key,
+    type: "button",
+    className: `mobile-day-tab ${mobileDay === d.key ? "active" : ""}`,
+    onClick: () => setMobileDay(d.key)
+  }, d.short))), /*#__PURE__*/React.createElement("div", null, DEMO_SLOTS.map(slot => {
+    const pair = getDisplayPair(mobileDay, slot.index);
+    return /*#__PURE__*/React.createElement("div", {
+      key: slot.index,
+      className: "mobile-slot"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "mobile-slot-header"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "mobile-slot-time"
+    }, slot.start, "–", slot.end), /*#__PURE__*/React.createElement("span", {
+      className: "mobile-slot-label"
+    }, slot.label)), pair ? /*#__PURE__*/React.createElement(PairCardFull, {
+      pair: pair,
+      currentParity: currentParity
+    }) : /*#__PURE__*/React.createElement("div", {
+      className: "empty-slot"
+    }, /*#__PURE__*/React.createElement("p", null, "Нет занятия")));
+  })));
+}
+function EducationShowcase({
+  cells
+}) {
+  const [selectedGroupCode, setSelectedGroupCode] = useState("ОЭ-11");
+  const currentParity = "even";
+  const weekSchedule = useMemo(() => buildGroupSchedule(cells, selectedGroupCode), [cells, selectedGroupCode]);
+  const selectedGroup = groupMap.get(selectedGroupCode);
+  const getDisplayPair = (dayKey, slotIndex) => {
+    if (!weekSchedule?.[dayKey]?.[slotIndex]) return null;
+    return weekSchedule[dayKey][slotIndex][currentParity] ?? null;
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-walkthrough"
+  }, /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: STUDENT_SHOWCASE_BLOCKS[0]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-graduation-cap",
+    label: "Ученик",
+    meta: selectedGroup ? `· ${selectedGroup.code}` : null
+  }), /*#__PURE__*/React.createElement(ShowcaseDayList, {
+    dayKey: "mon",
+    getDisplayPair: getDisplayPair,
+    currentParity: currentParity,
+    groupCode: selectedGroupCode
+  })), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: STUDENT_SHOWCASE_BLOCKS[1]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-list",
+    label: "Выбор группы"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "group-selector"
+  }, DEMO_GROUPS.map(g => /*#__PURE__*/React.createElement("button", {
+    key: g.code,
+    type: "button",
+    className: `group-btn ${selectedGroupCode === g.code ? "active" : ""}`,
+    onClick: () => setSelectedGroupCode(g.code)
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 700
+    }
+  }, g.code), /*#__PURE__*/React.createElement("span", {
+    className: "course"
+  }, g.course, " курс"))))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: STUDENT_SHOWCASE_BLOCKS[2]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-table-columns",
+    label: "Фрагмент недели",
+    meta: "· Пн и Ср"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "card showcase-card"
+  }, /*#__PURE__*/React.createElement(ShowcaseScheduleGrid, {
+    getDisplayPair: getDisplayPair,
+    currentParity: currentParity
+  }))), /*#__PURE__*/React.createElement("p", {
+    className: "showcase-footer-hint"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${SHOWCASE_FOOTER_NOTE.icon}`
+  }), " ", /*#__PURE__*/React.createElement("strong", null, SHOWCASE_FOOTER_NOTE.title), " — ", SHOWCASE_FOOTER_NOTE.text));
+}
+function TeacherShowcase({
+  cells,
+  availabilities,
+  setAvailability
+}) {
+  const [selectedTeacherId, setSelectedTeacherId] = useState("t1");
+  const teacher = teacherMap.get(selectedTeacherId);
+  const currentParity = "even";
+  const teacherViewProps = {
+    showcase: true,
+    cells: cells,
+    currentParity: currentParity,
+    selectedTeacherId: selectedTeacherId,
+    setSelectedTeacherId: setSelectedTeacherId,
+    availabilities: availabilities,
+    setAvailability: setAvailability
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-walkthrough"
+  }, /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: TEACHER_SHOWCASE_NOTES[0]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-book-open",
+    label: "Моё расписание",
+    meta: teacher ? `· ${teacher.surname}` : null
+  }), /*#__PURE__*/React.createElement(TeacherView, Object.assign({
+    showcaseFixedTab: "schedule"
+  }, teacherViewProps))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: TEACHER_SHOWCASE_NOTES[2]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-check-square",
+    label: "Доступность",
+    meta: teacher ? `· ${teacher.surname}` : null
+  }), /*#__PURE__*/React.createElement(TeacherView, Object.assign({
+    showcaseFixedTab: "availability"
+  }, teacherViewProps))));
+}
+function AdminShowcase({
+  cells,
+  setCells,
+  availabilities
+}) {
+  const currentParity = "even";
+  const adminViewProps = {
+    showcase: true,
+    cells: cells,
+    setCells: setCells,
+    currentParity: currentParity,
+    availabilities: availabilities
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-walkthrough"
+  }, /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: ADMIN_SHOWCASE_NOTES[0]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-table-columns",
+    label: "Конструктор",
+    meta: "· ОЭ-11"
+  }), /*#__PURE__*/React.createElement(AdminView, Object.assign({
+    showcaseFixedTab: "constructor"
+  }, adminViewProps))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: ADMIN_SHOWCASE_NOTES[1]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-triangle-exclamation",
+    label: "Конфликты"
+  }), /*#__PURE__*/React.createElement(AdminView, Object.assign({
+    showcaseFixedTab: "conflicts"
+  }, adminViewProps))));
+}
+// ═══════════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════════
 function App() {
-  const [role, setRole] = useState('student');
-  const [currentParity, setCurrentParity] = useState('even');
-  const [selectedGroupCode, setSelectedGroupCode] = useState('ОЭ-11');
-  const [selectedTeacherId, setSelectedTeacherId] = useState('t1');
+  const [role, setRole] = useState("student");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
   const [cells, setCells] = useState(() => generateSchedule());
   const [availabilities, setAvailabilities] = useState(() => generateAvailability());
   const setAvailability = (teacherId, avail) => {
@@ -2113,23 +2458,28 @@ function App() {
     }));
   };
   const roles = [{
-    key: 'student',
-    label: 'Ученик',
-    icon: 'fa-graduation-cap'
+    key: "student",
+    label: "Ученик",
+    icon: "fa-graduation-cap"
   }, {
-    key: 'teacher',
-    label: 'Преподаватель',
-    icon: 'fa-book-open'
+    key: "teacher",
+    label: "Преподаватель",
+    icon: "fa-book-open"
   }, {
-    key: 'admin',
-    label: 'Учебная часть',
-    icon: 'fa-shield-alt'
+    key: "admin",
+    label: "Учебная часть",
+    icon: "fa-shield-alt"
   }];
+  const introByRole = {
+    student: /*#__PURE__*/React.createElement(React.Fragment, null, "Три блока: ", /*#__PURE__*/React.createElement("strong", null, "пояснение слева"), ", пример интерфейса справа. Во втором блоке можно переключить группу."),
+    teacher: /*#__PURE__*/React.createElement(React.Fragment, null, "Расписание и доступность преподавателя — ", /*#__PURE__*/React.createElement("strong", null, "отдельными блоками"), " с пояснениями слева."),
+    admin: /*#__PURE__*/React.createElement(React.Fragment, null, "Конструктор сетки и список конфликтов — ", /*#__PURE__*/React.createElement("strong", null, "по блокам"), ", как в рабочем месте методиста.")
+  };
   return /*#__PURE__*/React.createElement("div", {
     style: {
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: '100vh'
+      display: "flex",
+      flexDirection: "column",
+      minHeight: "100vh"
     }
   }, /*#__PURE__*/React.createElement("header", {
     className: "app-header"
@@ -2137,12 +2487,6 @@ function App() {
     className: "container"
   }, /*#__PURE__*/React.createElement("div", {
     className: "header-inner"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12
-    }
   }, /*#__PURE__*/React.createElement("a", {
     href: "index.html",
     className: "logo"
@@ -2154,57 +2498,40 @@ function App() {
     className: "logo-text"
   }, "Планово"), /*#__PURE__*/React.createElement("div", {
     className: "logo-sub"
-  }, "Демо: Учебные учреждения")))), /*#__PURE__*/React.createElement("div", {
+  }, "Визуальный пример · Учебные заведения"))), /*#__PURE__*/React.createElement("div", {
     className: "role-tabs-desktop role-tabs"
   }, roles.map(r => /*#__PURE__*/React.createElement("button", {
     key: r.key,
-    className: `role-tab ${role === r.key ? 'active' : ''}`,
+    className: `role-tab ${role === r.key ? "active" : ""}`,
     onClick: () => setRole(r.key)
   }, /*#__PURE__*/React.createElement("i", {
     className: `fas ${r.icon}`
-  }), " ", r.label)), /*#__PURE__*/React.createElement("button", {
-    className: "role-tab",
-    onClick: () => setShowHelp(true),
-    title: "Справка"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-question-circle"
-  }))), /*#__PURE__*/React.createElement("button", {
+  }), " ", r.label))), /*#__PURE__*/React.createElement("button", {
     className: "mobile-menu-btn",
     onClick: () => setMobileMenuOpen(!mobileMenuOpen)
   }, /*#__PURE__*/React.createElement("i", {
-    className: `fas ${mobileMenuOpen ? 'fa-times' : 'fa-bars'}`
+    className: `fas ${mobileMenuOpen ? "fa-times" : "fa-bars"}`
   }))), mobileMenuOpen && /*#__PURE__*/React.createElement("div", {
     className: "role-tabs-mobile",
     style: {
       paddingBottom: 16,
-      display: 'flex',
-      flexDirection: 'column',
+      display: "flex",
+      flexDirection: "column",
       gap: 8
     }
   }, roles.map(r => /*#__PURE__*/React.createElement("button", {
     key: r.key,
-    className: `role-tab ${role === r.key ? 'active' : ''}`,
+    className: `role-tab ${role === r.key ? "active" : ""}`,
     onClick: () => {
       setRole(r.key);
       setMobileMenuOpen(false);
     },
     style: {
-      justifyContent: 'flex-start'
+      justifyContent: "flex-start"
     }
   }, /*#__PURE__*/React.createElement("i", {
     className: `fas ${r.icon}`
-  }), " ", r.label)), /*#__PURE__*/React.createElement("button", {
-    className: "role-tab",
-    onClick: () => {
-      setShowHelp(true);
-      setMobileMenuOpen(false);
-    },
-    style: {
-      justifyContent: 'flex-start'
-    }
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-question-circle"
-  }), " Справка")))), /*#__PURE__*/React.createElement("main", {
+  }), " ", r.label))))), /*#__PURE__*/React.createElement("main", {
     className: "main-content",
     style: {
       flex: 1
@@ -2219,51 +2546,19 @@ function App() {
     "aria-label": "Вернуться на главную страницу сайта"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-arrow-left"
-  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement(QuickStatsBar, {
+  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement("p", {
+    className: "showcase-intro"
+  }, introByRole[role]), role === "student" && /*#__PURE__*/React.createElement(EducationShowcase, {
     cells: cells
-  }), role !== 'admin' && /*#__PURE__*/React.createElement("div", {
-    className: "section",
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12,
-      flexWrap: 'wrap'
-    },
-    role: "group",
-    "aria-label": "Выбор недели"
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 13,
-      color: 'var(--gray-500)'
-    }
-  }, "Неделя:"), /*#__PURE__*/React.createElement("button", {
-    className: `parity-btn ${currentParity === 'even' ? 'active' : ''}`,
-    onClick: () => setCurrentParity('even'),
-    "aria-pressed": currentParity === 'even'
-  }, "Чётная"), /*#__PURE__*/React.createElement("button", {
-    className: `parity-btn ${currentParity === 'odd' ? 'active' : ''}`,
-    onClick: () => setCurrentParity('odd'),
-    "aria-pressed": currentParity === 'odd'
-  }, "Нечётная")), role === 'student' && /*#__PURE__*/React.createElement(StudentView, {
+  }), role === "teacher" && /*#__PURE__*/React.createElement(TeacherShowcase, {
     cells: cells,
-    currentParity: currentParity,
-    selectedGroupCode: selectedGroupCode,
-    setSelectedGroupCode: setSelectedGroupCode
-  }), role === 'teacher' && /*#__PURE__*/React.createElement(TeacherView, {
-    cells: cells,
-    currentParity: currentParity,
-    selectedTeacherId: selectedTeacherId,
-    setSelectedTeacherId: setSelectedTeacherId,
     availabilities: availabilities,
     setAvailability: setAvailability
-  }), role === 'admin' && /*#__PURE__*/React.createElement(AdminView, {
+  }), role === "admin" && /*#__PURE__*/React.createElement(AdminShowcase, {
     cells: cells,
     setCells: setCells,
-    currentParity: currentParity,
     availabilities: availabilities
-  }))), showHelp && /*#__PURE__*/React.createElement(LegendGuide, {
-    onClose: () => setShowHelp(false)
-  }), /*#__PURE__*/React.createElement(Footer, null));
+  }))), /*#__PURE__*/React.createElement(Footer, null));
 }
 
 // ═══════════════════════════════════════════════

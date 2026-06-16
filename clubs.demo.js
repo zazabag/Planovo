@@ -444,10 +444,329 @@ function getNowInfo() {
 }
 
 // ═══════════════════════════════════════════
+// CLUBS SHOWCASE (visual example + commentary)
+// ═══════════════════════════════════════════
+const DAY_FULL = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"];
+const DEMO_DAY_INDICES = [0, 2];
+const DEMO_DAYS = DEMO_DAY_INDICES.map(i => ({
+  index: i,
+  short: DAYS[i],
+  full: DAY_FULL[i]
+}));
+const DEMO_CLUBS = CLUBS.filter(c => c.id === "club1" || c.id === "club2");
+const DEMO_SLOT_INDICES = [4, 5];
+const DEMO_SLOTS = DEMO_SLOT_INDICES.map(i => ({
+  index: i,
+  start: TIME_SLOTS[i].start,
+  end: TIME_SLOTS[i].end
+}));
+const MEMBER_SHOWCASE_BLOCKS = [{
+  n: 1,
+  icon: "fa-calendar-day",
+  title: "День встреч",
+  text: "Участник открывает ссылку и видит события на день: во сколько, какой клуб, где проходит и сколько человек идёт — без переписки в чате."
+}, {
+  n: 2,
+  icon: "fa-users",
+  title: "Свой клуб",
+  text: "Каждый видит встречи своих клубов. Переключите клуб — в первом блоке обновятся события (в продукте список клубов у каждого свой)."
+}, {
+  n: 3,
+  icon: "fa-table-columns",
+  title: "Фрагмент недели",
+  text: "Понедельник и среда на одном экране — удобно с телефона, без горизонтального скролла всей недели."
+}];
+const CLUBS_SHOWCASE_FOOTER = {
+  icon: "fa-layer-group",
+  title: "В полной версии",
+  text: "Организатор создаёт события и видит RSVP, участники отмечают «Иду» или «Может». Переключите вкладку в шапке — там упрощённые примеры."
+};
+const ORGANIZER_SHOWCASE_NOTES = [{
+  n: 1,
+  icon: "fa-calendar-days",
+  title: "Календарь клуба",
+  text: "Организатор видит все встречи на неделе — по клубам, времени и залам. Не нужно сводить таблицы вручную."
+}, {
+  n: 2,
+  icon: "fa-chart-line",
+  title: "Сегодня и ближайшие",
+  text: "На дашборде — события сегодня и запись участников. Видно, сколько мест занято, до начала встречи."
+}];
+function getClub(id) {
+  return CLUBS.find(c => c.id === id);
+}
+function getRoomName(roomId) {
+  return ROOMS.find(r => r.id === roomId)?.name || roomId;
+}
+function getGoingCount(event) {
+  return Object.values(event.rsvp || {}).filter(v => v === "going").length;
+}
+function getEventsForClubDay(clubId, dayIndex, limit = 2) {
+  return EVENTS.filter(e => e.clubId === clubId && e.day === dayIndex).sort((a, b) => a.slot - b.slot).slice(0, limit);
+}
+function getEventAt(clubId, dayIndex, slotIndex) {
+  return EVENTS.find(e => e.clubId === clubId && e.day === dayIndex && e.slot === slotIndex) || null;
+}
+function ShowcaseBlock({
+  note,
+  children
+}) {
+  return /*#__PURE__*/React.createElement("section", {
+    className: "showcase-block"
+  }, /*#__PURE__*/React.createElement("aside", {
+    className: "showcase-block-note",
+    "aria-label": note.title
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "showcase-block-note-head"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "showcase-note-num"
+  }, note.n), /*#__PURE__*/React.createElement("i", {
+    className: `fas ${note.icon} showcase-note-icon`
+  })), /*#__PURE__*/React.createElement("h3", {
+    className: "showcase-block-title"
+  }, note.title), /*#__PURE__*/React.createElement("p", {
+    className: "showcase-block-text"
+  }, note.text)), /*#__PURE__*/React.createElement("div", {
+    className: "showcase-block-demo"
+  }, children));
+}
+function ShowcaseDemoChrome({
+  icon,
+  label,
+  meta
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-demo-chrome"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${icon}`
+  }), /*#__PURE__*/React.createElement("span", null, label), meta && /*#__PURE__*/React.createElement("span", {
+    className: "showcase-panel-meta"
+  }, meta));
+}
+function ShowcaseEventFull({
+  event,
+  club,
+  rsvpStatus = "going"
+}) {
+  const slot = TIME_SLOTS[event.slot];
+  const going = getGoingCount(event);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "event-full showcase-event-card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ef-top"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ef-color",
+    style: {
+      background: club?.color
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ef-name",
+    style: {
+      color: club?.color
+    }
+  }, event.name), /*#__PURE__*/React.createElement("div", {
+    className: "ef-meta"
+  }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-clock"
+  }), " ", slot.start, "–", slot.end), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-map-marker-alt"
+  }), " ", getRoomName(event.room)), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-users"
+  }), " ", going, "/", event.maxAttendees)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      marginTop: 10,
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: `rsvp-badge rsvp-${rsvpStatus}`
+  }, rsvpStatus === "going" ? "Иду" : "Может"), /*#__PURE__*/React.createElement("span", {
+    className: "rsvp-badge rsvp-none",
+    style: {
+      opacity: 0.55
+    }
+  }, "Не иду")))));
+}
+function ShowcaseDayListClubs({
+  dayIndex,
+  clubId
+}) {
+  const day = DEMO_DAYS.find(d => d.index === dayIndex) || {
+    full: DAY_FULL[dayIndex],
+    short: DAYS[dayIndex]
+  };
+  const club = getClub(clubId);
+  const events = getEventsForClubDay(clubId, dayIndex, 2);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "card showcase-day-card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "showcase-day-header"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-calendar-day"
+  }), /*#__PURE__*/React.createElement("span", null, day.full), club && /*#__PURE__*/React.createElement("span", {
+    className: "showcase-panel-meta"
+  }, "· ", club.name)), /*#__PURE__*/React.createElement("div", {
+    className: "showcase-day-slots"
+  }, events.length ? events.map(ev => /*#__PURE__*/React.createElement(ShowcaseEventFull, {
+    key: ev.id,
+    event: ev,
+    club: club,
+    rsvpStatus: ev.id === "e3" || ev.id === "e2" ? "going" : "maybe"
+  })) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "12px 16px",
+      borderRadius: 12,
+      border: "1px dashed var(--gray-200)",
+      textAlign: "center",
+      color: "var(--gray-400)",
+      fontSize: 13
+    }
+  }, "Нет встреч")));
+}
+function ShowcaseScheduleGridClubs({
+  clubId
+}) {
+  const club = getClub(clubId);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "desktop-schedule"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "schedule-wrapper"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "schedule-grid"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid-header"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid-header-cell"
+  }, "Время"), DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("div", {
+    key: d.index,
+    className: "grid-header-cell"
+  }, d.short))), DEMO_SLOTS.map(slot => /*#__PURE__*/React.createElement("div", {
+    key: slot.index,
+    className: "grid-row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "time-cell"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "time"
+  }, slot.start)), DEMO_DAYS.map(d => {
+    const ev = getEventAt(clubId, d.index, slot.index);
+    return /*#__PURE__*/React.createElement("div", {
+      key: d.index,
+      className: "day-cell"
+    }, ev ? /*#__PURE__*/React.createElement("div", {
+      className: "event-card",
+      style: {
+        borderLeftColor: club?.color,
+        background: `${club?.color}08`
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "ec-name",
+      style: {
+        color: club?.color
+      }
+    }, ev.name), /*#__PURE__*/React.createElement("div", {
+      className: "ec-room"
+    }, getRoomName(ev.room)), /*#__PURE__*/React.createElement("div", {
+      className: "ec-rsvp"
+    }, getGoingCount(ev), "/", ev.maxAttendees)) : /*#__PURE__*/React.createElement("div", {
+      style: {
+        minHeight: 40,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "var(--gray-300)",
+        fontSize: 10
+      }
+    }, "—"));
+  }))))));
+}
+function MemberShowcase() {
+  const [selectedClubId, setSelectedClubId] = useState("club1");
+  const club = getClub(selectedClubId);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-walkthrough"
+  }, /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: MEMBER_SHOWCASE_BLOCKS[0]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-user",
+    label: "Участник",
+    meta: club ? `· ${club.name}` : null
+  }), /*#__PURE__*/React.createElement(ShowcaseDayListClubs, {
+    dayIndex: 0,
+    clubId: selectedClubId
+  })), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: MEMBER_SHOWCASE_BLOCKS[1]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-list",
+    label: "Выбор клуба"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "group-selector"
+  }, DEMO_CLUBS.map(c => /*#__PURE__*/React.createElement("button", {
+    key: c.id,
+    type: "button",
+    className: `group-btn ${selectedClubId === c.id ? "active" : ""}`,
+    onClick: () => setSelectedClubId(c.id)
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${c.icon}`,
+    style: {
+      marginRight: 6
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 700
+    }
+  }, c.name))))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: MEMBER_SHOWCASE_BLOCKS[2]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-table-columns",
+    label: "Фрагмент недели",
+    meta: "· Пн и Ср"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "card showcase-card"
+  }, /*#__PURE__*/React.createElement(ShowcaseScheduleGridClubs, {
+    clubId: selectedClubId
+  }))), /*#__PURE__*/React.createElement("p", {
+    className: "showcase-footer-hint"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${CLUBS_SHOWCASE_FOOTER.icon}`
+  }), " ", /*#__PURE__*/React.createElement("strong", null, CLUBS_SHOWCASE_FOOTER.title), " — ", CLUBS_SHOWCASE_FOOTER.text));
+}
+function OrganizerShowcase() {
+  const orgProps = {
+    showcase: true
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-walkthrough"
+  }, /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: ORGANIZER_SHOWCASE_NOTES[0]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-calendar-check",
+    label: "Календарь организатора"
+  }), /*#__PURE__*/React.createElement(OrganizerView, Object.assign({
+    showcaseFixedTab: "calendar"
+  }, orgProps))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: ORGANIZER_SHOWCASE_NOTES[1]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-chart-line",
+    label: "Дашборд"
+  }), /*#__PURE__*/React.createElement(OrganizerView, Object.assign({
+    showcaseFixedTab: "dashboard"
+  }, orgProps))));
+}
+
+// ═══════════════════════════════════════════
 // ORGANIZER VIEW
 // ═══════════════════════════════════════════
-function OrganizerView() {
+function OrganizerView({
+  showcase = false,
+  showcaseFixedTab = null
+} = {}) {
   const [activeTab, setActiveTab] = useState('calendar');
+  const tab = showcaseFixedTab || activeTab;
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEventModal, setShowEventModal] = useState(null);
   const [selectedClub, setSelectedClub] = useState(null);
@@ -490,16 +809,19 @@ function OrganizerView() {
       maxAttendees: 20
     });
   };
-  const filteredEvents = selectedClub ? EVENTS.filter(e => e.clubId === selectedClub) : EVENTS;
+  const filteredEvents = selectedClub ? EVENTS.filter(e => e.clubId === selectedClub) : showcase ? EVENTS.filter(e => DEMO_CLUBS.some(c => c.id === e.clubId)) : EVENTS;
 
   // Today's events
   const todayEvents = filteredEvents.filter(e => e.day === nowInfo.currentDay).sort((a, b) => a.slot - b.slot);
+  const demoTodayEvents = filteredEvents.filter(e => e.day === 0).sort((a, b) => a.slot - b.slot);
+  const displayTodayEvents = showcase ? demoTodayEvents : todayEvents;
+  const demoUpcomingEvents = filteredEvents.filter(e => DEMO_DAY_INDICES.includes(e.day) && e.day > 0).sort((a, b) => a.day - b.day || a.slot - b.slot).slice(0, 3);
 
   // Upcoming events (next 3 days)
-  const upcomingEvents = filteredEvents.filter(e => e.day > nowInfo.currentDay).sort((a, b) => a.day - b.day || a.slot - b.slot).slice(0, 5);
+  const upcomingEvents = showcase ? demoUpcomingEvents : filteredEvents.filter(e => e.day > nowInfo.currentDay).sort((a, b) => a.day - b.day || a.slot - b.slot).slice(0, 5);
   return /*#__PURE__*/React.createElement("div", {
     className: "fade-in"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, !showcaseFixedTab && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       gap: 8,
@@ -511,7 +833,7 @@ function OrganizerView() {
     onClick: () => setSelectedClub(null)
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-layer-group"
-  }), " Все"), CLUBS.map(c => /*#__PURE__*/React.createElement("button", {
+  }), " Все"), (showcase ? DEMO_CLUBS : CLUBS).map(c => /*#__PURE__*/React.createElement("button", {
     key: c.id,
     className: `role-tab ${selectedClub === c.id ? 'active' : ''}`,
     onClick: () => setSelectedClub(c.id),
@@ -520,7 +842,7 @@ function OrganizerView() {
     } : {}
   }, /*#__PURE__*/React.createElement("i", {
     className: `fas ${c.icon}`
-  }), " ", c.name))), /*#__PURE__*/React.createElement("div", {
+  }), " ", c.name))), !showcaseFixedTab && /*#__PURE__*/React.createElement("div", {
     className: "tab-bar"
   }, /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'calendar' ? 'active' : ''}`,
@@ -528,13 +850,13 @@ function OrganizerView() {
   }, "Календарь"), /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`,
     onClick: () => setActiveTab('dashboard')
-  }, "Дашборд"), /*#__PURE__*/React.createElement("button", {
+  }, "Дашборд"), !showcase && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'members' ? 'active' : ''}`,
     onClick: () => setActiveTab('members')
   }, "Участники"), /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'rooms' ? 'active' : ''}`,
     onClick: () => setActiveTab('rooms')
-  }, "Помещения")), activeTab === 'calendar' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "Помещения"))), tab === 'calendar' && /*#__PURE__*/React.createElement("div", null, !showcase && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       gap: 8,
@@ -545,7 +867,11 @@ function OrganizerView() {
     onClick: () => setShowCreateModal(true)
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-plus"
-  }), " Создать событие")), /*#__PURE__*/React.createElement("div", {
+  }), " Создать событие")), showcase ? /*#__PURE__*/React.createElement("div", {
+    className: "card showcase-card"
+  }, /*#__PURE__*/React.createElement(ShowcaseScheduleGridClubs, {
+    clubId: selectedClub || "club1"
+  })) : /*#__PURE__*/React.createElement("div", {
     className: "desktop-schedule"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card"
@@ -625,9 +951,9 @@ function OrganizerView() {
     className: "mobile-schedule"
   }, /*#__PURE__*/React.createElement(MobileCalendar, {
     events: filteredEvents
-  }))), activeTab === 'dashboard' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }))), tab === 'dashboard' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "section-title"
-  }, "Сегодня"), todayEvents.length === 0 ? /*#__PURE__*/React.createElement("div", {
+  }, showcase ? "Понедельник (пример)" : "Сегодня"), displayTodayEvents.length === 0 ? /*#__PURE__*/React.createElement("div", {
     className: "card",
     style: {
       marginBottom: 24
@@ -646,7 +972,7 @@ function OrganizerView() {
     style: {
       marginBottom: 24
     }
-  }, todayEvents.map(ev => {
+  }, displayTodayEvents.map(ev => {
     const club = CLUBS.find(c => c.id === ev.clubId);
     const goingCount = Object.values(ev.rsvp).filter(v => v === 'going').length;
     const fillPct = Math.round(goingCount / ev.maxAttendees * 100);
@@ -731,7 +1057,7 @@ function OrganizerView() {
     }), TIME_SLOTS[ev.slot]?.start), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("i", {
       className: "fas fa-map-marker-alt"
     }), ROOMS.find(r => r.id === ev.room)?.name)))));
-  })), activeTab === 'members' && /*#__PURE__*/React.createElement("div", null, showEventModal ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  })), activeTab === 'members' && !showcase && /*#__PURE__*/React.createElement("div", null, showEventModal ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -854,7 +1180,7 @@ function OrganizerView() {
         }
       }, m.name) : null;
     }))));
-  }))), activeTab === 'rooms' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+  }))), tab === 'rooms' && !showcase && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
     style: {
       fontSize: 16,
       fontWeight: 700,
@@ -1751,18 +2077,28 @@ function MemberView() {
 // MAIN APP
 // ═══════════════════════════════════════════
 function App() {
-  const [role, setRole] = useState('organizer');
+  const [role, setRole] = useState('member');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const roles = [{
-    key: 'organizer',
-    label: 'Организатор',
-    icon: 'fa-calendar-check'
-  }, {
     key: 'member',
     label: 'Участник',
     icon: 'fa-user'
+  }, {
+    key: 'organizer',
+    label: 'Организатор',
+    icon: 'fa-calendar-check'
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("header", {
+  const introByRole = {
+    member: /*#__PURE__*/React.createElement(React.Fragment, null, "Три блока: ", /*#__PURE__*/React.createElement("strong", null, "пояснение слева"), ", пример интерфейса справа. Во втором блоке можно переключить клуб."),
+    organizer: /*#__PURE__*/React.createElement(React.Fragment, null, "Календарь и дашборд организатора — ", /*#__PURE__*/React.createElement("strong", null, "отдельными блоками"), " с пояснениями слева.")
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      minHeight: "100vh"
+    }
+  }, /*#__PURE__*/React.createElement("header", {
     className: "app-header"
   }, /*#__PURE__*/React.createElement("div", {
     className: "container"
@@ -1779,7 +2115,7 @@ function App() {
     className: "logo-text"
   }, "Планово"), /*#__PURE__*/React.createElement("div", {
     className: "logo-sub"
-  }, "Демо: Клубы и мероприятия"))), /*#__PURE__*/React.createElement("div", {
+  }, "Визуальный пример · Клубы и мероприятия"))), /*#__PURE__*/React.createElement("div", {
     className: "role-tabs-desktop role-tabs"
   }, roles.map(r => /*#__PURE__*/React.createElement("button", {
     key: r.key,
@@ -1813,7 +2149,12 @@ function App() {
   }, /*#__PURE__*/React.createElement("i", {
     className: `fas ${r.icon}`
   }), " ", r.label))))), /*#__PURE__*/React.createElement("main", {
-    className: "main-content"
+    className: "main-content",
+    style: {
+      flex: 1
+    },
+    id: "main-content",
+    role: "main"
   }, /*#__PURE__*/React.createElement("div", {
     className: "container"
   }, /*#__PURE__*/React.createElement("a", {
@@ -1821,6 +2162,8 @@ function App() {
     className: "back-link"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-arrow-left"
-  }), " Вернуться на сайт"), role === 'organizer' && /*#__PURE__*/React.createElement(OrganizerView, null), role === 'member' && /*#__PURE__*/React.createElement(MemberView, null))));
+  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement("p", {
+    className: "showcase-intro"
+  }, introByRole[role]), role === 'member' && /*#__PURE__*/React.createElement(MemberShowcase, null), role === 'organizer' && /*#__PURE__*/React.createElement(OrganizerShowcase, null))));
 }
 ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));

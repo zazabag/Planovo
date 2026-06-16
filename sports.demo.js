@@ -440,13 +440,367 @@ function getNowInfo() {
 }
 
 // ═══════════════════════════════════════════
+// SPORTS SHOWCASE (visual example + commentary)
+// ═══════════════════════════════════════════
+const DAY_FULL = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"];
+const DEMO_DAY_INDICES = [0, 2];
+const DEMO_DAYS = DEMO_DAY_INDICES.map(i => ({
+  index: i,
+  short: DAYS[i],
+  full: DAY_FULL[i]
+}));
+const DEMO_SLOT_INDICES = [0, 6];
+const DEMO_SLOTS = DEMO_SLOT_INDICES.map(i => ({
+  index: i,
+  start: TIME_SLOTS[i].start,
+  end: TIME_SLOTS[i].end,
+  label: TIME_SLOTS[i].label
+}));
+const DEMO_SECTIONS = SECTIONS.filter(s => s.id === "s1" || s.id === "s5");
+const CLIENT_SHOWCASE_BLOCKS = [{
+  n: 1,
+  icon: "fa-calendar-day",
+  title: "День тренировок",
+  text: "Клиент открывает ссылку и видит занятия на день: во сколько, какая секция и группа, кто тренер и сколько мест занято — без звонка администратору."
+}, {
+  n: 2,
+  icon: "fa-dumbbell",
+  title: "Своя секция",
+  text: "У каждого клиента своё расписание. Переключите секцию — в первом блоке обновятся тренировки (в продукте список секций у каждого свой)."
+}, {
+  n: 3,
+  icon: "fa-table-columns",
+  title: "Фрагмент недели",
+  text: "Понедельник и среда на одном экране — удобно с телефона, без горизонтального скролла всей недели."
+}];
+const SPORTS_SHOWCASE_FOOTER = {
+  icon: "fa-layer-group",
+  title: "В полной версии",
+  text: "Тренеры отмечают посещаемость, администрация видит загрузку секций и абонементы. Переключите вкладку в шапке — там упрощённые примеры."
+};
+const COACH_SHOWCASE_NOTES = [{
+  n: 1,
+  icon: "fa-calendar-days",
+  title: "Расписание секции",
+  text: "Тренер видит только свои группы — по дням и времени, без чужих секций и залов."
+}, {
+  n: 2,
+  icon: "fa-clipboard-check",
+  title: "Посещаемость",
+  text: "После тренировки отмечает, кто был на занятии. Данные сразу в системе — не таблица в блокноте."
+}];
+const ADMIN_SHOWCASE_NOTES = [{
+  n: 1,
+  icon: "fa-chart-pie",
+  title: "Обзор зала",
+  text: "Администратор видит ключевые цифры: клиенты, секции, активные абонементы — без десятка Excel-файлов."
+}, {
+  n: 2,
+  icon: "fa-layer-group",
+  title: "Загрузка секций",
+  text: "По каждой секции — сколько записано, сколько тренировок в неделю, средняя посещаемость."
+}];
+function getTrainingAt(sectionId, dayIndex, slotIndex) {
+  return ALL_TRAININGS.find(t => t.sectionId === sectionId && t.dayIndex === dayIndex && t.slotIndex === slotIndex) || null;
+}
+function getSectionFill(sectionId) {
+  const section = SECTIONS.find(s => s.id === sectionId);
+  const enrolled = CLIENTS.filter(c => c.sectionId === sectionId).length;
+  return {
+    enrolled,
+    max: section?.maxStudents || 0
+  };
+}
+function ShowcaseBlock({
+  note,
+  children
+}) {
+  return /*#__PURE__*/React.createElement("section", {
+    className: "showcase-block"
+  }, /*#__PURE__*/React.createElement("aside", {
+    className: "showcase-block-note",
+    "aria-label": note.title
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "showcase-block-note-head"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "showcase-note-num"
+  }, note.n), /*#__PURE__*/React.createElement("i", {
+    className: `fas ${note.icon} showcase-note-icon`
+  })), /*#__PURE__*/React.createElement("h3", {
+    className: "showcase-block-title"
+  }, note.title), /*#__PURE__*/React.createElement("p", {
+    className: "showcase-block-text"
+  }, note.text)), /*#__PURE__*/React.createElement("div", {
+    className: "showcase-block-demo"
+  }, children));
+}
+function ShowcaseDemoChrome({
+  icon,
+  label,
+  meta
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-demo-chrome"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${icon}`
+  }), /*#__PURE__*/React.createElement("span", null, label), meta && /*#__PURE__*/React.createElement("span", {
+    className: "showcase-panel-meta"
+  }, meta));
+}
+function ShowcaseTrainingFull({
+  training,
+  section
+}) {
+  const slot = TIME_SLOTS[training.slotIndex];
+  const fill = getSectionFill(section.id);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "client-slot showcase-training-card",
+    style: {
+      borderLeft: `3px solid ${section.color}`
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "cs-time"
+  }, slot.start, "–", slot.end, " · ", slot.label), /*#__PURE__*/React.createElement("div", {
+    className: "cs-name",
+    style: {
+      color: section.color
+    }
+  }, section.name, " — ", training.group), /*#__PURE__*/React.createElement("div", {
+    className: "cs-trainer"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-user",
+    style: {
+      marginRight: 4,
+      fontSize: 10
+    }
+  }), section.trainer), /*#__PURE__*/React.createElement("span", {
+    className: "training-card tc-count",
+    style: {
+      marginTop: 8,
+      display: "inline-flex"
+    }
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-users",
+    style: {
+      fontSize: 8
+    }
+  }), " ", fill.enrolled, "/", fill.max));
+}
+function ShowcaseDayListSports({
+  dayIndex,
+  sectionId
+}) {
+  const day = DEMO_DAYS.find(d => d.index === dayIndex) || {
+    full: DAY_FULL[dayIndex],
+    short: DAYS[dayIndex]
+  };
+  const section = SECTIONS.find(s => s.id === sectionId);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "card showcase-day-card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "showcase-day-header"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-calendar-day"
+  }), /*#__PURE__*/React.createElement("span", null, day.full), section && /*#__PURE__*/React.createElement("span", {
+    className: "showcase-panel-meta"
+  }, "· ", section.name)), /*#__PURE__*/React.createElement("div", {
+    className: "showcase-day-slots"
+  }, DEMO_SLOTS.map(slot => {
+    const training = getTrainingAt(sectionId, dayIndex, slot.index);
+    return /*#__PURE__*/React.createElement("div", {
+      key: slot.index,
+      className: "showcase-day-slot"
+    }, training ? /*#__PURE__*/React.createElement(ShowcaseTrainingFull, {
+      training: training,
+      section: section
+    }) : /*#__PURE__*/React.createElement("div", {
+      className: "empty-slot",
+      style: {
+        padding: "12px 16px",
+        borderRadius: 12,
+        border: "1px dashed var(--gray-200)",
+        textAlign: "center",
+        color: "var(--gray-400)",
+        fontSize: 13
+      }
+    }, "Нет тренировки"));
+  })));
+}
+function ShowcaseScheduleGridSports({
+  sectionId
+}) {
+  const section = SECTIONS.find(s => s.id === sectionId);
+  const fill = getSectionFill(sectionId);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "desktop-schedule"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "schedule-wrapper"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "schedule-grid"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid-header"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid-header-cell"
+  }, "Время"), DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("div", {
+    key: d.index,
+    className: "grid-header-cell"
+  }, d.short))), DEMO_SLOTS.map(slot => /*#__PURE__*/React.createElement("div", {
+    key: slot.index,
+    className: "grid-row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "time-cell"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "time"
+  }, slot.start, "–", slot.end), /*#__PURE__*/React.createElement("span", {
+    className: "label",
+    style: {
+      fontSize: 9,
+      color: "var(--gray-400)"
+    }
+  }, slot.label)), DEMO_DAYS.map(d => {
+    const training = getTrainingAt(sectionId, d.index, slot.index);
+    return /*#__PURE__*/React.createElement("div", {
+      key: d.index,
+      className: "day-cell"
+    }, training ? /*#__PURE__*/React.createElement("div", {
+      className: "training-card",
+      style: {
+        borderLeft: `3px solid ${section?.color}`
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "tc-name"
+    }, training.group), /*#__PURE__*/React.createElement("div", {
+      className: "tc-info"
+    }, section?.trainer), /*#__PURE__*/React.createElement("div", {
+      className: "tc-count"
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "fas fa-users",
+      style: {
+        fontSize: 8
+      }
+    }), " ", fill.enrolled, "/", fill.max)) : /*#__PURE__*/React.createElement("div", {
+      className: "empty-cell",
+      style: {
+        minHeight: 48,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "var(--gray-300)",
+        fontSize: 10
+      }
+    }, "—"));
+  }))))));
+}
+function ClientShowcase() {
+  const [selectedSectionId, setSelectedSectionId] = useState("s1");
+  const section = SECTIONS.find(s => s.id === selectedSectionId);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-walkthrough"
+  }, /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: CLIENT_SHOWCASE_BLOCKS[0]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-user",
+    label: "Клиент",
+    meta: section ? `· ${section.name}` : null
+  }), /*#__PURE__*/React.createElement(ShowcaseDayListSports, {
+    dayIndex: 0,
+    sectionId: selectedSectionId
+  })), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: CLIENT_SHOWCASE_BLOCKS[1]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-list",
+    label: "Выбор секции"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "group-selector"
+  }, DEMO_SECTIONS.map(s => /*#__PURE__*/React.createElement("button", {
+    key: s.id,
+    type: "button",
+    className: `group-btn ${selectedSectionId === s.id ? "active" : ""}`,
+    onClick: () => setSelectedSectionId(s.id)
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${s.icon}`,
+    style: {
+      marginRight: 6
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 700
+    }
+  }, s.name), /*#__PURE__*/React.createElement("span", {
+    className: "course"
+  }, s.age))))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: CLIENT_SHOWCASE_BLOCKS[2]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-table-columns",
+    label: "Фрагмент недели",
+    meta: "· Пн и Ср"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "card showcase-card"
+  }, /*#__PURE__*/React.createElement(ShowcaseScheduleGridSports, {
+    sectionId: selectedSectionId
+  }))), /*#__PURE__*/React.createElement("p", {
+    className: "showcase-footer-hint"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${SPORTS_SHOWCASE_FOOTER.icon}`
+  }), " ", /*#__PURE__*/React.createElement("strong", null, SPORTS_SHOWCASE_FOOTER.title), " — ", SPORTS_SHOWCASE_FOOTER.text));
+}
+function CoachShowcase() {
+  const coachProps = {
+    showcase: true
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-walkthrough"
+  }, /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: COACH_SHOWCASE_NOTES[0]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-whistle",
+    label: "Расписание тренера"
+  }), /*#__PURE__*/React.createElement(CoachView, Object.assign({
+    showcaseFixedTab: "schedule"
+  }, coachProps))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: COACH_SHOWCASE_NOTES[1]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-clipboard-check",
+    label: "Посещаемость"
+  }), /*#__PURE__*/React.createElement(CoachView, Object.assign({
+    showcaseFixedTab: "attendance"
+  }, coachProps))));
+}
+function AdminShowcase() {
+  const adminProps = {
+    showcase: true
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "showcase-walkthrough"
+  }, /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: ADMIN_SHOWCASE_NOTES[0]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-chart-pie",
+    label: "Обзор"
+  }), /*#__PURE__*/React.createElement(AdminView, Object.assign({
+    showcaseFixedTab: "dashboard"
+  }, adminProps))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: ADMIN_SHOWCASE_NOTES[1]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-layer-group",
+    label: "Секции"
+  }), /*#__PURE__*/React.createElement(AdminView, Object.assign({
+    showcaseFixedTab: "sections"
+  }, adminProps))));
+}
+
+// ═══════════════════════════════════════════
 // COACH VIEW
 // ═══════════════════════════════════════════
-function CoachView() {
+function CoachView({
+  showcase = false,
+  showcaseFixedTab = null
+} = {}) {
   const [selectedSection, setSelectedSection] = useState("s1");
   const [mobileDay, setMobileDay] = useState(0);
   const [attendance, setAttendance] = useState({});
   const [activeTab, setActiveTab] = useState('schedule');
+  const tab = showcaseFixedTab || activeTab;
   const nowInfo = getNowInfo();
   const section = SECTIONS.find(s => s.id === selectedSection);
   const sectionClients = CLIENTS.filter(c => c.sectionId === selectedSection);
@@ -507,7 +861,7 @@ function CoachView() {
       flexWrap: 'wrap',
       marginBottom: 16
     }
-  }, SECTIONS.map(s => /*#__PURE__*/React.createElement("button", {
+  }, (showcase ? DEMO_SECTIONS : SECTIONS).map(s => /*#__PURE__*/React.createElement("button", {
     key: s.id,
     className: `role-tab ${selectedSection === s.id ? 'active' : ''}`,
     onClick: () => setSelectedSection(s.id),
@@ -516,7 +870,7 @@ function CoachView() {
     } : {}
   }, /*#__PURE__*/React.createElement("i", {
     className: `fas ${s.icon}`
-  }), " ", s.name))), nextTraining && /*#__PURE__*/React.createElement("div", {
+  }), " ", s.name))), !showcase && nextTraining && /*#__PURE__*/React.createElement("div", {
     className: "next-training"
   }, /*#__PURE__*/React.createElement("div", {
     className: "nt-icon",
@@ -531,7 +885,7 @@ function CoachView() {
     className: "nt-name"
   }, section?.name, " — ", nextTraining.group), /*#__PURE__*/React.createElement("div", {
     className: "nt-time"
-  }, nextTraining.when, ", ", nextTraining.time))), /*#__PURE__*/React.createElement("div", {
+  }, nextTraining.when, ", ", nextTraining.time))), !showcaseFixedTab && /*#__PURE__*/React.createElement("div", {
     className: "tab-bar"
   }, /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'schedule' ? 'active' : ''}`,
@@ -539,10 +893,14 @@ function CoachView() {
   }, "Расписание"), /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'attendance' ? 'active' : ''}`,
     onClick: () => setActiveTab('attendance')
-  }, "Посещаемость"), /*#__PURE__*/React.createElement("button", {
+  }, "Посещаемость"), !showcase && /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'groups' ? 'active' : ''}`,
     onClick: () => setActiveTab('groups')
-  }, "Группы")), activeTab === 'schedule' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "Группы")), tab === 'schedule' && /*#__PURE__*/React.createElement("div", null, showcase ? /*#__PURE__*/React.createElement("div", {
+    className: "card showcase-card"
+  }, /*#__PURE__*/React.createElement(ShowcaseScheduleGridSports, {
+    sectionId: selectedSection
+  })) : /*#__PURE__*/React.createElement("div", {
     className: "desktop-schedule"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card"
@@ -628,7 +986,7 @@ function CoachView() {
         fontSize: 10
       }
     }), section?.trainer))));
-  }))), activeTab === 'attendance' && /*#__PURE__*/React.createElement("div", {
+  }))), tab === 'attendance' && /*#__PURE__*/React.createElement("div", {
     className: "card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
@@ -687,7 +1045,7 @@ function CoachView() {
     }, /*#__PURE__*/React.createElement("i", {
       className: "fas fa-times"
     })));
-  }))), activeTab === 'groups' && /*#__PURE__*/React.createElement("div", null, ["Младшая", "Старшая", "Общая", "Дети", "Взрослые", "Утренний", "Основная"].map(groupName => {
+  }))), tab === 'groups' && !showcase && /*#__PURE__*/React.createElement("div", null, ["Младшая", "Старшая", "Общая", "Дети", "Взрослые", "Утренний", "Основная"].map(groupName => {
     const groupTrainings = sectionTrainings.filter(t => t.group === groupName);
     if (groupTrainings.length === 0) return null;
     const groupClients = sectionClients.slice(0, Math.floor(sectionClients.length / groupTrainings.length) || sectionClients.length);
@@ -1127,8 +1485,12 @@ function ClientView() {
 // ═══════════════════════════════════════════
 // ADMIN VIEW
 // ═══════════════════════════════════════════
-function AdminView() {
+function AdminView({
+  showcase = false,
+  showcaseFixedTab = null
+} = {}) {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const tab = showcaseFixedTab || activeTab;
   const stats = useMemo(() => ({
     totalClients: CLIENTS.length,
     totalSections: SECTIONS.length,
@@ -1156,7 +1518,7 @@ function AdminView() {
   }, []);
   return /*#__PURE__*/React.createElement("div", {
     className: "fade-in"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, (!showcaseFixedTab || tab === 'dashboard') && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))',
@@ -1175,7 +1537,7 @@ function AdminView() {
     className: "stat-value"
   }, stats.totalSections), /*#__PURE__*/React.createElement("div", {
     className: "stat-label"
-  }, "Секций")), /*#__PURE__*/React.createElement("div", {
+  }, "Секций")), !showcase && /*#__PURE__*/React.createElement("div", {
     className: "stat-card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "stat-value"
@@ -1192,7 +1554,7 @@ function AdminView() {
     }
   }, stats.activeSubs), /*#__PURE__*/React.createElement("div", {
     className: "stat-label"
-  }, "Активных абонементов")), /*#__PURE__*/React.createElement("div", {
+  }, showcase ? "Активных абонементов" : "Активных абонементов")), !showcase && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "stat-card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "stat-value",
@@ -1214,7 +1576,7 @@ function AdminView() {
     }
   }, stats.expiredSubs), /*#__PURE__*/React.createElement("div", {
     className: "stat-label"
-  }, "Истёкших"))), /*#__PURE__*/React.createElement("div", {
+  }, "Истёкших")))), !showcaseFixedTab && /*#__PURE__*/React.createElement("div", {
     className: "tab-bar"
   }, /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`,
@@ -1222,13 +1584,13 @@ function AdminView() {
   }, "Обзор"), /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'sections' ? 'active' : ''}`,
     onClick: () => setActiveTab('sections')
-  }, "Секции"), /*#__PURE__*/React.createElement("button", {
+  }, "Секции"), !showcase && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'subscriptions' ? 'active' : ''}`,
     onClick: () => setActiveTab('subscriptions')
   }, "Абонементы"), /*#__PURE__*/React.createElement("button", {
     className: `tab-btn ${activeTab === 'reports' ? 'active' : ''}`,
     onClick: () => setActiveTab('reports')
-  }, "Отчёты")), activeTab === 'dashboard' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+  }, "Отчёты"))), tab === 'dashboard' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
     style: {
       fontSize: 16,
       fontWeight: 700,
@@ -1240,7 +1602,7 @@ function AdminView() {
       gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))',
       gap: 16
     }
-  }, sectionStats.map(s => /*#__PURE__*/React.createElement("div", {
+  }, sectionStats.filter(s => !showcase || DEMO_SECTIONS.some(d => d.id === s.id)).map(s => /*#__PURE__*/React.createElement("div", {
     key: s.id,
     className: "card",
     style: {
@@ -1343,13 +1705,13 @@ function AdminView() {
       width: `${s.avgAttendance}%`,
       background: s.gradient
     }
-  })))))))), activeTab === 'sections' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+  })))))))), tab === 'sections' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
     style: {
       fontSize: 16,
       fontWeight: 700,
       marginBottom: 16
     }
-  }, "Управление секциями"), SECTIONS.map(s => /*#__PURE__*/React.createElement("div", {
+  }, "Управление секциями"), (showcase ? DEMO_SECTIONS : SECTIONS).map(s => /*#__PURE__*/React.createElement("div", {
     key: s.id,
     className: "card",
     style: {
@@ -1449,7 +1811,7 @@ function AdminView() {
       fontSize: 11,
       fontWeight: 500
     }
-  }, DAYS[t.dayIndex], " ", TIME_SLOTS[t.slotIndex]?.start, " (", t.group, ")")))))))), activeTab === 'subscriptions' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+  }, DAYS[t.dayIndex], " ", TIME_SLOTS[t.slotIndex]?.start, " (", t.group, ")")))))))), !showcase && tab === 'subscriptions' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
     style: {
       fontSize: 16,
       fontWeight: 700,
@@ -1525,7 +1887,7 @@ function AdminView() {
         fontWeight: 600
       }
     }, isExpired ? 'Истёк' : isExpiring ? 'Заканчивается' : 'Активен')));
-  }))), activeTab === 'reports' && /*#__PURE__*/React.createElement("div", {
+  }))), !showcase && tab === 'reports' && /*#__PURE__*/React.createElement("div", {
     className: "card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-body"
@@ -1668,22 +2030,33 @@ function AdminView() {
 // MAIN APP
 // ═══════════════════════════════════════════
 function App() {
-  const [role, setRole] = useState('coach');
+  const [role, setRole] = useState('client');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const roles = [{
-    key: 'coach',
-    label: 'Тренер',
-    icon: 'fa-whistle'
-  }, {
     key: 'client',
     label: 'Клиент',
     icon: 'fa-user'
+  }, {
+    key: 'coach',
+    label: 'Тренер',
+    icon: 'fa-whistle'
   }, {
     key: 'admin',
     label: 'Администрация',
     icon: 'fa-shield-alt'
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("header", {
+  const introByRole = {
+    client: /*#__PURE__*/React.createElement(React.Fragment, null, "Три блока: ", /*#__PURE__*/React.createElement("strong", null, "пояснение слева"), ", пример интерфейса справа. Во втором блоке можно переключить секцию."),
+    coach: /*#__PURE__*/React.createElement(React.Fragment, null, "Расписание и посещаемость тренера — ", /*#__PURE__*/React.createElement("strong", null, "отдельными блоками"), " с пояснениями слева."),
+    admin: /*#__PURE__*/React.createElement(React.Fragment, null, "Обзор зала и загрузка секций — ", /*#__PURE__*/React.createElement("strong", null, "по блокам"), ", как в кабинете администратора.")
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      minHeight: "100vh"
+    }
+  }, /*#__PURE__*/React.createElement("header", {
     className: "app-header"
   }, /*#__PURE__*/React.createElement("div", {
     className: "container"
@@ -1700,7 +2073,7 @@ function App() {
     className: "logo-text"
   }, "Планово"), /*#__PURE__*/React.createElement("div", {
     className: "logo-sub"
-  }, "Демо: Спортивные секции"))), /*#__PURE__*/React.createElement("div", {
+  }, "Визуальный пример · Спортивные секции"))), /*#__PURE__*/React.createElement("div", {
     className: "role-tabs-desktop role-tabs"
   }, roles.map(r => /*#__PURE__*/React.createElement("button", {
     key: r.key,
@@ -1734,7 +2107,12 @@ function App() {
   }, /*#__PURE__*/React.createElement("i", {
     className: `fas ${r.icon}`
   }), " ", r.label))))), /*#__PURE__*/React.createElement("main", {
-    className: "main-content"
+    className: "main-content",
+    style: {
+      flex: 1
+    },
+    id: "main-content",
+    role: "main"
   }, /*#__PURE__*/React.createElement("div", {
     className: "container"
   }, /*#__PURE__*/React.createElement("a", {
@@ -1742,6 +2120,8 @@ function App() {
     className: "back-link"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-arrow-left"
-  }), " Вернуться на сайт"), role === 'coach' && /*#__PURE__*/React.createElement(CoachView, null), role === 'client' && /*#__PURE__*/React.createElement(ClientView, null), role === 'admin' && /*#__PURE__*/React.createElement(AdminView, null))));
+  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement("p", {
+    className: "showcase-intro"
+  }, introByRole[role]), role === 'client' && /*#__PURE__*/React.createElement(ClientShowcase, null), role === 'coach' && /*#__PURE__*/React.createElement(CoachShowcase, null), role === 'admin' && /*#__PURE__*/React.createElement(AdminShowcase, null))));
 }
 ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));

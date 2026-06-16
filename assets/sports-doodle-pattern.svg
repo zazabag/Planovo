@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <style>
+      .d { fill: none; stroke: #10b981; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; opacity: .17; }
+    </style>
+  </defs>
+  <g class="d">
+    <g transform="translate(32 40) rotate(-12)">
+      <path d="M4 14h16M12 2v20M8 6l8 8M16 6l-8 8"/>
+    </g>
+    <g transform="translate(170 48) rotate(10)">
+      <circle cx="10" cy="6" r="5"/>
+      <path d="M2 18c2-4 6-6 10-6s8 2 10 6"/>
+      <path d="M14 4l6-2 2 4-6 2z"/>
+    </g>
+    <g transform="translate(310 28) rotate(8)">
+      <path d="M2 8c4-3 8-3 12 0v10c-4-3-8-3-12 0V8z"/>
+      <path d="M14 8c4-3 8-3 12 0v10c-4-3-8-3-12 0V8z"/>
+    </g>
+    <g transform="translate(78 175) rotate(-8)">
+      <ellipse cx="11" cy="14" rx="9" ry="5"/>
+      <path d="M11 9V2M7 5h8"/>
+    </g>
+    <g transform="translate(255 155) rotate(14)">
+      <rect x="2" y="6" width="18" height="12" rx="2"/>
+      <path d="M6 6V4a4 4 0 0 1 8 0v2"/>
+    </g>
+    <g transform="translate(340 220) rotate(-10)">
+      <circle cx="11" cy="11" r="9"/>
+      <path d="M11 6v5l3 2"/>
+    </g>
+    <g transform="translate(115 305) rotate(-16)">
+      <path d="M4 4h14v14H4zM8 8h6M8 12h4"/>
+    </g>
+    <g transform="translate(275 300) rotate(6)">
+      <path d="M0 12h22M11 0v22M5 5l12 12M17 5L5 17"/>
+    </g>
+    <g transform="translate(40 230) rotate(5)">
+      <path d="M3 17l5-14h8l5 14H3z"/>
+      <path d="M8 10h6"/>
+    </g>
+    <g transform="translate(190 255) rotate(-6)">
+      <path d="M12 2L2 20h20L12 2z"/>
+      <path d="M12 9v4"/>
+    </g>
+  </g>
+</svg>
