@@ -93,4 +93,4 @@ Work Log:
 
 Stage Summary:
 - Три standalone-демо на GitHub Pages с единой showcase-моделью
-- PR: feature/Owl-14/demo-showcase-walkthrough
+- PR: https://github.com/zazabag/Planovo/pull/2 (merged)

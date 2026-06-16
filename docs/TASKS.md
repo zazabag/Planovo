@@ -10,7 +10,7 @@
 | TASK-2 | Демо: учебные учреждения | Owl-14 | — | done | — | demo/education/ |
 | TASK-3 | GitHub Pages + демо спорт/клубы | zazabag | — | done | — | см. WORKLOG Task 3 |
 | TASK-4 | Правила Cursor + документация совместной работы | Owl-14 | `docs/cursor-collab-rules` | in-progress | — | .cursor/rules/, COLLABORATION.md |
-| TASK-5 | Демо: визуальный showcase (education, sports, clubs) | Owl-14 | `feature/Owl-14/demo-showcase-walkthrough` | review | — | блочный тур, doodle-фон, Demoplan.md |
+| TASK-5 | Демо: визуальный showcase (education, sports, clubs) | Owl-14 | `feature/Owl-14/demo-showcase-walkthrough` | done | [#2](https://github.com/zazabag/Planovo/pull/2) | блочный тур, doodle-фон, Demoplan.md |
 
 ## Как добавить задачу
 
