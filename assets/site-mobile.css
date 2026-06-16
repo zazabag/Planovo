@@ -1,7 +1,91 @@
 /* Planovo — mobile overrides (landing + legal). Load after site-legal.css */
 
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 .landing-page {
   overflow-x: clip;
+  max-width: 100%;
+}
+
+/* Solution block — mockup admin panel */
+@media (max-width: 1024px) {
+  .solution-content {
+    min-width: 0;
+    width: 100%;
+    gap: 32px;
+  }
+
+  .solution-text,
+  .solution-visual {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .solution-description,
+  .solution-text .section-title {
+    overflow-wrap: anywhere;
+  }
+
+  .solution-points .point {
+    min-width: 0;
+  }
+
+  .mockup-container {
+    max-width: 100% !important;
+    width: 100%;
+    transform: none !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .mockup-container:hover {
+    transform: none !important;
+  }
+
+  .mockup-body {
+    min-width: 0;
+    max-width: 100%;
+    min-height: 0;
+  }
+
+  .mockup-main {
+    min-width: 0;
+    max-width: 100%;
+    padding: 14px;
+    overflow: hidden;
+  }
+
+  .mockup-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .mockup-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.3;
+  }
+
+  .mockup-timetable {
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .mockup-row {
+    min-width: 300px;
+  }
+
+  .mockup-sidebar {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 @media (max-width: 768px) {
@@ -41,13 +125,29 @@
     font-size: 0.88rem;
   }
 
-  .mockup-container {
-    max-width: 100%;
+  .mockup-main {
+    padding: 12px;
   }
 
-  .mockup-timetable {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  .mockup-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .mockup-title {
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+
+  .mockup-row {
+    min-width: 280px;
+    grid-template-columns: 36px repeat(5, minmax(0, 1fr)) !important;
+  }
+
+  .mockup-row .cell {
+    overflow: hidden;
+    word-break: break-word;
+    padding: 4px;
   }
 
   .legal-page-nav .landing-container {
