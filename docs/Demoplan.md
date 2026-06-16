@@ -65,6 +65,7 @@
 | Разметка | `.showcase-walkthrough` → `.showcase-block` (grid 300px \| 1fr) |
 | Фон | `assets/*-doodle-pattern.svg` на `body`, **scroll** (не fixed) |
 | CSS | `.showcase-block-note`, `.showcase-block-demo`, `.group-selector` |
+| Адаптив | **`docs/RESPONSIVE.md`** — брейкпоинты, правила по устройствам, чеклист |
 
 ```js
 const DEMO_DAY_INDICES = [0, 2]; // Пн, Ср
