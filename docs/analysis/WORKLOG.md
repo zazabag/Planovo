@@ -45,3 +45,28 @@ Stage Summary:
 - Преподаватель: личное расписание + редактор доступности
 - Учебная часть: конструктор расписания + автогенерация + обзор
 - Код на GitHub: https://github.com/zazabag/Planovo/tree/main/demo/education
+
+---
+Task ID: 3
+Agent: Main Coordinator
+Task: Обновление GitHub Pages сайта + публикация демо-файлов
+
+Work Log:
+- Получены текущие файлы index.html и css/style.css с GitHub API
+- В index.html добавлена навигационная ссылка «Демо» (#demos)
+- В index.html добавлена секция «Наши решения» с тремя demo-карточками (Учебные учреждения, Спортивные секции, Клубы и мероприятия)
+- Секция размещена между блоками «Ниши» и «Как работает»
+- В css/style.css добавлены стили для demo-карточек: .demos-grid, .demo-card, .demo-icon, .demo-features, .demo-badge, .demo-link + адаптивность
+- Обновлённый index.html отправлен на GitHub (commit: cabad8a4)
+- Обновлённый style.css отправлен на GitHub (commit: 51bef078)
+- Опубликованы демо-страницы: education.html, sports.html, clubs.html (root level)
+- Опубликован анализ конкурентов: docs/analysis/SPORTS-COMPETITOR-ANALYSIS.md
+- Опубликован анализ конкурентов: docs/analysis/CLUBS-COMPETITOR-ANALYSIS.md
+- Обновлён WORKLOG.md
+
+Stage Summary:
+- Главная страница обновлена: навигация + секция демо с карточками
+- CSS расширен стилями для demo-карточек
+- 3 демо-страницы опубликованы на GitHub Pages
+- 2 документа анализа конкурентов добавлены в docs/analysis/
+- Все файлы доступны на https://zazabag.github.io/Planovo/
