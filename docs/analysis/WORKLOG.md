@@ -94,3 +94,17 @@ Work Log:
 Stage Summary:
 - Три standalone-демо на GitHub Pages с единой showcase-моделью
 - PR: https://github.com/zazabag/Planovo/pull/2 (merged)
+
+---
+Task ID: 6
+Agent: Owl-14
+Task: Мобильная адаптация сайта и демо
+
+Work Log:
+- assets/site-mobile.css — лендинг, legal, форма заявки, cookie-баннер
+- assets/demo-mobile.css — education / sports / clubs: шапка, showcase, сетки, табы
+- Убраны жёсткие min-width у schedule-grid и avail-grid
+- Подключение CSS на index, legal-страницах и демо HTML
+
+Stage Summary:
+- Сайт и три демо читаемы на экранах 375–768px

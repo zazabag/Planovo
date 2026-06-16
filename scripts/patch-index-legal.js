@@ -5,7 +5,7 @@ const indexPath = path.join(__dirname, '..', 'index.html');
 let html = fs.readFileSync(indexPath, 'utf8');
 
 const cssLink =
-  '<link rel="stylesheet" href="/Planovo/assets/site-legal.css"/>';
+  '<link rel="stylesheet" href="/Planovo/assets/site-legal.css"/><link rel="stylesheet" href="/Planovo/assets/site-mobile.css"/>';
 if (!html.includes('site-legal.css')) {
   html = html.replace(
     /ca02de87dd32ea73\.css" data-precedence="next"\/>/,
