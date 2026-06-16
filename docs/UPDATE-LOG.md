@@ -7,6 +7,7 @@
 - `assets/site-mobile.css` — лендинг, форма заявки, legal-страницы, cookie-баннер
 - `assets/demo-mobile.css` — демо education / sports / clubs: шапка, showcase, сетки, табы
 - Убраны жёсткие `min-width` у расписаний; поля формы 16px на iOS
+- Fix: секция «Решение» (mockup) не выходит за край экрана на телефоне
 
 ### Демо: визуальный showcase (education, sports, clubs)
 
