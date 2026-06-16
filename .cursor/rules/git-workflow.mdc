@@ -1,0 +1,72 @@
+---
+description: Главная инструкция Planovo — читать при КАЖДОМ запросе; workflow docs → commit → PR → merge
+alwaysApply: true
+---
+
+# Главная инструкция Planovo
+
+**При любом запросе** (вопрос, правка, анализ) сначала ориентируйся на этот файл и на `docs/COLLABORATION.md`.
+
+Перед изменением кода **обязательно прочитай**:
+1. `docs/COLLABORATION.md` — правила совместной работы
+2. `docs/TASKS.md` — кто что делает, заяви или обнови задачу
+
+Любая задача с правками завершается полным циклом. Не останавливаться на «код готов».
+
+## 0. Синхронизация (совместная работа)
+
+```bash
+git checkout main && git pull origin main
+```
+
+- Ветка: `<тип>/<github-user>/<описание>` — см. COLLABORATION.md
+- Задача в `docs/TASKS.md`: статус `in-progress` → `review` → `done`
+- Один PR = одна задача из TASKS.md
+
+## 1. Документация (до или вместе с кодом)
+
+| Что изменилось | Куда |
+|----------------|------|
+| Функции, UI, демо | `docs/UPDATE-LOG.md` |
+| Этап / задача агента | `docs/analysis/WORKLOG.md` |
+| Совместная работа, процессы | `docs/COLLABORATION.md`, `docs/TASKS.md` |
+| Анализ, README | `docs/analysis/*.md`, README в папке |
+
+## 2. Commit
+
+```bash
+git checkout -b feature/<user>/описание
+git add <файлы>   # без .env и секретов
+git commit -m "тип: описание [TASK-N]"
+```
+
+## 3. Pull Request
+
+```bash
+git push -u origin HEAD
+gh pr create --title "..." --body "..."
+```
+
+В PR: автор, TASK-ID, затронутые пути, test plan, список обновлённых docs (шаблон — COLLABORATION.md).
+
+## 4. Merge
+
+```bash
+gh pr merge --merge
+git checkout main && git pull
+```
+
+Обновить `docs/TASKS.md` → `done` + ссылка на PR.
+
+## Исключения
+
+- Только вопрос без правок — workflow и TASKS не трогать.
+- Нет прав на push — форк + PR в upstream; сообщить пользователю.
+
+## Ответ пользователю (при правках)
+
+1. Код / результат
+2. Docs (включая TASKS.md)
+3. Commit / ветка
+4. Ссылка на PR
+5. Статус merge
