@@ -108,3 +108,4 @@ Work Log:
 
 Stage Summary:
 - Сайт и три демо читаемы на экранах 375–768px
+- PR: https://github.com/zazabag/Planovo/pull/3 (merged)
