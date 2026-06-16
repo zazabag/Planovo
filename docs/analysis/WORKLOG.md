@@ -78,3 +78,19 @@ Stage Summary:
 - Демо для клубов и мероприятий: https://zazabag.github.io/Planovo/clubs.html
 - Все демо интерактивны и работают прямо в браузере
 - Анализ конкурентов загружен в docs/analysis/
+
+---
+Task ID: 5
+Agent: Owl-14
+Task: Демо showcase — визуальный тур (education, sports, clubs)
+
+Work Log:
+- Переработаны education, sports, clubs под модель «визуальный пример + пояснения»
+- ShowcaseBlock / ShowcaseDemoChrome: комментарий слева, UI справа
+- Сетка Пн + Ср × 2 слота; упрощённые вкладки ролей
+- Doodle SVG-фоны: assets/edu-doodle-pattern.svg, sports-doodle-pattern.svg, clubs-doodle-pattern.svg
+- Обновлён docs/Demoplan.md
+
+Stage Summary:
+- Три standalone-демо на GitHub Pages с единой showcase-моделью
+- PR: feature/Owl-14/demo-showcase-walkthrough
