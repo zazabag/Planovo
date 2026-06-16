@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="assets/demo-mobile.css">
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 <style>
@@ -113,7 +114,7 @@ body {
 
 /* Schedule grid */
 .schedule-wrapper { overflow-x: auto; }
-.schedule-grid { min-width: 420px; }
+.schedule-grid { min-width: 0; width: 100%; }
 .grid-header {
   display: grid; grid-template-columns: 80px repeat(2, 1fr);
   border-bottom: 1px solid var(--gray-200);
@@ -262,7 +263,7 @@ body {
 }
 
 /* Availability grid */
-.avail-grid { min-width: 600px; }
+.avail-grid { min-width: 0; width: 100%; }
 .avail-btn {
   width: 100%; height: 40px; border-radius: 10px;
   border: 2px solid; display: flex; align-items: center; justify-content: center;

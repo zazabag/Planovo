@@ -1590,10 +1590,7 @@ function TeacherView({
   }), " — недоступен")), /*#__PURE__*/React.createElement("div", {
     className: "schedule-wrapper"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "avail-grid",
-    style: {
-      minWidth: 600
-    }
+    className: "avail-grid"
   }, /*#__PURE__*/React.createElement("div", {
     className: "grid-header"
   }, /*#__PURE__*/React.createElement("div", {

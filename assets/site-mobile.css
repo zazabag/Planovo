@@ -1,0 +1,133 @@
+/* Planovo — mobile overrides (landing + legal). Load after site-legal.css */
+
+.landing-page {
+  overflow-x: clip;
+}
+
+@media (max-width: 768px) {
+  .problem,
+  .solution,
+  .niches,
+  .demos,
+  .features,
+  .how-it-works {
+    padding: 60px 0;
+  }
+
+  .lead-section {
+    padding: 60px 0;
+  }
+
+  .lead-form-card {
+    padding: 22px 18px;
+  }
+
+  .lead-intro .section-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-buttons {
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+
+  .niche-feature span,
+  .demo-card-features li span {
+    font-size: 0.88rem;
+  }
+
+  .mockup-container {
+    max-width: 100%;
+  }
+
+  .mockup-timetable {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .legal-page-nav .landing-container {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .legal-back {
+    font-size: 0.85rem;
+  }
+
+  .legal-doc {
+    padding: 32px 16px 64px;
+  }
+
+  .legal-doc h1 {
+    font-size: 1.55rem;
+  }
+
+  .legal-doc h2 {
+    font-size: 1.05rem;
+  }
+
+  .cookie-banner {
+    padding: 12px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .cookie-banner-inner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 18px;
+  }
+
+  .cookie-banner-actions {
+    width: 100%;
+  }
+
+  .cookie-btn {
+    flex: 1 1 auto;
+    text-align: center;
+    white-space: normal;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .hero {
+    padding-top: 88px;
+  }
+
+  .hero-badge {
+    font-size: 0.72rem;
+    padding: 6px 12px;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .lead-checkbox {
+    font-size: 0.78rem;
+  }
+
+  .lead-field input,
+  .lead-field select,
+  .lead-field textarea {
+    font-size: 16px;
+  }
+
+  .legal-doc h1 {
+    font-size: 1.35rem;
+  }
+
+  .landing-footer .footer-brand p {
+    max-width: none;
+  }
+}

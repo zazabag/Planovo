@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="assets/demo-mobile.css">
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 <style>
@@ -64,7 +65,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(-
 
 /* Schedule grid */
 .schedule-wrapper{overflow-x:auto}
-.schedule-grid{min-width:420px}
+.schedule-grid{min-width:0;width:100%}
 .grid-header{display:grid;grid-template-columns:80px repeat(2,1fr);border-bottom:1px solid var(--gray-200)}
 .grid-header-cell{padding:10px;text-align:center;font-size:11px;font-weight:600;color:var(--gray-500);border-right:1px solid var(--gray-200)}
 .grid-header-cell:last-child{border-right:none}
