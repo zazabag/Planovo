@@ -1325,3 +1325,115 @@ img {
         font-size: 2.5rem;
     }
 }
+
+/* Demo cards section */
+.demos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+.demo-card {
+    background: #fff;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.demo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: var(--transition);
+}
+.demo-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-light);
+}
+.demo-card:hover::before {
+    opacity: 1;
+}
+.demo-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+}
+.demo-icon.education {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+.demo-icon.sports {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+}
+.demo-icon.clubs {
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+}
+.demo-card h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+.demo-card > p {
+    font-size: 0.95rem;
+    color: var(--gray-500);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+.demo-features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+.demo-feature {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.demo-feature i {
+    color: var(--success);
+    font-size: 0.75rem;
+}
+.demo-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    margin-bottom: 16px;
+}
+.demo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+.demo-link:hover {
+    gap: 12px;
+}
+@media (max-width: 1024px) {
+    .demos-grid { grid-template-columns: 1fr; }
+}
+
