@@ -122,3 +122,4 @@ Work Log:
 
 Stage Summary:
 - Единый источник истины для responsive-вёрстки Planovo
+- PR: https://github.com/zazabag/Planovo/pull/5 (merged)

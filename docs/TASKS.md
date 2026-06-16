@@ -13,7 +13,7 @@
 | TASK-5 | Демо: визуальный showcase (education, sports, clubs) | Owl-14 | `feature/Owl-14/demo-showcase-walkthrough` | done | [#2](https://github.com/zazabag/Planovo/pull/2) | блочный тур, doodle-фон, Demoplan.md |
 | TASK-6 | Мобильная адаптация сайта и демо | Owl-14 | `feature/Owl-14/mobile-responsive` | done | [#3](https://github.com/zazabag/Planovo/pull/3) | site-mobile.css, demo-mobile.css |
 | TASK-7 | Fix: секция «Решение» — overflow на мобильном | Owl-14 | `fix/Owl-14/solution-mobile-overflow` | done | [#4](https://github.com/zazabag/Planovo/pull/4) | mockup, site-mobile.css |
-| TASK-8 | Документация: адаптивный интерфейс (RESPONSIVE.md) | Owl-14 | `docs/Owl-14/responsive-spec` | review | — | брейкпоинты, правила по устройствам |
+| TASK-8 | Документация: адаптивный интерфейс (RESPONSIVE.md) | Owl-14 | `docs/Owl-14/responsive-spec` | done | [#5](https://github.com/zazabag/Planovo/pull/5) | брейкпоинты, правила по устройствам |
 
 ## Как добавить задачу
 
