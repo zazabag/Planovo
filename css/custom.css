@@ -1,0 +1,123 @@
+/* Планово — Custom overrides for Next.js build */
+
+/* Footer: светлый фон вместо тёмного */
+.landing-footer {
+    background: #f8fafc !important;
+    border-top: 1px solid #e2e8f0 !important;
+}
+
+.landing-footer-brand .logo {
+    color: #1e293b !important;
+}
+
+.landing-footer-brand .logo-text {
+    color: #6366f1 !important;
+}
+
+.landing-footer-brand p {
+    color: #64748b !important;
+}
+
+.landing-footer-column h4 {
+    color: #334155 !important;
+}
+
+.landing-footer-column a {
+    color: #64748b !important;
+}
+
+.landing-footer-column a:hover {
+    color: #6366f1 !important;
+}
+
+.landing-footer-bottom {
+    border-top: 1px solid #e2e8f0 !important;
+}
+
+.landing-footer-bottom p {
+    color: #94a3b8 !important;
+}
+
+/* Demo page header */
+.demo-header {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    color: white;
+    padding: 80px 24px 40px;
+    text-align: center;
+}
+
+.demo-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.demo-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.demo-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.demo-back-link:hover {
+    opacity: 0.8;
+}
+
+/* Demo placeholder card */
+.demo-placeholder {
+    max-width: 600px;
+    margin: 60px auto;
+    text-align: center;
+    padding: 48px 32px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.demo-placeholder-icon {
+    font-size: 4rem;
+    margin-bottom: 24px;
+}
+
+.demo-placeholder h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+.demo-placeholder p {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.demo-placeholder .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.demo-placeholder .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
