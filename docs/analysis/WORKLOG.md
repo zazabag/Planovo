@@ -109,3 +109,16 @@ Work Log:
 Stage Summary:
 - Сайт и три демо читаемы на экранах 375–768px
 - PR: https://github.com/zazabag/Planovo/pull/3 (merged)
+
+---
+Task ID: 8
+Agent: Owl-14
+Task: Спецификация адаптивного интерфейса (RESPONSIVE.md)
+
+Work Log:
+- docs/RESPONSIVE.md — брейкпоинты xxs–2xl, правила по блокам лендинга/демо/legal
+- Ссылки в Demoplan.md и planovo-design.mdc
+- Чеклист тестирования и карта CSS-файлов
+
+Stage Summary:
+- Единый источник истины для responsive-вёрстки Planovo

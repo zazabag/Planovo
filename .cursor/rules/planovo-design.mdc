@@ -1,0 +1,120 @@
+---
+description: Дизайн-система лендинга Планово — цвета, кнопки, карточки, анимации, сетки
+globs: index.html,assets/**/*,css/**/*,scripts/patch-index-legal.js,scripts/rebuild-demos.js
+alwaysApply: false
+---
+
+# Planovo Landing — Design System
+
+Источник истины: `_next/static/chunks/ca02de87dd32ea73.css` + `assets/site-legal.css` + **`docs/RESPONSIVE.md`** (брейкпоинты и правила по устройствам).
+Контейнер: `.landing-container` (max-width 1200px, padding 0 24px).
+
+## Токены (`:root`)
+
+| Токен | Значение | Назначение |
+|-------|----------|------------|
+| `--primary` | `#6366f1` | Бренд, ссылки, акценты |
+| `--primary-light` | `#818cf8` | Hover, бордер карточек |
+| `--secondary` | `#8b5cf6` | Градиент |
+| `--accent` | `#06b6d4` | Hero-фон |
+| `--dark` | `#0f172a` | CTA, footer, lead-section, mockup |
+| `--dark-light` | `#1e293b` | Mockup header |
+| `--success` | `#10b981` | Спорт-ниша, badge-dot |
+| `--warning` | `#f59e0b` | Клубы-ниша |
+| `--danger` | `#ef4444` | Ошибки форм |
+| `--gradient-primary` | `135deg #6366f1 → #8b5cf6 → #a855f7` | Кнопки, лого, цифры |
+| `--gradient-dark` | `#0f172a → #1e293b` | Тёмные блоки |
+| `--radius-sm/md/lg/xl` | 6 / 12 / 16 / 24px | Скругления |
+| `--shadow-md/lg/xl/glow` | см. CSS | Карточки, hover кнопок |
+| `--transition` | `0.3s cubic-bezier(.4,0,.2,1)` | Стандарт |
+| `--transition-slow` | `0.5s` | Reveal, mockup |
+
+## Ниши (цвета демо/карточек)
+
+- **Education** `#6366f1` — фон иконки `#6366f115`, градиент кнопки
+- **Sports** `#10b981`
+- **Clubs** `#f59e0b`
+
+## Типографика
+
+- Шрифт: **Inter**, fallback system-ui
+- **Hero title**: 4rem/900, `letter-spacing: -0.02em`, цвет `--dark`
+- **Section title**: 2.5rem/800; на тёмном фоне — белый
+- **Section subtitle**: 1.125rem, `--gray-500`, max-width 600px
+- **Section tag**: 0.75rem/600, uppercase, `letter-spacing: 0.1em`, pill `border-radius: 100px`, фон `#6366f11a`, цвет `--primary`
+- **Gradient text**: `.gradient-text` — `background-clip: text`, градиент primary
+- **Highlight**: `.highlight` — `--primary`, font-weight 700
+
+## Кнопки (`.btn`)
+
+База: `inline-flex`, gap 8px, padding `14px 28px`, `border-radius: var(--radius-md)`, font 0.95rem/600, `transition: var(--transition)`.
+
+| Класс | Вид | Hover |
+|-------|-----|-------|
+| `.btn-primary` | Градиент primary, белый текст, `--shadow-md` | `translateY(-2px)`, `--shadow-lg` + `--shadow-glow` |
+| `.btn-secondary` | Белый фон, `--gray-700`, border 2px `--gray-200` | border `--primary`, цвет primary |
+| `.btn-large` | padding `16px 32px`, font 1rem | — |
+| `.nav-cta` | Градиент в навбаре, padding `10px 20px` | `translateY(-1px)`, shadow-md |
+
+**На тёмном фоне (CTA / lead-section):** secondary — прозрачный фон, border `--gray-700`, текст `--gray-300`; hover — border `--primary-light`, фон `#6366f11a`.
+
+## Навбар
+
+`.landing-navbar`: fixed, blur 20px, фон `#fffc`, border-bottom `rgba(0,0,0,0.05)`, height 72px.
+`.logo`: flex, gap 10px, font 1.35rem/800; `.logo-icon` — градиентный квадрат `--radius-md`.
+
+## Секции и фоны
+
+| Секция | Фон | Padding |
+|--------|-----|---------|
+| `.hero` | radial purple/cyan на белом | 120px 0 80px, min-height 100vh |
+| `.problem` | `--gray-50` | 100px 0 |
+| `.solution`, `.niches`, `.demos`, `.features` | белый | 100px 0 |
+| `.cta`, `.lead-section` | `--dark` + radial purple glow `::before` | 100px 0 |
+| `.landing-footer` | `--dark`, border-top `rgba(255,255,255,0.05)` | 60px 0 30px |
+
+## Карточки
+
+Общий паттерн: белый фон, `border: 1px solid --gray-200`, `border-radius: --radius-lg`, padding 32px, hover — shadow + `translateY(-4px..-6px)` + border `--primary-light`.
+
+- **`.problem-card`**: иконка 56px, фон `#6366f11a`
+- **`.niche-card`**: полоска сверху 4px градиент при hover (`::before`)
+- **`.demo-card`**: `--radius-xl`, accent-полоска 6px сверху, hover `-6px`
+- **`.feature-card`**: иконка 48px с градиентным фоном
+- **`.lead-form-card`**: белая карточка на тёмном lead-section, `--shadow-xl`
+
+## Сетки
+
+- `.problem-grid`: 4 col, gap 24px
+- `.niches-grid`, `.demos-grid`, `.features-grid`: 3 col
+- `.solution-content`: 2 col, gap 60px
+- `.lead-grid`: 1fr 1.1fr, gap 48px (≤900px → 1 col)
+- **Footer** `.footer-content`: 1.5fr 2fr; `.footer-links`: 3 col — стили в `site-legal.css` (классы `footer-*`, не `landing-footer-*`)
+
+## Анимации
+
+- **`.reveal`**: opacity 0 → 1, `translateY(30px→0)`, `--transition-slow`; класс `.active` при скролле
+- **`.badge-dot`**: `pulse` 2s infinite
+- **`.scroll-mouse`**: `scrollDown` 2s infinite
+- **`.mockup-container`**: 3D `perspective rotateY(-5deg)` → straight on hover
+- Карточки/кнопки: hover `translateY(-2px..-6px)` — не использовать opacity-only hover
+
+## CTA / Lead (контакт)
+
+Оригинал: `.cta` — центр, `.cta-title` белый 2.5rem, `.cta-text` `--gray-400`, `.cta-buttons` flex center gap 16px, `.cta-note` 0.85rem `--gray-500`.
+
+Патч: `.lead-section` = тот же тёмный стиль; слева intro + кнопки `.btn`, справа `.lead-form-card`.
+
+## Формы (site-legal)
+
+Поля: padding 12px 14px, border `--gray-300`, focus — border primary + ring `rgba(99,102,241,0.15)`.
+Ошибка: `.lead-field.is-invalid`, border `#ef4444`, текст `.lead-field-error` `#b91c1c`.
+Submit: full-width градиент, как `.btn-primary`; disabled opacity 0.55.
+
+## Антипаттерны
+
+- Не добавлять 4-ю колонку в footer — legal-ссылки в «Контакты»
+- Не использовать `landing-footer-*` в HTML — только `footer-content`, `footer-links`, `footer-column`
+- Не оставлять `.reveal` без `.active` на инжектируемых блоках
+- Не делать светлый footer (`css/custom.css` устарел для лендинга)
+- Новые блоки: те же токены, те же радиусы/тени/hover, не invent новую палитру
