@@ -1,5 +1,14 @@
 # Журнал обновлений — Планово
 
+## Обновление от 18 июня 2026 (лендинг по рецензии, TASK-25)
+
+- Жёлтая палитра вместо фиолета, новый логотип (градиент календарь), обновлённый копирайт
+- Секции «Было/Стало», «Каждый день», упрощённое «Решение» (2 карточки + light mockup)
+- Hero: «Расписание без Excel и нервов», badge «Без Excel и PDF»
+- `assets/landing-review-preview.css`, `assets/landing-review-preview.js` — патч после React-hydrate
+- `scripts/patch-index-legal.js` подключает review-ассеты на прод; `index-preview.html` — локальный QA с лентой PREVIEW
+- `scripts/build-landing-preview.mjs` — сборка preview из `index.html`
+
 ## Обновление от 18 июня 2026 (новый логотип, TASK-23)
 
 - Новый знак: календарь + круг «процесс», градиент фиолетовый → magenta

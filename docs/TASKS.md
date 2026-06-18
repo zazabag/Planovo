@@ -30,6 +30,7 @@
 | TASK-22 | Revert: линия «Процесс» — визуал/анимация как PR #20 | zazabag | `fix/zazabag/process-line-revert-pr20` | done | [#23](https://github.com/zazabag/Planovo/pull/23) | SVG под карточками |
 | TASK-23 | Новый бренд-логотип (календарь + процесс) | zazabag | — | done | — | logo-source.png → logo.png |
 | TASK-24 | Деплой planovo.pro: legal, favicon, контакты, скрипты | zazabag | `feature/zazabag/planovo-pro-deploy` | done | [#24](https://github.com/zazabag/Planovo/pull/24) | Reg.ru, HTTPS, ИП реквизиты |
+| TASK-25 | Лендинг: preview правок по рецензии (копирайт, простота, цвет) | Owl-14 | `feature/Owl-14/landing-review-recenziya` | review | — | review-ассеты на прод, `index-preview.html` для QA |
 
 ## Как добавить задачу
 
