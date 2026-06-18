@@ -260,6 +260,13 @@
     var cards = grid.querySelectorAll(".niche-card");
     if (!cards.length) return;
 
+    var viewport = grid.closest(".niches-carousel-viewport");
+    var slideW = viewport ? viewport.clientWidth : 0;
+    if (viewport && slideW > 0) {
+      viewport.style.setProperty("--niche-slide-w", slideW + "px");
+      grid.style.setProperty("--niche-slide-w", slideW + "px");
+    }
+
     cards.forEach(function (card) {
       card.style.minHeight = "";
     });
@@ -274,16 +281,28 @@
         card.style.minHeight = max + "px";
       });
     }
+
+    updateNicheCarouselSlide(grid);
   }
 
   function updateNicheCarouselSlide(grid) {
     var cards = grid.querySelectorAll(".niche-card");
     if (!cards.length) return;
 
+    var viewport = grid.closest(".niches-carousel-viewport");
+    var slideW = viewport ? viewport.clientWidth : grid.clientWidth;
+    if (slideW <= 0) slideW = grid.clientWidth;
+
     var idx =
       ((nicheCarousel.index % cards.length) + cards.length) % cards.length;
     nicheCarousel.index = idx;
-    grid.style.transform = "translate3d(-" + idx * 100 + "%, 0, 0)";
+
+    if (viewport && slideW > 0) {
+      viewport.style.setProperty("--niche-slide-w", slideW + "px");
+      grid.style.setProperty("--niche-slide-w", slideW + "px");
+    }
+
+    grid.style.transform = "translate3d(-" + idx * slideW + "px, 0, 0)";
 
     cards.forEach(function (card, i) {
       var active = i === idx;
