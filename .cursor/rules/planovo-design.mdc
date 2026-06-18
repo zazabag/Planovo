@@ -97,6 +97,7 @@ alwaysApply: false
 - **`.badge-dot`**: `pulse` 2s infinite
 - **`.scroll-mouse`**: `scrollDown` 2s infinite
 - **`.mockup-container`**: 3D `perspective rotateY(-5deg)` → straight on hover
+- **`.how-it-works.process-enhanced`**: SVG-кривая + точка по scroll; активный `.step.is-active` — `assets/process-scroll.css`
 - Карточки/кнопки: hover `translateY(-2px..-6px)` — не использовать opacity-only hover
 
 ## CTA / Lead (контакт)
