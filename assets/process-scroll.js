@@ -220,7 +220,6 @@
         wrap.style.minHeight = "";
         wrap.style.height = "";
       }
-      if (svg) svg.style.display = "";
       return false;
     }
 
@@ -231,7 +230,7 @@
       slot.style.right = "";
       slot.style.bottom = "";
       slot.style.width = "100%";
-      slot.style.marginBottom = "8px";
+      slot.style.marginBottom = "";
     });
 
     if (wrap) {
@@ -239,7 +238,6 @@
       wrap.style.height = "auto";
     }
 
-    if (svg) svg.style.display = "none";
     return true;
   }
 
@@ -285,14 +283,11 @@
   function rebuildPath() {
     if (!wrap || !pathTrack || !pathLine) return;
 
-    if (applyStackLayout()) {
-      updateScroll(true);
-      return;
+    var stack = applyStackLayout();
+
+    if (!stack) {
+      applyStepLayout();
     }
-
-    if (svg) svg.style.display = "";
-
-    applyStepLayout();
 
     var wrapRect = wrap.getBoundingClientRect();
     var w = wrapRect.width;
@@ -390,7 +385,6 @@
 
   function applyPathProgress(progress) {
     if (!pathLine || pathLength <= 0) return;
-    if (section && section.classList.contains("process-stack")) return;
 
     var offset = pathLength * (1 - progress);
     pathLine.style.strokeDashoffset = String(offset);
@@ -416,7 +410,7 @@
       section.style.setProperty("--process-progress", String(target));
     }
 
-    if (stack || !pathLine) {
+    if (!pathLine) {
       updateActiveStep(target);
       return;
     }

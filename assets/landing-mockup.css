@@ -410,6 +410,25 @@
 }
 
 @media (max-width: 768px) {
+  .mockup-container.mockup-interactive .mockup-body {
+    height: auto;
+    min-height: 380px;
+  }
+
+  .mockup-container.mockup-interactive .mockup-sidebar {
+    flex-shrink: 0;
+  }
+
+  .mockup-container.mockup-interactive .mockup-nav-item {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  .mockup-container.mockup-interactive .mockup-btn {
+    min-height: 40px;
+    touch-action: manipulation;
+  }
+
   .mockup-container.mockup-interactive.is-published .mockup-header::after {
     font-size: 0.58rem;
     padding: 3px 6px;
