@@ -53,6 +53,8 @@
     return window.matchMedia("(max-width: 768px)").matches;
   }
 
+  var MOBILE_RAIL_X = 28;
+
   function createSvgEl(tag, attrs) {
     var el = document.createElementNS("http://www.w3.org/2000/svg", tag);
     Object.keys(attrs).forEach(function (key) {
@@ -247,7 +249,9 @@
         if (!badge) return null;
         var r = badge.getBoundingClientRect();
         return {
-          x: r.left + r.width / 2 - wrapRect.left,
+          x: isMobile()
+            ? MOBILE_RAIL_X
+            : r.left + r.width / 2 - wrapRect.left,
           y: r.top + r.height / 2 - wrapRect.top,
         };
       })
@@ -316,7 +320,26 @@
    * Прогресс по позиции шагов в viewport.
    * Линия доходит до конца раньше: когда последний шаг ещё в верхней половине экрана.
    */
+  function getScrollProgressMobile() {
+    if (!wrap) return 0;
+
+    var rect = wrap.getBoundingClientRect();
+    var vh = window.innerHeight;
+    var startLine = vh * 0.9;
+    var endLine = vh * 0.28;
+
+    if (rect.top >= startLine) return 0;
+    if (rect.bottom <= endLine) return 1;
+
+    var span = startLine - endLine;
+    if (span <= 0) return 1;
+
+    return clamp((startLine - rect.top) / span, 0, 1);
+  }
+
   function getScrollProgress() {
+    if (isMobile()) return getScrollProgressMobile();
+
     if (!stepEls.length) return 0;
 
     var vh = window.innerHeight;
@@ -447,6 +470,9 @@
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
+            requestAnimationFrame(function () {
+              rebuildPath();
+            });
           }
         });
       },
@@ -456,6 +482,13 @@
     stepEls.forEach(function (step) {
       io.observe(step);
     });
+  }
+
+  function schedulePathRebuilds() {
+    rebuildPath();
+    requestAnimationFrame(rebuildPath);
+    setTimeout(rebuildPath, 120);
+    setTimeout(rebuildPath, 420);
   }
 
   function enhanceSteps() {
@@ -506,10 +539,15 @@
 
   function init() {
     section = document.querySelector(".how-it-works");
-    if (!section || section.dataset.processReady === "1") return;
+    if (!section) return;
 
     var stepsRoot = section.querySelector(".steps");
     if (!stepsRoot || !stepsRoot.querySelector(".step")) return;
+
+    if (section.dataset.processReady === "1") {
+      if (section.querySelector(".process-timeline-wrap")) return;
+      section.dataset.processReady = "";
+    }
 
     section.dataset.processReady = "1";
     section.classList.add("process-enhanced");
@@ -529,7 +567,7 @@
     ).matches;
 
     applyStepLayout();
-    rebuildPath();
+    schedulePathRebuilds();
 
     var rebuildDebounced = debounce(rebuildPath, 200);
     window.addEventListener("resize", rebuildDebounced);
@@ -537,6 +575,17 @@
     if (typeof ResizeObserver !== "undefined") {
       var ro = new ResizeObserver(rebuildDebounced);
       ro.observe(wrap);
+    }
+
+    var mobileMq = window.matchMedia("(max-width: 768px)");
+    function onMobileLayoutChange() {
+      applyStepLayout();
+      schedulePathRebuilds();
+    }
+    if (mobileMq.addEventListener) {
+      mobileMq.addEventListener("change", onMobileLayoutChange);
+    } else if (mobileMq.addListener) {
+      mobileMq.addListener(onMobileLayoutChange);
     }
 
     if (typeof IntersectionObserver !== "undefined") {
@@ -556,5 +605,18 @@
     updateScroll(true);
   }
 
-  window.PlanovoProcessScroll = { init: init };
+  function bootProcessScroll() {
+    init();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootProcessScroll);
+  } else {
+    bootProcessScroll();
+  }
+
+  window.addEventListener("load", bootProcessScroll);
+  window.addEventListener("pageshow", bootProcessScroll);
+
+  window.PlanovoProcessScroll = { init: init, rebuild: rebuildPath };
 })();

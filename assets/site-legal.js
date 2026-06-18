@@ -63,6 +63,7 @@
     function apply() {
       page.classList.toggle("mobile-layout", mobileLayoutMq.matches);
       document.documentElement.classList.toggle("planovo-mobile", mobileLayoutMq.matches);
+      initNicheCarousel();
     }
 
     apply();
@@ -245,6 +246,149 @@
   var demoCaptureInstalled = false;
   var demoGridObserver = null;
   var nicheDemoObserver = null;
+  var nicheCarousel = { index: 0, mq: null, bound: false };
+
+  function nicheCarouselNextSvg() {
+    return (
+      '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>'
+    );
+  }
+
+  function syncNicheCarouselHeights(grid) {
+    if (!grid) return;
+    var cards = grid.querySelectorAll(".niche-card");
+    if (!cards.length) return;
+
+    cards.forEach(function (card) {
+      card.style.minHeight = "";
+    });
+
+    var max = 0;
+    cards.forEach(function (card) {
+      max = Math.max(max, card.offsetHeight);
+    });
+
+    if (max > 0) {
+      cards.forEach(function (card) {
+        card.style.minHeight = max + "px";
+      });
+    }
+  }
+
+  function updateNicheCarouselSlide(grid) {
+    var cards = grid.querySelectorAll(".niche-card");
+    if (!cards.length) return;
+
+    var idx =
+      ((nicheCarousel.index % cards.length) + cards.length) % cards.length;
+    nicheCarousel.index = idx;
+    grid.style.transform = "translate3d(-" + idx * 100 + "%, 0, 0)";
+
+    cards.forEach(function (card, i) {
+      var active = i === idx;
+      card.classList.toggle("is-niche-active", active);
+      card.setAttribute("aria-hidden", active ? "false" : "true");
+    });
+  }
+
+  function teardownNicheCarousel() {
+    var carousel = document.querySelector(".niches-carousel");
+    if (!carousel) return;
+
+    var grid = carousel.querySelector(".niches-grid");
+    if (!grid) return;
+
+    grid.style.transform = "";
+    grid.querySelectorAll(".niche-card").forEach(function (card) {
+      card.style.minHeight = "";
+      card.classList.remove("is-niche-active");
+      card.removeAttribute("aria-hidden");
+    });
+
+    carousel.parentNode.insertBefore(grid, carousel);
+    carousel.remove();
+    nicheCarousel.index = 0;
+  }
+
+  function mountNicheCarousel(grid) {
+    if (grid.closest(".niches-carousel")) {
+      syncNicheCarouselHeights(grid);
+      updateNicheCarouselSlide(grid);
+      return;
+    }
+
+    var wrap = document.createElement("div");
+    wrap.className = "niches-carousel";
+    var viewport = document.createElement("div");
+    viewport.className = "niches-carousel-viewport";
+    var parent = grid.parentNode;
+
+    parent.insertBefore(wrap, grid);
+    viewport.appendChild(grid);
+    wrap.appendChild(viewport);
+
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "niches-carousel-next";
+    btn.setAttribute("aria-label", "Следующая ниша");
+    btn.innerHTML = nicheCarouselNextSvg();
+    btn.addEventListener("click", function () {
+      var cards = grid.querySelectorAll(".niche-card");
+      if (!cards.length) return;
+      nicheCarousel.index = (nicheCarousel.index + 1) % cards.length;
+      updateNicheCarouselSlide(grid);
+    });
+    wrap.appendChild(btn);
+
+    requestAnimationFrame(function () {
+      syncNicheCarouselHeights(grid);
+      updateNicheCarouselSlide(grid);
+    });
+  }
+
+  function initNicheCarousel() {
+    var section = document.querySelector("section.niches#niches, section#niches");
+    if (!section) return;
+
+    var grid = section.querySelector(".niches-grid");
+    if (!grid || !grid.querySelectorAll(".niche-card").length) return;
+
+    if (!nicheCarousel.mq) {
+      nicheCarousel.mq = window.matchMedia("(max-width: 768px)");
+    }
+
+    if (nicheCarousel.mq.matches) {
+      mountNicheCarousel(grid);
+    } else {
+      teardownNicheCarousel();
+    }
+
+    if (nicheCarousel.bound) return;
+    nicheCarousel.bound = true;
+
+    var resizeTimer;
+    function onLayoutChange() {
+      initNicheCarousel();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        var activeGrid =
+          document.querySelector(".niches-carousel .niches-grid") ||
+          document.querySelector("section#niches .niches-grid");
+        if (activeGrid && nicheCarousel.mq && nicheCarousel.mq.matches) {
+          syncNicheCarouselHeights(activeGrid);
+        }
+      }, 200);
+    }
+
+    if (nicheCarousel.mq.addEventListener) {
+      nicheCarousel.mq.addEventListener("change", onLayoutChange);
+    } else if (nicheCarousel.mq.addListener) {
+      nicheCarousel.mq.addListener(onLayoutChange);
+    }
+
+    window.addEventListener("resize", onLayoutChange);
+  }
 
   function getDemoPageUrl(index) {
     var file = DEMO_PAGE_URLS[index];
@@ -318,6 +462,7 @@
       el.remove();
     });
 
+    initNicheCarousel();
     return true;
   }
 
@@ -636,18 +781,28 @@
     document.body.appendChild(script);
   }
 
-  var processInitScheduled = false;
-  var processLazyBound = false;
+  function isProcessInitialized() {
+    var section = document.querySelector(".how-it-works");
+    return !!(
+      section &&
+      section.dataset.processReady === "1" &&
+      section.querySelector(".process-timeline-wrap")
+    );
+  }
 
   function runProcessInit() {
-    if (processInitScheduled) return;
+    if (isProcessInitialized()) return;
     if (!window.PlanovoProcessScroll) return;
-    processInitScheduled = true;
     try {
       window.PlanovoProcessScroll.init();
     } catch (e) {
       /* ignore */
     }
+  }
+
+  function tryProcessInit() {
+    if (isProcessInitialized()) return;
+    loadProcessScript();
   }
 
   function loadProcessScript() {
@@ -672,35 +827,39 @@
     document.body.appendChild(script);
   }
 
+  function bindProcessIntersection() {
+    var target = document.querySelector(".how-it-works");
+    if (!target || target.dataset.processIoBound === "1") return;
+    if (typeof IntersectionObserver === "undefined") return;
+
+    target.dataset.processIoBound = "1";
+
+    var io = new IntersectionObserver(
+      function (entries) {
+        if (!entries[0].isIntersecting) return;
+        tryProcessInit();
+        if (isProcessInitialized()) io.disconnect();
+      },
+      { rootMargin: "280px 0px", threshold: 0 }
+    );
+    io.observe(target);
+  }
+
   function scheduleProcessInit() {
-    if (processLazyBound) return;
-    processLazyBound = true;
-
-    function bindLazy() {
-      var target = document.querySelector(".how-it-works");
-      if (!target) return;
-
-      if (typeof IntersectionObserver === "undefined") {
-        setTimeout(loadProcessScript, 400);
-        return;
-      }
-
-      var io = new IntersectionObserver(
-        function (entries) {
-          if (!entries[0].isIntersecting) return;
-          io.disconnect();
-          loadProcessScript();
-        },
-        { rootMargin: "280px 0px", threshold: 0 }
-      );
-      io.observe(target);
+    function bootProcess() {
+      tryProcessInit();
+      bindProcessIntersection();
     }
 
     if (document.readyState === "complete") {
-      bindLazy();
+      bootProcess();
     } else {
-      window.addEventListener("load", bindLazy, { once: true });
+      window.addEventListener("load", bootProcess, { once: true });
     }
+
+    [400, 1200, 2500].forEach(function (ms) {
+      setTimeout(bootProcess, ms);
+    });
   }
 
   function ensureProcessScrollAssets() {
@@ -849,6 +1008,7 @@
       }
       watchDemoGrid();
       watchNicheDemoButtons();
+      tryProcessInit();
       wireFooterDemoLinks();
     });
     landingObserver.observe(landingPage, { childList: true, subtree: true });
