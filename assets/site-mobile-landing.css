@@ -20,7 +20,7 @@
     --m-text-base: clamp(0.88rem, 3.2vw, 0.94rem);
     --m-text-lg: clamp(1.05rem, 4vw, 1.2rem);
     --m-text-xl: clamp(1.28rem, 5.2vw, 1.45rem);
-    --m-section-y: var(--m-5);
+    --m-section-y: 20px;
     --m-gutter: var(--m-3);
     font-size: var(--m-text-base);
     line-height: 1.5;
@@ -211,65 +211,74 @@
     text-align: left;
   }
 
-  /* —— Problem: larger cards, vertical layout —— */
+  /* —— Problem: compact list rows in one card —— */
   html.planovo-mobile .landing-page .problem-grid,
   .landing-page.mobile-layout .problem-grid {
     display: flex;
     flex-direction: column;
-    gap: var(--m-4);
-    border: none;
-    border-radius: 0;
-    overflow: visible;
-    background: transparent;
+    gap: 0;
+    border: 1px solid var(--gray-200, #e5e7eb);
+    border-radius: var(--m-radius-lg);
+    overflow: hidden;
+    background: var(--white, #fff);
+    box-shadow: var(--shadow-sm);
   }
 
   html.planovo-mobile .landing-page .problem-card,
   .landing-page.mobile-layout .problem-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--m-3);
-    padding: var(--m-4);
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: var(--m-3);
+    row-gap: var(--m-1);
+    align-items: start;
+    padding: var(--m-3);
     min-height: 0;
-    border-radius: var(--m-radius-lg) !important;
-    border: 1px solid var(--gray-200, #e5e7eb) !important;
+    border-radius: 0 !important;
+    border: none !important;
     border-bottom: 1px solid var(--gray-200, #e5e7eb) !important;
-    box-shadow: var(--shadow-sm) !important;
-    background: var(--white, #fff);
-    transform: none !important;
-  }
-
-  html.planovo-mobile .landing-page .problem-card:hover,
-  .landing-page.mobile-layout .problem-card:hover {
+    box-shadow: none !important;
+    background: transparent;
     transform: none !important;
   }
 
   html.planovo-mobile .landing-page .problem-icon,
   .landing-page.mobile-layout .problem-icon {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    font-size: 1.25rem;
-    border-radius: var(--m-radius);
+    grid-row: 1 / span 2;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 0.95rem;
+    border-radius: var(--m-radius-sm);
     margin: 0;
   }
 
   html.planovo-mobile .landing-page .problem-card h3,
   .landing-page.mobile-layout .problem-card h3 {
-    font-size: var(--m-text-base);
+    grid-column: 2;
+    font-size: var(--m-text-sm);
     font-weight: 700;
-    margin: 0 0 var(--m-2);
-    line-height: 1.35;
-    width: 100%;
+    margin: 0;
+    line-height: 1.3;
   }
 
   html.planovo-mobile .landing-page .problem-card p,
   .landing-page.mobile-layout .problem-card p {
-    font-size: var(--m-text-sm);
-    line-height: 1.5;
+    grid-column: 2;
+    font-size: var(--m-text-xs);
+    line-height: 1.45;
     color: var(--gray-600, #4b5563);
     margin: 0;
-    width: 100%;
+  }
+
+  html.planovo-mobile .landing-page .problem-card:last-child,
+  .landing-page.mobile-layout .problem-card:last-child {
+    border-bottom: none !important;
+  }
+
+  html.planovo-mobile .landing-page .problem-card:hover,
+  .landing-page.mobile-layout .problem-card:hover {
+    transform: none !important;
   }
 
   html.planovo-mobile .landing-page .problem.problem-aura-enhanced .problem-card::after,
@@ -421,7 +430,7 @@
   }
 
   .landing-page.mobile-layout .niche-card {
-    flex: 0 0 min(78vw, 280px);
+    flex: 0 0 min(72vw, 260px);
     scroll-snap-align: start;
     padding: var(--m-3);
     border-radius: var(--m-radius);

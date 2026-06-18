@@ -89,25 +89,52 @@ body {
 }
 
 @media (max-width: 768px) {
+  .landing-page .hero {
+    min-height: 0 !important;
+    padding: calc(56px + env(safe-area-inset-top, 0)) 0 32px !important;
+  }
+
+  .landing-page .hero-title {
+    font-size: clamp(1.25rem, 5vw, 1.65rem) !important;
+    line-height: 1.2;
+  }
+
+  .landing-page .hero-subtitle {
+    font-size: clamp(0.82rem, 3.2vw, 0.94rem) !important;
+    line-height: 1.5;
+  }
+
+  .landing-page .section-title {
+    font-size: clamp(1.05rem, 4.2vw, 1.35rem) !important;
+    line-height: 1.25;
+  }
+
+  .landing-page .section-subtitle {
+    font-size: clamp(0.82rem, 3vw, 0.94rem) !important;
+    max-width: 36ch;
+  }
+
   .problem,
   .solution,
   .niches,
   .demos,
   .features,
   .how-it-works {
-    padding: 60px 0;
+    padding: 32px 0 !important;
   }
 
   .lead-section {
-    padding: 60px 0;
-  }
-
-  .lead-form-card {
-    padding: 22px 18px;
+    padding: 32px 0 !important;
   }
 
   .lead-intro .section-title {
-    font-size: 1.75rem;
+    font-size: clamp(1.05rem, 4.2vw, 1.35rem);
+  }
+
+  .problem-card,
+  .niche-card,
+  .feature-card {
+    padding: 14px !important;
   }
 
   .hero-buttons {

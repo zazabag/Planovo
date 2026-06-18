@@ -40,6 +40,41 @@
       document.head.appendChild(bgLink);
     }
 
+    var mobileLandingHref = asset("assets/site-mobile-landing.css");
+    if (!document.querySelector('link[href*="site-mobile-landing.css"]')) {
+      var mobileLink = document.createElement("link");
+      mobileLink.rel = "stylesheet";
+      mobileLink.href = mobileLandingHref;
+      mobileLink.media = "(max-width: 768px)";
+      document.head.appendChild(mobileLink);
+    }
+  }
+
+  var mobileLayoutMq = null;
+
+  function syncMobileLandingLayout() {
+    var page = document.querySelector(".landing-page");
+    if (!page) return;
+
+    if (!mobileLayoutMq) {
+      mobileLayoutMq = window.matchMedia("(max-width: 768px)");
+    }
+
+    function apply() {
+      page.classList.toggle("mobile-layout", mobileLayoutMq.matches);
+      document.documentElement.classList.toggle("planovo-mobile", mobileLayoutMq.matches);
+    }
+
+    apply();
+
+    if (mobileLayoutMq.__planovoBound) return;
+    mobileLayoutMq.__planovoBound = true;
+
+    if (mobileLayoutMq.addEventListener) {
+      mobileLayoutMq.addEventListener("change", apply);
+    } else if (mobileLayoutMq.addListener) {
+      mobileLayoutMq.addListener(apply);
+    }
   }
 
   function getLeadSectionHTML() {
@@ -777,6 +812,7 @@
 
   function enhanceLanding() {
     ensureLegalStyles();
+    syncMobileLandingLayout();
     ensureLandingMockupAssets();
     ensureProcessScrollAssets();
     ensureProblemAuraAssets();
@@ -802,6 +838,7 @@
     if (!landingPage || landingObserver) return;
 
     landingObserver = new MutationObserver(function () {
+      syncMobileLandingLayout();
       var hasForm = document.getElementById("planovoLeadForm");
       var landingFooter = landingPage.querySelector("footer.landing-footer");
       if (!hasForm && landingFooter) {
