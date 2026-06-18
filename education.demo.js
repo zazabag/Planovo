@@ -2400,13 +2400,13 @@ function TeacherShowcase({
   }), /*#__PURE__*/React.createElement(TeacherView, Object.assign({
     showcaseFixedTab: "schedule"
   }, teacherViewProps))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
-    note: TEACHER_SHOWCASE_NOTES[2]
+    note: TEACHER_SHOWCASE_NOTES[1]
   }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
-    icon: "fa-check-square",
-    label: "Доступность",
+    icon: "fa-users",
+    label: "Группы в карточках",
     meta: teacher ? `· ${teacher.surname}` : null
   }), /*#__PURE__*/React.createElement(TeacherView, Object.assign({
-    showcaseFixedTab: "availability"
+    showcaseFixedTab: "schedule"
   }, teacherViewProps))));
 }
 function AdminShowcase({
