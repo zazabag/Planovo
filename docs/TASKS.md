@@ -17,6 +17,7 @@
 | TASK-9 | Лендинг: демо-ссылки, секция «Процесс», фиксы формы | zazabag | `fix/zazabag/landing-demo-process` | done | [#6](https://github.com/zazabag/Planovo/pull/6) | demo href, process-scroll, favicon |
 | TASK-10 | Бренд-логотип, фон лендинга, glow «Проблема», mockup | zazabag | `feature/zazabag/brand-logo-landing` | done | [#7](https://github.com/zazabag/Planovo/pull/7) | logo.png 60px, landing-background, problem-aura |
 | TASK-11 | Мобильный лендинг — отдельный компактный дизайн | zazabag | `feature/zazabag/mobile-landing-layout` | done | [#9](https://github.com/zazabag/Planovo/pull/9) | site-mobile-landing.css, process-stack, RESPONSIVE §4.0 |
+| TASK-12 | Мобильный лендинг v2 (skills, карусели, touch) | zazabag | `feature/zazabag/mobile-landing-v2` | review | — | skills README, site-mobile-landing v2 |
 
 ## Как добавить задачу
 

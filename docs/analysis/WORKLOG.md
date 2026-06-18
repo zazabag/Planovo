@@ -1,7 +1,20 @@
 # Planovo Demo — Work Log
 
 ---
-Task ID: 11
+Task ID: 12
+Agent: Cursor
+Task: Мобильный лендинг v2 — skills с GitHub, карусели, touch
+
+Work Log:
+- Скачаны skills: responsive-design, mobile-design, responsive-testing, web-design-guidelines → `.cursor/skills/`
+- Пересобран `site-mobile-landing.css`: clamp-типографика, 8px grid, touch 44px, safe-area
+- Проблема — list rows; ниши/демо — horizontal scroll-snap; hero left-aligned
+- Десктоп не тронут; docs RESPONSIVE §4.0, UPDATE-LOG, skills README
+
+Stage Summary:
+- Мобильный UI по best practices из community skills, отдельно от десктопа
+
+---
 Agent: Cursor
 Task: Мобильный лендинг — отдельный компактный дизайн (не scaled desktop)
 
