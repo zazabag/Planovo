@@ -1,5 +1,22 @@
 # Журнал обновлений — Планово
 
+## Обновление от 18 июня 2026
+
+### Секция «Процесс» — scroll-таймлайн (пересборка)
+
+- `assets/process-scroll.js` + `assets/process-scroll.css` — пересобрано по паттерну **scroll-storyteller** (draw-path + scrub)
+- Органическая SVG-кривая (Catmull-Rom) через центры badge шагов; glow-слой и узлы на каждом шаге
+- Прогресс линии привязан к прохождению блока через viewport (аналог ScrollTrigger `scrub`), плавная интерполяция точки
+- Карточки шагов: reveal при скролле, активный шаг с пульсом кольца, пройденные — галочка
+- Фон секции: мягкий градиент и рамка canvas
+
+### Кнопки «Попробовать демо» на лендинге
+
+- В `index.html` кнопки `.demo-card-btn` заменены на `<a href="education.html|sports.html|clubs.html">` — работают без JS
+- `scripts/patch-index-legal.js` — тот же патч при пересборке index
+- `assets/demo-nav-fallback.js` — запасной перехват кликов до React `setView`
+- `assets/site-legal.js` — `data-demo-key`, ссылки в футере «Ниши» → standalone-демо
+
 ## Обновление от 16 июня 2026
 
 ### Мобильная адаптация сайта

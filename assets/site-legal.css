@@ -290,6 +290,32 @@
   transform: none;
 }
 
+/* Demo cards — compact (title + button only); lists hidden without DOM removal (React-safe) */
+section#demos .demo-card-features {
+  display: none !important;
+}
+
+.demos-grid .demo-card-header {
+  margin-bottom: 28px;
+}
+
+.demos-grid .demo-card-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+}
+
+.demos-grid .demo-card-btn {
+  margin-top: auto;
+}
+
+.demos-grid a.demo-card-btn {
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
 .lead-form-message {
   display: none;
   padding: 14px 16px;

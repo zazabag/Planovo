@@ -189,63 +189,208 @@
   }
 
   var DEMO_PAGE_URLS = ["education.html", "sports.html", "clubs.html"];
+  var DEMO_KEYS = ["education", "sports", "clubs"];
   var demoCaptureInstalled = false;
+  var demoGridObserver = null;
 
   function getDemoPageUrl(index) {
     var file = DEMO_PAGE_URLS[index];
     return file ? page(file) : null;
   }
 
-  function installDemoLinkCapture() {
-    if (demoCaptureInstalled || isDemoPage()) return;
-    demoCaptureInstalled = true;
+  function isDemoPageHref(href) {
+    if (!href || href === "#") return false;
+    if (/^javascript:/i.test(href)) return false;
+    return /\/(education|sports|clubs)\.html(?:$|[?#])/i.test(href);
+  }
 
-    document.addEventListener(
-      "click",
-      function (e) {
-        var btn = e.target.closest(".demo-card-btn");
-        if (!btn) return;
-        if (!btn.closest(".demos-grid")) return;
+  function getDemoUrlFromCard(card) {
+    if (!card) return null;
 
-        var card = btn.closest(".demo-card");
-        if (!card) return;
+    var key = card.getAttribute("data-demo-key");
+    if (key) {
+      var i = DEMO_KEYS.indexOf(key);
+      if (i >= 0) return getDemoPageUrl(i);
+    }
 
-        var cards = card.parentNode ? card.parentNode.querySelectorAll(".demo-card") : [];
-        var index = Array.prototype.indexOf.call(cards, card);
-        var url = getDemoPageUrl(index);
-        if (!url) return;
+    var grid = card.closest(".demos-grid");
+    var cards = grid ? grid.querySelectorAll(".demo-card") : [];
+    var index = Array.prototype.indexOf.call(cards, card);
+    return getDemoPageUrl(index);
+  }
 
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.location.assign(url);
-      },
-      true
-    );
+  function resolveDemoNavUrl(btn, card) {
+    if (!card) return null;
+
+    var hrefAttr = btn && btn.getAttribute ? btn.getAttribute("href") : "";
+    if (btn && btn.tagName === "A" && isDemoPageHref(hrefAttr)) {
+      return hrefAttr;
+    }
+
+    return getDemoUrlFromCard(card);
   }
 
   function wireDemoCardLinks() {
-    if (isDemoPage()) return;
-
     var grid = document.querySelector(".demos-grid");
     if (!grid) return;
 
     grid.querySelectorAll(".demo-card").forEach(function (card, index) {
-      var url = getDemoPageUrl(index);
-      if (!url) return;
+      var key = DEMO_KEYS[index];
+      if (key) card.setAttribute("data-demo-key", key);
 
       var btn = card.querySelector(".demo-card-btn");
       if (!btn) return;
 
-      if (btn.tagName === "A" && btn.getAttribute("href") === url) return;
+      var href = getDemoPageUrl(index);
+      if (!href) return;
+
+      if (btn.tagName === "A") {
+        btn.setAttribute("href", href);
+        if (key) btn.setAttribute("data-demo-key", key);
+        return;
+      }
 
       var link = document.createElement("a");
       link.className = btn.className;
-      link.href = url;
-      link.innerHTML = btn.innerHTML;
+      link.href = href;
+      if (key) link.setAttribute("data-demo-key", key);
       var style = btn.getAttribute("style");
       if (style) link.setAttribute("style", style);
-      btn.replaceWith(link);
+      link.innerHTML = btn.innerHTML;
+      btn.parentNode.replaceChild(link, btn);
     });
+  }
+
+  function wireFooterDemoLinks() {
+    var footer = document.querySelector("footer.landing-footer");
+    if (!footer) return;
+
+    footer.querySelectorAll('a[href="#demos"]').forEach(function (a) {
+      var text = (a.textContent || "").trim();
+      var key = null;
+      if (/учебн/i.test(text)) key = "education";
+      else if (/спорт/i.test(text)) key = "sports";
+      else if (/клуб/i.test(text)) key = "clubs";
+      if (!key) return;
+
+      var i = DEMO_KEYS.indexOf(key);
+      if (i < 0) return;
+
+      var href = getDemoPageUrl(i);
+      if (!href) return;
+
+      a.setAttribute("href", href);
+      a.setAttribute("data-demo-key", key);
+    });
+  }
+
+  function watchDemoGrid() {
+    var grid = document.querySelector(".demos-grid");
+    if (!grid) return;
+
+    wireDemoCardLinks();
+
+    if (demoGridObserver) return;
+
+    demoGridObserver = new MutationObserver(function () {
+      if (grid.querySelector("button.demo-card-btn")) {
+        wireDemoCardLinks();
+      }
+    });
+    demoGridObserver.observe(grid, { childList: true, subtree: true });
+  }
+
+  function handleDemoNavClick(e) {
+    var btn = e.target.closest(".demo-card-btn");
+    var footerLink = e.target.closest("footer.landing-footer a[data-demo-key]");
+
+    if (footerLink && footerLink.closest(".demos-grid") === null) {
+      var footerKey = footerLink.getAttribute("data-demo-key");
+      var footerIndex = DEMO_KEYS.indexOf(footerKey);
+      var footerUrl =
+        footerIndex >= 0
+          ? getDemoPageUrl(footerIndex)
+          : resolveDemoNavUrl(footerLink, null);
+      if (!footerUrl) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      window.location.assign(footerUrl);
+      return;
+    }
+
+    if (!btn || !btn.closest(".demos-grid")) return;
+
+    var card = btn.closest(".demo-card");
+    if (!card) return;
+
+    var url = resolveDemoNavUrl(btn, card);
+    if (!url) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    window.location.assign(url);
+  }
+
+  function installDemoLinkCapture() {
+    if (demoCaptureInstalled || isDemoPage()) return;
+    demoCaptureInstalled = true;
+
+    /* capture + bubble — иначе React (bubble на root) всё равно вызывает setView */
+    document.addEventListener("click", handleDemoNavClick, true);
+    document.addEventListener("click", handleDemoNavClick, false);
+  }
+
+  function simplifyDemosSection() {
+    var section = document.querySelector("section.demos#demos, section#demos");
+    if (!section) return false;
+
+    var tag = section.querySelector(".section-header .section-tag");
+    if (tag) tag.textContent = "Демо";
+
+    var title = section.querySelector(".section-header .section-title");
+    if (title) {
+      title.innerHTML =
+        'Попробуйте <span class="gradient-text">интерактивное демо</span>';
+    }
+
+    var subtitle = section.querySelector(".section-header .section-subtitle");
+    if (subtitle) {
+      subtitle.textContent = "Чтобы увидеть, как Планово работает изнутри.";
+    }
+
+    /* Списки скрыты через CSS — не удаляем из DOM (иначе ломается React) */
+    return true;
+  }
+
+  var demosCopyPatchTimer = null;
+  var demosCopyPatchAttempts = 0;
+  var demosCopyPatchStarted = false;
+
+  function scheduleDemosCopyPatch() {
+    if (demosCopyPatchAttempts > 8) return;
+    demosCopyPatchAttempts += 1;
+    simplifyDemosSection();
+    var subtitle = document.querySelector("section#demos .section-subtitle");
+    if (
+      subtitle &&
+      subtitle.textContent.indexOf("Чтобы увидеть") !== -1
+    ) {
+      return;
+    }
+    demosCopyPatchTimer = setTimeout(scheduleDemosCopyPatch, 900);
+  }
+
+  function startDemosCopyPatchAfterHydration() {
+    if (demosCopyPatchStarted) return;
+    demosCopyPatchStarted = true;
+    demosCopyPatchAttempts = 0;
+    if (demosCopyPatchTimer) clearTimeout(demosCopyPatchTimer);
+    setTimeout(scheduleDemosCopyPatch, 800);
+    setTimeout(scheduleDemosCopyPatch, 2200);
+    setTimeout(scheduleDemosCopyPatch, 4500);
   }
 
   function upgradeLeadContacts() {
@@ -275,13 +420,153 @@
     }
   }
 
+  var mockupInitScheduled = false;
+
+  function scheduleMockupInit() {
+    if (mockupInitScheduled) return;
+    mockupInitScheduled = true;
+
+    function run() {
+      if (window.PlanovoLandingMockup) {
+        try {
+          window.PlanovoLandingMockup.init();
+        } catch (e) {
+          /* ignore */
+        }
+      }
+    }
+
+    if (document.readyState === "complete") {
+      setTimeout(run, 500);
+    } else {
+      window.addEventListener(
+        "load",
+        function () {
+          setTimeout(run, 500);
+        },
+        { once: true }
+      );
+    }
+  }
+
+  function ensureLandingMockupAssets() {
+    if (isDemoPage()) return;
+
+    var cssHref = asset("assets/landing-mockup.css");
+    if (!document.querySelector('link[href*="landing-mockup.css"]')) {
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = cssHref;
+      document.head.appendChild(link);
+    }
+
+    if (window.PlanovoLandingMockup) {
+      scheduleMockupInit();
+      return;
+    }
+
+    if (document.querySelector('script[src*="landing-mockup.js"]')) return;
+
+    var script = document.createElement("script");
+    script.src = asset("assets/landing-mockup.js");
+    script.async = true;
+    script.onload = function () {
+      scheduleMockupInit();
+    };
+    document.body.appendChild(script);
+  }
+
+  var processInitScheduled = false;
+  var processLazyBound = false;
+
+  function runProcessInit() {
+    if (processInitScheduled) return;
+    if (!window.PlanovoProcessScroll) return;
+    processInitScheduled = true;
+    try {
+      window.PlanovoProcessScroll.init();
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function loadProcessScript() {
+    if (window.PlanovoProcessScroll) {
+      runProcessInit();
+      return;
+    }
+    var existing = document.querySelector('script[src*="process-scroll.js"]');
+    if (existing) {
+      if (window.PlanovoProcessScroll) {
+        runProcessInit();
+      } else {
+        existing.addEventListener("load", runProcessInit, { once: true });
+      }
+      return;
+    }
+
+    var script = document.createElement("script");
+    script.src = asset("assets/process-scroll.js");
+    script.async = true;
+    script.onload = runProcessInit;
+    document.body.appendChild(script);
+  }
+
+  function scheduleProcessInit() {
+    if (processLazyBound) return;
+    processLazyBound = true;
+
+    function bindLazy() {
+      var target = document.querySelector(".how-it-works");
+      if (!target) return;
+
+      if (typeof IntersectionObserver === "undefined") {
+        setTimeout(loadProcessScript, 400);
+        return;
+      }
+
+      var io = new IntersectionObserver(
+        function (entries) {
+          if (!entries[0].isIntersecting) return;
+          io.disconnect();
+          loadProcessScript();
+        },
+        { rootMargin: "280px 0px", threshold: 0 }
+      );
+      io.observe(target);
+    }
+
+    if (document.readyState === "complete") {
+      bindLazy();
+    } else {
+      window.addEventListener("load", bindLazy, { once: true });
+    }
+  }
+
+  function ensureProcessScrollAssets() {
+    if (isDemoPage()) return;
+
+    var cssHref = asset("assets/process-scroll.css");
+    if (!document.querySelector('link[href*="process-scroll.css"]')) {
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = cssHref;
+      document.head.appendChild(link);
+    }
+
+    scheduleProcessInit();
+  }
+
   function enhanceLanding() {
     ensureLegalStyles();
+    ensureLandingMockupAssets();
+    ensureProcessScrollAssets();
     var injected = injectLeadSection();
     injectFooterLegal();
     injectNavLink();
     patchFooterLinks();
-    wireDemoCardLinks();
+    watchDemoGrid();
+    wireFooterDemoLinks();
     upgradeLeadContacts();
     if (injected || document.getElementById("planovoLeadForm")) {
       initLeadForm();
@@ -301,17 +586,25 @@
         activateLeadSection(document.querySelector("section.lead-section#contact"));
         initLeadForm();
       }
-      wireDemoCardLinks();
+      watchDemoGrid();
+      wireFooterDemoLinks();
     });
     landingObserver.observe(landingPage, { childList: true, subtree: true });
   }
 
+  var landingEnhancementsScheduled = false;
+
   function scheduleLandingEnhancements() {
+    if (landingEnhancementsScheduled) return;
+    landingEnhancementsScheduled = true;
+
     initCookieBanner();
     enhanceLanding();
     watchLandingPage();
     watchCookieBanner();
-    [50, 200, 600, 1500, 3000].forEach(function (ms) {
+    startDemosCopyPatchAfterHydration();
+
+    [400, 1200, 2500].forEach(function (ms) {
       setTimeout(function () {
         initCookieBanner();
         enhanceLanding();
@@ -721,6 +1014,7 @@
   function boot() {
     if (isDemoPage()) return;
     installDemoLinkCapture();
+    watchDemoGrid();
     installLeadFormDelegation();
     initCookieBanner();
     scheduleLandingEnhancements();

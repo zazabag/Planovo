@@ -5,7 +5,7 @@ const indexPath = path.join(__dirname, '..', 'index.html');
 let html = fs.readFileSync(indexPath, 'utf8');
 
 const cssLink =
-  '<link rel="stylesheet" href="/Planovo/assets/site-legal.css"/><link rel="stylesheet" href="/Planovo/assets/site-mobile.css"/>';
+  '<link rel="stylesheet" href="/Planovo/assets/site-legal.css"/><link rel="stylesheet" href="/Planovo/assets/site-mobile.css"/><link rel="stylesheet" href="/Planovo/assets/process-scroll.css"/>';
 if (!html.includes('site-legal.css')) {
   html = html.replace(
     /ca02de87dd32ea73\.css" data-precedence="next"\/>/,
@@ -34,10 +34,32 @@ if (!html.includes('href="privacy.html"')) {
   );
 }
 
+const demoNavScript =
+  '<script src="/Planovo/assets/demo-nav-fallback.js"></script>';
 const legalScript =
-  '<script src="/Planovo/assets/site-legal.js"></script>';
+  demoNavScript + '<script src="/Planovo/assets/site-legal.js"></script>';
+const mockupCss =
+  '<link rel="stylesheet" href="/Planovo/assets/landing-mockup.css"/>';
+const mockupScript =
+  '<script src="/Planovo/assets/landing-mockup.js" defer></script>';
+if (!html.includes('process-scroll.css')) {
+  html = html.replace(
+    'site-mobile.css"/>',
+    'site-mobile.css"/><link rel="stylesheet" href="/Planovo/assets/process-scroll.css"/>'
+  );
+}
+
+const processScript =
+  '<script src="/Planovo/assets/process-scroll.js" defer></script>';
+if (!html.includes('process-scroll.js')) {
+  html = html.replace(
+    'landing-mockup.js" defer></script>',
+    'landing-mockup.js" defer></script>' + processScript
+  );
+}
+
 if (!html.includes('site-legal.js')) {
-  html = html.replace('</body></html>', legalScript + '</body></html>');
+  html = html.replace('</body></html>', mockupCss + mockupScript + legalScript + '</body></html>');
 }
 
 // Nav link to contact
@@ -47,6 +69,67 @@ if (!html.includes('href="#contact"')) {
     '<li><a href="#contact">Заявка</a></li><li><a href="#demos" class="nav-cta">Попробовать демо</a></li>'
   );
 }
+
+// Кнопки «Попробовать демо» → прямые ссылки на standalone-демо
+const demoButtons = [
+  { color: '#6366f1', key: 'education', href: 'education.html' },
+  { color: '#10b981', key: 'sports', href: 'sports.html' },
+  { color: '#f59e0b', key: 'clubs', href: 'clubs.html' },
+];
+
+demoButtons.forEach(function (demo) {
+  var btnOpen =
+    '<button class="demo-card-btn" style="background:linear-gradient(135deg, ' +
+    demo.color +
+    ', ' +
+    demo.color +
+    'cc)">';
+  var linkOpen =
+    '<a class="demo-card-btn" href="' +
+    demo.href +
+    '" data-demo-key="' +
+    demo.key +
+    '" style="background:linear-gradient(135deg, ' +
+    demo.color +
+    ', ' +
+    demo.color +
+    'cc)">';
+  if (html.includes(btnOpen)) {
+    html = html.replace(btnOpen, linkOpen);
+    html = html.replace(
+      new RegExp(
+        '(<a class="demo-card-btn" href="' +
+          demo.href.replace('.', '\\.') +
+          '"[\\s\\S]*?Попробовать демо[\\s\\S]*?)<\\/button>'
+      ),
+      '$1</a>'
+    );
+  }
+});
+
+// Футер: ниши → демо-страницы
+[
+  ['Учебные заведения', 'education.html', 'education'],
+  ['Спортивные секции', 'sports.html', 'sports'],
+  ['Клубы и мероприятия', 'clubs.html', 'clubs'],
+].forEach(function (row) {
+  var text = row[0];
+  var href = row[1];
+  var key = row[2];
+  html = html.replace(
+    '<a href="#demos">' + text + '</a>',
+    '<a href="' + href + '" data-demo-key="' + key + '">' + text + '</a>'
+  );
+});
+
+// Форма: телефон обязателен (как в site-legal.js)
+html = html.replace(
+  '<label for="leadPhone">Телефон</label><input type="tel" id="leadPhone" name="phone" autocomplete="tel"',
+  '<label for="leadPhone">Телефон <span class="req">*</span></label><input type="tel" id="leadPhone" name="phone" required autocomplete="tel" inputmode="tel"'
+);
+
+// Favicon для GitHub Pages (/Planovo/)
+html = html.replace('href="/logo.svg"', 'href="/Planovo/logo.svg"');
 
 fs.writeFileSync(indexPath, html, 'utf8');
 console.log('index.html patched OK');
