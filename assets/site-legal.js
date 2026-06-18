@@ -25,11 +25,20 @@
 
   function ensureLegalStyles() {
     var href = asset("assets/site-legal.css");
-    if (document.querySelector('link[href*="site-legal.css"]')) return;
-    var link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = href;
-    document.head.appendChild(link);
+    if (!document.querySelector('link[href*="site-legal.css"]')) {
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+
+    var bgHref = asset("assets/landing-background.css");
+    if (!document.querySelector('link[href*="landing-background.css"]')) {
+      var bgLink = document.createElement("link");
+      bgLink.rel = "stylesheet";
+      bgLink.href = bgHref;
+      document.head.appendChild(bgLink);
+    }
   }
 
   function getLeadSectionHTML() {
@@ -557,10 +566,108 @@
     scheduleProcessInit();
   }
 
+  function runProblemAuraInit() {
+    if (window.PlanovoProblemAura) {
+      try {
+        window.PlanovoProblemAura.init();
+      } catch (e) {
+        /* ignore */
+      }
+    }
+  }
+
+  function ensureProblemAuraAssets() {
+    if (isDemoPage()) return;
+
+    var cssHref = asset("assets/problem-aura.css");
+    if (!document.querySelector('link[href*="problem-aura.css"]')) {
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = cssHref;
+      document.head.appendChild(link);
+    }
+
+    if (window.PlanovoProblemAura) {
+      runProblemAuraInit();
+      return;
+    }
+
+    if (document.querySelector('script[src*="problem-aura.js"]')) return;
+
+    var script = document.createElement("script");
+    script.src = asset("assets/problem-aura.js");
+    script.async = true;
+    script.onload = runProblemAuraInit;
+    document.body.appendChild(script);
+  }
+
+  function upgradeLandingLogo() {
+    document.querySelectorAll(".landing-page .logo-icon").forEach(function (icon) {
+      var current = icon.querySelector("img.planovo-logo-img");
+      if (current && /logo\.png/i.test(current.getAttribute("src") || "")) return;
+
+      icon.textContent = "";
+      var img = document.createElement("img");
+      img.src = asset("logo.png");
+      img.alt = "";
+      img.className = "planovo-logo-img";
+      img.width = 60;
+      img.height = 60;
+      img.decoding = "async";
+      icon.appendChild(img);
+      icon.style.background = "transparent";
+      icon.style.boxShadow = "none";
+      icon.style.width = "60px";
+      icon.style.height = "60px";
+    });
+  }
+
+  var logoObserver = null;
+
+  function watchLandingLogo() {
+    upgradeLandingLogo();
+
+    var nav = document.querySelector(".landing-page .landing-navbar");
+    if (!nav || logoObserver) return;
+    if (typeof MutationObserver === "undefined") return;
+
+    logoObserver = new MutationObserver(function () {
+      upgradeLandingLogo();
+    });
+    logoObserver.observe(nav, { childList: true, subtree: true });
+  }
+
+  function removeHeroStats() {
+    document.querySelectorAll(".landing-page .hero-stats").forEach(function (el) {
+      el.remove();
+    });
+  }
+
+  var heroStatsObserver = null;
+
+  function watchHeroStatsRemoval() {
+    removeHeroStats();
+
+    var hero = document.querySelector(".landing-page .hero");
+    if (!hero || heroStatsObserver) return;
+
+    if (typeof MutationObserver === "undefined") return;
+
+    heroStatsObserver = new MutationObserver(function () {
+      removeHeroStats();
+    });
+    heroStatsObserver.observe(hero, { childList: true, subtree: true });
+  }
+
   function enhanceLanding() {
     ensureLegalStyles();
     ensureLandingMockupAssets();
     ensureProcessScrollAssets();
+    ensureProblemAuraAssets();
+    removeHeroStats();
+    watchHeroStatsRemoval();
+    upgradeLandingLogo();
+    watchLandingLogo();
     var injected = injectLeadSection();
     injectFooterLegal();
     injectNavLink();

@@ -1,5 +1,24 @@
 /* Planovo — mobile overrides for education / sports / clubs demos */
 
+.logo-icon .planovo-logo-img,
+.logo-icon .planovo-logo-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.logo-icon:has(.planovo-logo-img),
+.logo-icon:has(.planovo-logo-svg) {
+  width: 60px;
+  height: 60px;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
 .app-header {
   padding-top: env(safe-area-inset-top, 0);
 }
@@ -152,8 +171,8 @@ video {
   }
 
   .logo-icon {
-    width: 34px;
-    height: 34px;
+    width: 50px;
+    height: 50px;
     font-size: 15px;
   }
 }

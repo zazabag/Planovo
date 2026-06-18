@@ -2489,8 +2489,13 @@ function App() {
     className: "logo"
   }, /*#__PURE__*/React.createElement("div", {
     className: "logo-icon"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-calendar-alt"
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "logo.png",
+    alt: "",
+    className: "planovo-logo-img",
+    width: 60,
+    height: 60,
+    decoding: "async"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "logo-text"
   }, "Планово"), /*#__PURE__*/React.createElement("div", {
@@ -3114,20 +3119,18 @@ function Footer() {
       gap: 10,
       marginBottom: 12
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "logo.png",
+    alt: "",
+    className: "planovo-logo-img",
+    width: 44,
+    height: 44,
+    decoding: "async",
     style: {
-      width: 32,
-      height: 32,
-      borderRadius: 8,
-      background: 'var(--gradient-primary)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: 14
+      display: 'block',
+      objectFit: 'contain'
     }
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-calendar-alt"
-  })), /*#__PURE__*/React.createElement("span", {
+  }), /*#__PURE__*/React.createElement("span", {
     style: {
       fontWeight: 800,
       fontSize: 16,

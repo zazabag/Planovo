@@ -280,24 +280,45 @@
     updateScroll(true);
   }
 
+  function getBadgeCenterY(step) {
+    if (!step) return null;
+    var badge = step.querySelector(".process-step-badge");
+    if (!badge) return null;
+    var r = badge.getBoundingClientRect();
+    return r.top + r.height / 2;
+  }
+
   /**
-   * ScrollTrigger-style scrub: прогресс привязан к прохождению блока через viewport.
-   * start: верх wrap ≈ 78% экрана → 0; end: низ wrap ≈ 28% экрана → 1.
+   * Прогресс по позиции шагов в viewport.
+   * Линия доходит до конца раньше: когда последний шаг ещё в верхней половине экрана.
    */
   function getScrollProgress() {
-    if (!wrap) return 0;
+    if (!stepEls.length) return 0;
 
-    var rect = wrap.getBoundingClientRect();
     var vh = window.innerHeight;
-    var startLine = vh * 0.78;
-    var endLine = vh * 0.28;
-    var travel = rect.height - (endLine - startLine);
+    var firstY = getBadgeCenterY(stepEls[0]);
+    var lastY = getBadgeCenterY(stepEls[stepEls.length - 1]);
+    if (firstY == null || lastY == null) return 0;
 
-    if (travel <= 0) {
-      return rect.bottom <= endLine ? 1 : 0;
-    }
+    var startAt = vh * 0.84;
+    var finishAt = vh * 0.68;
 
-    return clamp((startLine - rect.top) / travel, 0, 1);
+    if (firstY > startAt) return 0;
+    if (lastY <= finishAt) return 1;
+
+    var stepSpan = lastY - firstY;
+    if (stepSpan <= 0) return 1;
+
+    var lastAtStart = startAt + stepSpan;
+    var range = lastAtStart - finishAt;
+    if (range <= 0) return 1;
+
+    var p = (lastAtStart - lastY) / range;
+
+    if (lastY <= vh * 0.45) return 1;
+    if (lastY <= vh * 0.58) p = Math.max(p, 0.92);
+
+    return clamp(p, 0, 1);
   }
 
   function updateActiveStep(progress) {
@@ -305,7 +326,7 @@
 
     var n = stepEls.length;
     var idx = Math.min(n - 1, Math.floor(progress * n));
-    if (progress >= 0.97) idx = n - 1;
+    if (progress >= 0.9) idx = n - 1;
 
     stepEls.forEach(function (step, i) {
       step.classList.toggle("is-active", i === idx);
@@ -355,7 +376,12 @@
     if (instant) {
       displayProgress = target;
     } else {
-      displayProgress = lerp(displayProgress, target, 0.18);
+      var ease = target > 0.8 ? 0.32 : 0.18;
+      if (target >= 0.96) {
+        displayProgress = target;
+      } else {
+        displayProgress = lerp(displayProgress, target, ease);
+      }
     }
 
     applyPathProgress(displayProgress);

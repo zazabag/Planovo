@@ -5,7 +5,7 @@ const indexPath = path.join(__dirname, '..', 'index.html');
 let html = fs.readFileSync(indexPath, 'utf8');
 
 const cssLink =
-  '<link rel="stylesheet" href="/Planovo/assets/site-legal.css"/><link rel="stylesheet" href="/Planovo/assets/site-mobile.css"/><link rel="stylesheet" href="/Planovo/assets/process-scroll.css"/>';
+  '<link rel="stylesheet" href="/Planovo/assets/site-legal.css"/><link rel="stylesheet" href="/Planovo/assets/site-mobile.css"/><link rel="stylesheet" href="/Planovo/assets/process-scroll.css"/><link rel="stylesheet" href="/Planovo/assets/problem-aura.css"/><link rel="stylesheet" href="/Planovo/assets/landing-background.css"/>';
 if (!html.includes('site-legal.css')) {
   html = html.replace(
     /ca02de87dd32ea73\.css" data-precedence="next"\/>/,
@@ -51,10 +51,37 @@ if (!html.includes('process-scroll.css')) {
 
 const processScript =
   '<script src="/Planovo/assets/process-scroll.js" defer></script>';
+const problemAuraCss =
+  '<link rel="stylesheet" href="/Planovo/assets/problem-aura.css"/>';
+const problemAuraScript =
+  '<script src="/Planovo/assets/problem-aura.js" defer></script>';
 if (!html.includes('process-scroll.js')) {
   html = html.replace(
     'landing-mockup.js" defer></script>',
     'landing-mockup.js" defer></script>' + processScript
+  );
+}
+
+if (!html.includes('problem-aura.css')) {
+  html = html.replace(
+    'process-scroll.css"/>',
+    'process-scroll.css"/>' + problemAuraCss
+  );
+}
+
+if (!html.includes('problem-aura.js')) {
+  html = html.replace(
+    'process-scroll.js" defer></script>',
+    'process-scroll.js" defer></script>' + problemAuraScript
+  );
+}
+
+const landingBackgroundCss =
+  '<link rel="stylesheet" href="/Planovo/assets/landing-background.css"/>';
+if (!html.includes('landing-background.css')) {
+  html = html.replace(
+    'problem-aura.css"/>',
+    'problem-aura.css"/>' + landingBackgroundCss
   );
 }
 
@@ -129,7 +156,24 @@ html = html.replace(
 );
 
 // Favicon для GitHub Pages (/Planovo/)
-html = html.replace('href="/logo.svg"', 'href="/Planovo/logo.svg"');
+html = html.replace('href="/logo.svg"', 'href="/Planovo/logo.png"');
+html = html.replace('href="/Planovo/logo.svg"', 'href="/Planovo/logo.png"');
+html = html.replace('href="/Planovo/logo-icon.svg"', 'href="/Planovo/logo.png"');
+
+const LOGO_ICON_IMG =
+  '<span class="logo-icon"><img src="/Planovo/logo.png" alt="" class="planovo-logo-img" width="60" height="60" decoding="async"/></span>';
+html = html.replace(
+  /<span class="logo-icon"><img src="\/Planovo\/logo-icon\.svg"[^>]*\/><\/span>/g,
+  LOGO_ICON_IMG
+);
+html = html.replace(
+  /<span class="logo-icon"><img src="\/Planovo\/logo\.png"[^>]*\/><\/span>/g,
+  LOGO_ICON_IMG
+);
+html = html.replace(/<span class="logo-icon">📅<\/span>/g, LOGO_ICON_IMG);
+
+// Hero stats (3+ ниши / 2 роли / 1 платформа) — убрано с лендинга
+html = html.replace(/<div class="hero-stats">[\s\S]*?<\/div>/, '');
 
 fs.writeFileSync(indexPath, html, 'utf8');
 console.log('index.html patched OK');
