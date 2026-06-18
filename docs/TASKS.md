@@ -19,6 +19,7 @@
 | TASK-11 | Мобильный лендинг — отдельный компактный дизайн | zazabag | `feature/zazabag/mobile-landing-layout` | done | [#9](https://github.com/zazabag/Planovo/pull/9) | site-mobile-landing.css, process-stack, RESPONSIVE §4.0 |
 | TASK-12 | Мобильный лендинг v2 (skills, карусели, touch) | zazabag | `feature/zazabag/mobile-landing-v2` | done | [#11](https://github.com/zazabag/Planovo/pull/11) | skills README, site-mobile-landing v2 |
 | TASK-13 | Fix mobile: hero overlap, process line, problem, mockup | zazabag | `fix/zazabag/mobile-layout-fixes` | done | [#13](https://github.com/zazabag/Planovo/pull/13) | hero, demos steps, process SVG, admin panel |
+| TASK-14 | Откат mobile-layout, hero-scroll, линия процесса, accent демо | zazabag | `fix/zazabag/landing-revert-process-demo` | in-progress | — | без site-mobile-landing, пункты 1/3 |
 
 ## Как добавить задачу
 
