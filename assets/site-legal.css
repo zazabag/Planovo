@@ -322,8 +322,23 @@
 }
 
 /* Demo cards — compact (title + button only); lists hidden without DOM removal (React-safe) */
+section#demos {
+  display: none !important;
+}
+
 section#demos .demo-card-features {
   display: none !important;
+}
+
+/* Niche cards — demo CTA */
+.niches-grid .niche-demo-btn {
+  margin-top: 20px;
+}
+
+.niches-grid a.niche-demo-btn {
+  text-decoration: none;
+  color: #fff;
+  box-sizing: border-box;
 }
 
 .demos-grid .demo-card-header {

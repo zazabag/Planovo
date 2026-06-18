@@ -1,5 +1,11 @@
 # Журнал обновлений — Планово
 
+## Обновление от 18 июня 2026 (ниши + accent демо)
+
+- Лендинг: кнопки **«Попробовать демо»** в карточках ниш; секция `#demos` скрыта; якоря → `#niches`
+- `assets/site-legal.js`, `scripts/patch-index-legal.js`, `assets/demo-nav-fallback.js`
+- Демо (education / sports / clubs): прозрачный accent только у **пункта 2**; пункты 1 и 3 — белый фон
+
 ## Обновление от 18 июня 2026 (откат mobile-layout + фиксы)
 
 - Отключён `site-mobile-landing.css` — лендинг на телефоне снова как в базовом бандле (до TASK-11)
