@@ -28,6 +28,8 @@
 | TASK-20 | Fix: «Процесс» — init SVG на mobile, левый рельс | zazabag | `feature/zazabag/niche-mobile-carousel` | done | [#21](https://github.com/zazabag/Planovo/pull/21) | self-boot, tryProcessInit |
 | TASK-21 | Fix: карусель ниш (2/3 slide) + анимация линии процесса | zazabag | `fix/zazabag/niche-carousel-process-regression` | done | [#22](https://github.com/zazabag/Planovo/pull/22) | px translate, badge scroll |
 | TASK-22 | Revert: линия «Процесс» — визуал/анимация как PR #20 | zazabag | `fix/zazabag/process-line-revert-pr20` | done | [#23](https://github.com/zazabag/Planovo/pull/23) | SVG под карточками |
+| TASK-23 | Новый бренд-логотип (календарь + процесс) | zazabag | — | done | — | logo-source.png → logo.png |
+| TASK-24 | Деплой planovo.pro: legal, favicon, контакты, скрипты | zazabag | `feature/zazabag/planovo-pro-deploy` | in-progress | — | Reg.ru, HTTPS, ИП реквизиты |
 
 ## Как добавить задачу
 

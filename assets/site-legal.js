@@ -4,6 +4,8 @@
   var CONSENT_KEY = "planovo_cookie_consent";
   var CONSENT_VERSION = "1";
   var LEADS_KEY = "planovo_leads";
+  var TELEGRAM_URL = "https://t.me/planovoo";
+  var CONTACT_EMAIL = "an.shpar@mail.ru";
   var landingObserver = null;
 
   function getBase() {
@@ -85,8 +87,8 @@
       '<h2 class="section-title">Обсудим ваш <span class="gradient-text">проект</span></h2>' +
       '<p class="lead-intro-text">Оставьте заявку — расскажем, как Планово закроет боли с расписанием в вашей нише. Без шаблонных решений, только под ваш бизнес.</p>' +
       '<div class="lead-contacts-mini cta-buttons">' +
-      '<a href="https://t.me/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">✈️ Написать в Telegram</a>' +
-      '<a href="mailto:hello@planovo.ru" class="btn btn-secondary">✉️ hello@planovo.ru</a>' +
+      '<a href="' + TELEGRAM_URL + '" class="btn btn-primary" target="_blank" rel="noopener noreferrer">✈️ Написать в Telegram</a>' +
+      '<a href="mailto:' + CONTACT_EMAIL + '" class="btn btn-secondary">✉️ ' + CONTACT_EMAIL + '</a>' +
       "</div></div>" +
       '<div class="lead-form-card"><h3>Заявка на консультацию</h3>' +
       "<p>Заполните форму — ответим в течение рабочего дня.</p>" +
@@ -218,6 +220,17 @@
       li.appendChild(a);
       list.appendChild(li);
     });
+  }
+
+  function injectFooterRequisites() {
+    var bottom = document.querySelector(".landing-footer .footer-bottom");
+    if (!bottom || bottom.querySelector(".footer-requisites")) return;
+
+    var p = document.createElement("p");
+    p.className = "footer-requisites";
+    p.textContent =
+      "ИП Шпарага Андрей Дмитриевич · ИНН 781457531980 · ОГРНИП 326784700129638";
+    bottom.appendChild(p);
   }
 
   function injectNavLink() {
@@ -727,6 +740,7 @@
     var email = mini.querySelector('a[href^="mailto:"]');
 
     if (telegram) {
+      telegram.href = TELEGRAM_URL;
       telegram.className = "btn btn-primary";
       telegram.textContent = "✈️ Написать в Telegram";
       if (!telegram.getAttribute("rel")) {
@@ -735,8 +749,9 @@
     }
 
     if (email) {
+      email.href = "mailto:" + CONTACT_EMAIL;
       email.className = "btn btn-secondary";
-      email.textContent = "✉️ hello@planovo.ru";
+      email.textContent = "✉️ " + CONTACT_EMAIL;
     }
 
     if (telegram && email && telegram.compareDocumentPosition(email) & Node.DOCUMENT_POSITION_FOLLOWING) {
@@ -930,6 +945,22 @@
     document.body.appendChild(script);
   }
 
+  function syncFavicon() {
+    var href = asset("favicon-32.png");
+    document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]').forEach(function (link) {
+      if (link.getAttribute("href") !== href) link.setAttribute("href", href);
+      if (!link.getAttribute("type")) link.setAttribute("type", "image/png");
+    });
+    if (!document.querySelector('link[rel="icon"]')) {
+      var link = document.createElement("link");
+      link.rel = "icon";
+      link.type = "image/png";
+      link.sizes = "32x32";
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  }
+
   function upgradeLandingLogo() {
     document.querySelectorAll(".landing-page .logo-icon").forEach(function (icon) {
       var current = icon.querySelector("img.planovo-logo-img");
@@ -998,10 +1029,14 @@
     watchHeroStatsRemoval();
     upgradeLandingLogo();
     watchLandingLogo();
+    syncFavicon();
     var injected = injectLeadSection();
     injectFooterLegal();
+    injectFooterRequisites();
     injectNavLink();
     patchFooterLinks();
+    patchTelegramLinks();
+    patchContactEmail();
     watchDemoGrid();
     watchNicheDemoButtons();
     wireFooterDemoLinks();
@@ -1333,7 +1368,7 @@
         .catch(function () {
           showLeadFormMessage(
             "error",
-            "Не удалось отправить заявку автоматически. Напишите нам на hello@planovo.ru — мы на связи."
+            "Не удалось отправить заявку автоматически. Напишите нам на " + CONTACT_EMAIL + " — мы на связи."
           );
           if (submitBtn) {
             submitBtn.disabled = !consent.checked;
@@ -1363,7 +1398,7 @@
 
     onSuccess();
 
-    var mailto = "mailto:hello@planovo.ru?subject=" + subject + "&body=" + body;
+    var mailto = "mailto:" + CONTACT_EMAIL + "?subject=" + subject + "&body=" + body;
     var opened = false;
     try {
       var a = document.createElement("a");
@@ -1380,7 +1415,7 @@
     if (!opened) {
       showLeadFormMessage(
         "success",
-        "Заявка сохранена. Если почтовый клиент не открылся — напишите на hello@planovo.ru с темой «Заявка с сайта»."
+        "Заявка сохранена. Если почтовый клиент не открылся — напишите на " + CONTACT_EMAIL + " с темой «Заявка с сайта»."
       );
     }
   }
@@ -1432,6 +1467,34 @@
   function initLeadForm() {
     if (!document.getElementById("planovoLeadForm")) return;
     syncLeadSubmitButton();
+  }
+
+  function patchContactEmail() {
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (a) {
+      var href = a.getAttribute("href") || "";
+      if (href.indexOf("hello@planovo") !== -1) {
+        a.href = href.replace(/hello@planovo\.ru/g, CONTACT_EMAIL);
+      }
+      if (a.textContent.indexOf("hello@planovo") !== -1) {
+        a.textContent = a.textContent.replace(/hello@planovo\.ru/g, CONTACT_EMAIL);
+      }
+    });
+    document.querySelectorAll("footer.landing-footer a[href^='mailto:']").forEach(function (a) {
+      var q = (a.getAttribute("href") || "").indexOf("?");
+      var suffix = q >= 0 ? a.getAttribute("href").slice(q) : "";
+      a.href = "mailto:" + CONTACT_EMAIL + suffix;
+      if (!a.textContent.trim() || /hello@planovo|✉️/.test(a.textContent)) {
+        a.textContent = CONTACT_EMAIL;
+      }
+    });
+  }
+
+  function patchTelegramLinks() {
+    document.querySelectorAll('a[href*="t.me"]').forEach(function (a) {
+      a.href = TELEGRAM_URL;
+      if (!a.getAttribute("target")) a.setAttribute("target", "_blank");
+      if (!a.getAttribute("rel")) a.setAttribute("rel", "noopener noreferrer");
+    });
   }
 
   function patchFooterLinks() {
