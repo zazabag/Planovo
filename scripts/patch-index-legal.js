@@ -96,6 +96,16 @@ if (!html.includes('site-legal.js')) {
   html = html.replace('</body></html>', mockupCss + mockupScript + legalScript + '</body></html>');
 }
 
+const reviewPreviewAssets =
+  '<link rel="stylesheet" href="/Planovo/assets/landing-review-preview.css"/>' +
+  '<script src="/Planovo/assets/landing-review-preview.js" defer></script>';
+if (!html.includes('landing-review-preview.css')) {
+  html = html.replace(
+    'landing-mockup.css"/>',
+    'landing-mockup.css"/>' + reviewPreviewAssets
+  );
+}
+
 // Nav link to contact
 if (!html.includes('href="#contact"')) {
   html = html.replace(
