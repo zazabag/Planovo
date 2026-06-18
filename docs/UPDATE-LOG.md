@@ -1,5 +1,17 @@
 # Журнал обновлений — Планово
 
+## Обновление от 18 июня 2026 (мобильный лендинг v2 — skills)
+
+### Пересборка по GitHub skills
+
+Скачаны skills в `.cursor/skills/`: `responsive-design`, `mobile-design`, `responsive-testing`, `web-design-guidelines` (см. README).
+
+- `site-mobile-landing.css` — **v2**: 8px-сетка, `clamp()` типографика, touch ≥44px
+- **Проблема** — list-in-card (строки с разделителями)
+- **Ниши / демо** — горизонтальные snap-карусели вместо столбика
+- **Hero** — выравнивание влево, safe-area, полноширинные CTA
+- Десктоп **не изменён** — только `media="(max-width: 768px)"`
+
 ## Обновление от 18 июня 2026 (мобильный лендинг)
 
 ### Отдельный дизайн для телефона (≤768px)

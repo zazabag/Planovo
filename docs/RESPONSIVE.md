@@ -95,13 +95,14 @@
 
 ## 4.0 Мобильный лендинг — отдельный layout (≤768px)
 
-> **TASK-11.** На телефоне не используется уменьшенная копия десктопа. Подключается отдельный CSS с `media="(max-width: 768px)"`; на `.landing-page` вешается класс `.mobile-layout` (`site-legal.js` → `syncMobileLandingLayout()`).
+> **TASK-11 / TASK-12.** На телефоне не используется уменьшенная копия десктопа. Подключается отдельный CSS с `media="(max-width: 768px)"`; на `.landing-page` вешается класс `.mobile-layout` (`site-legal.js` → `syncMobileLandingLayout()`).
 
 ### Файлы
 
 | Файл | Назначение |
 |------|------------|
-| `assets/site-mobile-landing.css` | Компактная типографика, сетки, отступы секций |
+| `assets/site-mobile-landing.css` | Mobile-only layout v2: tokens, carousels, touch |
+| `.cursor/skills/README.md` | Скачанные GitHub skills для responsive/mobile |
 | `assets/site-legal.js` | Инъекция CSS + класс `.mobile-layout` по `matchMedia` |
 | `assets/process-scroll.js` | Режим `process-stack` — вертикальный стек без SVG-таймлайна |
 | `assets/process-scroll.css` | Стили `.process-stack` для шагов в ряд (badge + текст) |
@@ -118,15 +119,18 @@
 | `.features-grid` | 1 колонка | **2 колонки** мини-карточек (1 колонка на ≤380px) |
 | `.how-it-works` | SVG-таймлайн, min-height ~1240px | **`process-stack`**: колонка, без SVG, min-height 0 |
 | `.mockup-container` | полная высота | **max-height 210px**, sidebar скрыт |
-| `.demos-grid .demo-card-body` | min-height 220px | **min-height 0**, padding 12px |
-| Nav / logo | 72px / 60px | **52px** / **40px** |
+| `.demos-grid .demo-card-body` | min-height 220px | **min-height 0**, snap-карусель |
+| Ниши / демо | 1 колонка | **Горизонтальный scroll-snap** (~78–84vw на карточку) |
+| Touch | — | **≥44px** на кнопках, nav, полях формы |
+| Nav / logo | 72px / 60px | **~48px** nav / **36px** logo, safe-area |
 
 ### Тест на мобильном
 
 1. DevTools → 390×844, hard refresh.
 2. На `<html>` или `.landing-page` есть класс `planovo-mobile` / `mobile-layout`.
 3. Секция «Процесс» — четыре компактные карточки подряд, без длинного пустого скролла.
-4. «Проблема» — три узкие строки, не квадратные плитки.
+4. «Проблема» — три узкие строки в одном блоке; «Ниши»/«Демо» — свайп вбок.
+5. Cursor skills: `.cursor/skills/README.md` (responsive-design, mobile-design, …).
 
 ---
 
@@ -205,6 +209,8 @@
 | **≥769px** | Canvas ~920px; 4 шага в разных углах (zigzag); длинная SVG-кривая + декоративные ответвления |
 | **≤768px** (бандл) | Canvas ~1180px; шаги смещены влево/вправо по очереди; упрощённые ответвления |
 | **≤768px** (`.mobile-layout`) | **`process-stack`**: статичная колонка, SVG скрыт, шаги в одну линию (badge + текст) |
+| **≤768px** (`.mobile-layout`) | Ниши и демо — **горизонтальный snap-scroll** (карусель), не столбик полноширинных карточек |
+| **≤768px** (`.mobile-layout`) | Проблема — **список-строки** в одной рамке; touch targets ≥44px |
 
 Scroll-анимация: `assets/process-scroll.js` — на десктопе Catmull-Rom сплайн; на мобильном stack-режим без draw-path.
 
