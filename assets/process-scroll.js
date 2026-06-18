@@ -317,29 +317,9 @@
   }
 
   /**
-   * Прогресс по позиции шагов в viewport.
-   * Линия доходит до конца раньше: когда последний шаг ещё в верхней половине экрана.
+   * Прогресс по позиции badge шагов в viewport (работает и на mobile stack).
    */
-  function getScrollProgressMobile() {
-    if (!wrap) return 0;
-
-    var rect = wrap.getBoundingClientRect();
-    var vh = window.innerHeight;
-    var startLine = vh * 0.9;
-    var endLine = vh * 0.28;
-
-    if (rect.top >= startLine) return 0;
-    if (rect.bottom <= endLine) return 1;
-
-    var span = startLine - endLine;
-    if (span <= 0) return 1;
-
-    return clamp((startLine - rect.top) / span, 0, 1);
-  }
-
   function getScrollProgress() {
-    if (isMobile()) return getScrollProgressMobile();
-
     if (!stepEls.length) return 0;
 
     var vh = window.innerHeight;
@@ -347,8 +327,8 @@
     var lastY = getBadgeCenterY(stepEls[stepEls.length - 1]);
     if (firstY == null || lastY == null) return 0;
 
-    var startAt = vh * 0.84;
-    var finishAt = vh * 0.68;
+    var startAt = isMobile() ? vh * 0.88 : vh * 0.84;
+    var finishAt = isMobile() ? vh * 0.38 : vh * 0.68;
 
     if (firstY > startAt) return 0;
     if (lastY <= finishAt) return 1;
@@ -545,7 +525,11 @@
     if (!stepsRoot || !stepsRoot.querySelector(".step")) return;
 
     if (section.dataset.processReady === "1") {
-      if (section.querySelector(".process-timeline-wrap")) return;
+      if (section.querySelector(".process-timeline-wrap")) {
+        rebuildPath();
+        updateScroll(false);
+        return;
+      }
       section.dataset.processReady = "";
     }
 
