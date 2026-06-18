@@ -203,9 +203,33 @@
   }
 
   function applyStepLayout() {
-    var layout = isMobile() ? LAYOUT.mobile : LAYOUT.desktop;
+    if (isMobile()) {
+      stepSlots.forEach(function (slot) {
+        slot.style.position = "";
+        slot.style.top = "";
+        slot.style.left = "";
+        slot.style.right = "";
+        slot.style.bottom = "";
+        slot.style.width = "";
+        slot.style.marginBottom = "";
+      });
+      if (wrap) {
+        wrap.classList.add("process-timeline-stack");
+        wrap.style.minHeight = "";
+      }
+      return;
+    }
+
+    if (wrap) {
+      wrap.classList.remove("process-timeline-stack");
+      wrap.style.minHeight = "";
+    }
+
+    var layout = LAYOUT.desktop;
     stepSlots.forEach(function (slot, i) {
       var pos = layout[i] || layout[layout.length - 1];
+      slot.style.position = "absolute";
+      slot.style.marginBottom = "";
       slot.style.top = pos.top || "auto";
       slot.style.left = pos.left || "auto";
       slot.style.right = pos.right || "auto";

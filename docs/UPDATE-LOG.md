@@ -1,5 +1,11 @@
 # Журнал обновлений — Планово
 
+## Обновление от 18 июня 2026 (mobile UI fixes — TASK-18)
+
+- **Проблема:** `overflow: visible` на секции/гриде; z-index для hot-карточки; аура первой/последней строки без обрезки (`problem-aura.css`, `site-mobile-landing.css`, `site-mobile.css`)
+- **Демо (mockup):** все 5 вкладок — горизонтальный скролл с snap на ≤768px (`landing-mockup.css`, fallback в `site-mobile.css`)
+- **Процесс:** вертикальный стек шагов вместо absolute %; SVG-линия по badge при скролле (`process-scroll.js`, `process-scroll.css`)
+
 ## Обновление от 18 июня 2026 (мобильный лендинг v3 — compact)
 
 - Восстановлен **`.mobile-layout`**: `site-mobile-landing.css` + `syncMobileLandingLayout()` в `site-legal.js`

@@ -413,15 +413,39 @@
   .mockup-container.mockup-interactive .mockup-body {
     height: auto;
     min-height: 380px;
+    flex-direction: column;
+    overflow: visible;
   }
 
   .mockup-container.mockup-interactive .mockup-sidebar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100% !important;
+    max-width: 100%;
     flex-shrink: 0;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .mockup-container.mockup-interactive .mockup-sidebar::-webkit-scrollbar {
+    display: none;
   }
 
   .mockup-container.mockup-interactive .mockup-nav-item {
+    flex: 0 0 auto;
+    width: auto !important;
     min-height: 44px;
+    padding: 8px 12px;
+    white-space: nowrap;
     touch-action: manipulation;
+    scroll-snap-align: start;
   }
 
   .mockup-container.mockup-interactive .mockup-btn {
