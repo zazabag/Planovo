@@ -16,7 +16,7 @@
 | TASK-8 | Документация: адаптивный интерфейс (RESPONSIVE.md) | Owl-14 | `docs/Owl-14/responsive-spec` | done | [#5](https://github.com/zazabag/Planovo/pull/5) | брейкпоинты, правила по устройствам |
 | TASK-9 | Лендинг: демо-ссылки, секция «Процесс», фиксы формы | zazabag | `fix/zazabag/landing-demo-process` | done | [#6](https://github.com/zazabag/Planovo/pull/6) | demo href, process-scroll, favicon |
 | TASK-10 | Бренд-логотип, фон лендинга, glow «Проблема», mockup | zazabag | `feature/zazabag/brand-logo-landing` | done | [#7](https://github.com/zazabag/Planovo/pull/7) | logo.png 60px, landing-background, problem-aura |
-| TASK-11 | Мобильный лендинг — отдельный компактный дизайн | zazabag | `feature/zazabag/mobile-landing-layout` | review | — | site-mobile-landing.css, process-stack, RESPONSIVE §4.0 |
+| TASK-11 | Мобильный лендинг — отдельный компактный дизайн | zazabag | `feature/zazabag/mobile-landing-layout` | done | [#9](https://github.com/zazabag/Planovo/pull/9) | site-mobile-landing.css, process-stack, RESPONSIVE §4.0 |
 
 ## Как добавить задачу
 
