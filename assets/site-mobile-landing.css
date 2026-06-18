@@ -2,7 +2,8 @@
    Skills: responsive-design, mobile-design, web-design-guidelines, responsive-testing */
 
 @media (max-width: 768px) {
-  .landing-page.mobile-layout {
+  .landing-page.mobile-layout,
+  html.planovo-mobile .landing-page {
     /* 8px grid + touch tokens */
     --m-1: 4px;
     --m-2: 8px;
@@ -37,6 +38,18 @@
     padding-top: env(safe-area-inset-top, 0);
   }
 
+  /* Scope: mobile-layout OR planovo-mobile on html */
+  html.planovo-mobile .landing-page .logo-icon,
+  .landing-page.mobile-layout .logo-icon,
+  html.planovo-mobile .landing-page .logo-icon img,
+  .landing-page.mobile-layout .logo-icon img {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  html.planovo-mobile .landing-page .nav-container,
   .landing-page.mobile-layout .nav-container {
     height: calc(var(--m-touch) + var(--m-2));
     min-height: var(--m-touch);
@@ -45,16 +58,11 @@
   .landing-page.mobile-layout .logo-text {
     font-size: var(--m-text-base);
     font-weight: 800;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
-  .landing-page.mobile-layout .logo-icon,
-  .landing-page.mobile-layout .logo-icon img {
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px;
-    min-height: 36px;
-  }
-
+  html.planovo-mobile .landing-page .mobile-toggle,
   .landing-page.mobile-layout .mobile-toggle {
     min-width: var(--m-touch);
     min-height: var(--m-touch);
@@ -84,47 +92,66 @@
     margin-top: var(--m-2);
   }
 
-  /* —— Hero: left-aligned, content-first —— */
+  /* —— Hero: clear vertical stack, no overlap —— */
+  html.planovo-mobile .landing-page .hero,
   .landing-page.mobile-layout .hero {
     min-height: 0 !important;
-    padding: calc(var(--m-touch) + var(--m-6) + env(safe-area-inset-top, 0)) 0 var(--m-5);
+    padding: calc(52px + var(--m-6) + env(safe-area-inset-top, 0)) 0 var(--m-6);
     text-align: left;
+    overflow: visible;
+    display: block;
   }
 
+  html.planovo-mobile .landing-page .hero .landing-container,
   .landing-page.mobile-layout .hero .landing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--m-3);
     text-align: left;
+    position: relative;
+    z-index: 1;
   }
 
+  html.planovo-mobile .landing-page .hero-badge,
   .landing-page.mobile-layout .hero-badge {
     font-size: var(--m-text-xs);
     padding: var(--m-1) var(--m-3);
-    margin-bottom: var(--m-3);
+    margin: 0;
+    display: inline-flex;
+    max-width: 100%;
   }
 
+  html.planovo-mobile .landing-page .hero-title,
   .landing-page.mobile-layout .hero-title {
     font-size: var(--m-text-xl);
-    line-height: 1.15;
-    margin-bottom: var(--m-3);
+    line-height: 1.2;
+    margin: 0;
     letter-spacing: -0.02em;
     text-align: left;
+    overflow-wrap: anywhere;
+    max-width: 100%;
   }
 
+  html.planovo-mobile .landing-page .hero-subtitle,
   .landing-page.mobile-layout .hero-subtitle {
     font-size: var(--m-text-sm);
-    line-height: 1.5;
-    margin: 0 0 var(--m-4);
-    max-width: 36ch;
+    line-height: 1.55;
+    margin: 0;
+    max-width: 100%;
     text-align: left;
   }
 
+  html.planovo-mobile .landing-page .hero-buttons,
   .landing-page.mobile-layout .hero-buttons {
     flex-direction: column;
     align-items: stretch;
-    gap: var(--m-2);
-    margin-bottom: 0;
+    gap: var(--m-3);
+    margin: var(--m-2) 0 0;
     width: 100%;
   }
 
+  html.planovo-mobile .landing-page .hero-buttons .btn,
   .landing-page.mobile-layout .hero-buttons .btn {
     width: 100%;
     max-width: none;
@@ -132,6 +159,13 @@
     padding: var(--m-3) var(--m-4);
     font-size: var(--m-text-sm);
     justify-content: center;
+  }
+
+  html.planovo-mobile .landing-page .logo,
+  .landing-page.mobile-layout .logo {
+    gap: var(--m-2);
+    min-width: 0;
+    flex-shrink: 1;
   }
 
   /* —— Section rhythm —— */
@@ -177,67 +211,74 @@
     text-align: left;
   }
 
-  /* —— Problem: native list rows —— */
+  /* —— Problem: larger cards, vertical layout —— */
+  html.planovo-mobile .landing-page .problem-grid,
   .landing-page.mobile-layout .problem-grid {
     display: flex;
     flex-direction: column;
-    gap: 0;
-    border: 1px solid var(--gray-200, #e5e7eb);
-    border-radius: var(--m-radius);
-    overflow: hidden;
-    background: var(--white, #fff);
+    gap: var(--m-4);
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    background: transparent;
   }
 
+  html.planovo-mobile .landing-page .problem-card,
   .landing-page.mobile-layout .problem-card {
-    display: grid;
-    grid-template-columns: var(--m-touch) 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     gap: var(--m-3);
-    align-items: start;
-    padding: var(--m-3);
-    border-radius: 0 !important;
-    border: none !important;
-    border-bottom: 1px solid var(--gray-100, #f3f4f6) !important;
-    box-shadow: none !important;
+    padding: var(--m-4);
+    min-height: 0;
+    border-radius: var(--m-radius-lg) !important;
+    border: 1px solid var(--gray-200, #e5e7eb) !important;
+    border-bottom: 1px solid var(--gray-200, #e5e7eb) !important;
+    box-shadow: var(--shadow-sm) !important;
+    background: var(--white, #fff);
     transform: none !important;
-    min-height: var(--m-touch);
   }
 
-  .landing-page.mobile-layout .problem-card:last-child {
-    border-bottom: none !important;
-  }
-
+  html.planovo-mobile .landing-page .problem-card:hover,
   .landing-page.mobile-layout .problem-card:hover {
     transform: none !important;
-    box-shadow: none !important;
   }
 
+  html.planovo-mobile .landing-page .problem-icon,
   .landing-page.mobile-layout .problem-icon {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    font-size: 1rem;
-    border-radius: var(--m-radius-sm);
-    margin-top: 2px;
-  }
-
-  .landing-page.mobile-layout .problem-card h3 {
-    font-size: var(--m-text-sm);
-    font-weight: 700;
-    margin: 0 0 var(--m-1);
-    line-height: 1.3;
-  }
-
-  .landing-page.mobile-layout .problem-card p {
-    font-size: var(--m-text-xs);
-    line-height: 1.4;
-    color: var(--gray-500);
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    font-size: 1.25rem;
+    border-radius: var(--m-radius);
     margin: 0;
   }
 
+  html.planovo-mobile .landing-page .problem-card h3,
+  .landing-page.mobile-layout .problem-card h3 {
+    font-size: var(--m-text-base);
+    font-weight: 700;
+    margin: 0 0 var(--m-2);
+    line-height: 1.35;
+    width: 100%;
+  }
+
+  html.planovo-mobile .landing-page .problem-card p,
+  .landing-page.mobile-layout .problem-card p {
+    font-size: var(--m-text-sm);
+    line-height: 1.5;
+    color: var(--gray-600, #4b5563);
+    margin: 0;
+    width: 100%;
+  }
+
+  html.planovo-mobile .landing-page .problem.problem-aura-enhanced .problem-card::after,
   .landing-page.mobile-layout .problem.problem-aura-enhanced .problem-card::after {
-    inset: 0;
-    border-radius: 0;
-    box-shadow: inset 3px 0 0 rgba(220, 38, 38, calc(var(--card-aura, 0) * 0.9));
+    inset: -2px;
+    border-radius: calc(var(--m-radius-lg) + 2px);
+    box-shadow:
+      0 0 0 1px rgba(185, 28, 28, calc(var(--card-aura, 0) * 0.85)),
+      0 0 16px rgba(220, 38, 38, calc(var(--card-aura, 0) * 0.45));
   }
 
   /* —— Solution —— */
@@ -267,39 +308,97 @@
     min-height: var(--m-touch);
   }
 
+  html.planovo-mobile .landing-page .solution-visual,
   .landing-page.mobile-layout .solution-visual {
-    order: -1;
+    order: 0;
+    width: 100%;
+    min-width: 0;
   }
 
+  html.planovo-mobile .landing-page .mockup-container,
   .landing-page.mobile-layout .mockup-container {
-    max-height: 200px;
-    overflow: hidden;
-    border-radius: var(--m-radius);
+    max-height: none !important;
+    height: auto;
+    overflow: visible !important;
+    border-radius: var(--m-radius-lg);
     transform: none !important;
     margin: 0;
+    pointer-events: auto;
   }
 
-  .landing-page.mobile-layout .mockup-container:hover {
-    transform: none !important;
+  html.planovo-mobile .landing-page .mockup-container.mockup-interactive .mockup-body,
+  .landing-page.mobile-layout .mockup-container.mockup-interactive .mockup-body {
+    height: auto;
+    min-height: 380px;
+    flex-direction: column;
+    overflow: visible;
   }
 
+  html.planovo-mobile .landing-page .mockup-sidebar,
   .landing-page.mobile-layout .mockup-sidebar {
-    display: none !important;
-  }
-
-  .landing-page.mobile-layout .mockup-main {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100% !important;
+    max-width: 100%;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: var(--m-2);
+    gap: var(--m-2);
+    -webkit-overflow-scrolling: touch;
   }
 
+  html.planovo-mobile .landing-page .mockup-nav-item,
+  .landing-page.mobile-layout .mockup-nav-item {
+    flex: 0 0 auto;
+    min-height: var(--m-touch);
+    padding: var(--m-2) var(--m-3);
+    white-space: nowrap;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  html.planovo-mobile .landing-page .mockup-main,
+  .landing-page.mobile-layout .mockup-main {
+    padding: var(--m-3);
+    min-height: 280px;
+    overflow: visible;
+  }
+
+  html.planovo-mobile .landing-page .mockup-btn,
+  .landing-page.mobile-layout .mockup-btn {
+    min-height: 40px;
+    padding: var(--m-2) var(--m-3);
+    pointer-events: auto;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  html.planovo-mobile .landing-page .mockup-toolbar,
+  .landing-page.mobile-layout .mockup-toolbar {
+    flex-wrap: wrap;
+    gap: var(--m-2);
+  }
+
+  html.planovo-mobile .landing-page .mockup-row,
   .landing-page.mobile-layout .mockup-row {
     min-width: 0 !important;
-    grid-template-columns: 28px repeat(5, minmax(0, 1fr)) !important;
+    grid-template-columns: 32px repeat(5, minmax(0, 1fr)) !important;
   }
 
+  html.planovo-mobile .landing-page .mockup-row .cell,
   .landing-page.mobile-layout .mockup-row .cell {
-    min-height: 26px;
-    font-size: 0.48rem;
-    padding: 2px;
+    min-height: 36px;
+    font-size: 0.55rem;
+    padding: 3px;
+    pointer-events: auto;
+  }
+
+  html.planovo-mobile .landing-page .mockup-container.mockup-interactive .cell.filled,
+  .landing-page.mobile-layout .mockup-container.mockup-interactive .cell.filled {
+    cursor: pointer;
+    touch-action: manipulation;
   }
 
   /* —— Niches: horizontal snap carousel —— */
@@ -362,35 +461,53 @@
     gap: var(--m-2);
   }
 
-  /* —— Demos: snap carousel —— */
+  /* —— Demos: vertical steps with numbers —— */
+  html.planovo-mobile .landing-page .demos-grid,
   .landing-page.mobile-layout .demos-grid {
     display: flex;
-    flex-direction: row;
-    gap: var(--m-3);
+    flex-direction: column;
+    gap: var(--m-5);
     margin-top: var(--m-4) !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    padding: var(--m-1) var(--m-gutter) var(--m-3);
-    margin-left: calc(var(--m-gutter) * -1) !important;
-    margin-right: calc(var(--m-gutter) * -1) !important;
-    scrollbar-width: none;
+    overflow: visible;
+    padding: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    counter-reset: planovo-demo;
   }
 
-  .landing-page.mobile-layout .demos-grid::-webkit-scrollbar {
-    display: none;
-  }
-
+  html.planovo-mobile .landing-page .demo-card,
   .landing-page.mobile-layout .demo-card {
-    flex: 0 0 min(84vw, 300px);
-    scroll-snap-align: start;
-    border-radius: var(--m-radius);
-    box-shadow: var(--shadow-sm);
+    flex: none;
+    width: 100%;
+    scroll-snap-align: none;
+    border-radius: var(--m-radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--gray-200, #e5e7eb);
+    position: relative;
+    overflow: hidden;
   }
 
-  .landing-page.mobile-layout .demo-card:hover {
-    transform: none;
+  html.planovo-mobile .landing-page .demo-card::before,
+  .landing-page.mobile-layout .demo-card::before {
+    counter-increment: planovo-demo;
+    content: "Шаг " counter(planovo-demo);
+    display: block;
+    font-size: var(--m-text-xs);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--primary, #6366f1);
+    padding: var(--m-3) var(--m-4) 0;
+  }
+
+  html.planovo-mobile .landing-page .demo-card + .demo-card,
+  .landing-page.mobile-layout .demo-card + .demo-card {
+    margin-top: 0;
+  }
+
+  html.planovo-mobile .landing-page .demo-card-accent,
+  .landing-page.mobile-layout .demo-card-accent {
+    height: 5px;
   }
 
   .landing-page.mobile-layout .demo-card-body,
@@ -463,9 +580,27 @@
     color: var(--gray-500);
   }
 
-  /* —— Process stack —— */
+  /* —— Process: readable steps + visible timeline —— */
+  html.planovo-mobile .landing-page .how-it-works.process-enhanced .section-header,
   .landing-page.mobile-layout .how-it-works.process-enhanced .section-header {
-    margin-bottom: var(--m-3);
+    margin-bottom: var(--m-4);
+  }
+
+  html.planovo-mobile .landing-page .process-enhanced.process-stack .step-content h3,
+  .landing-page.mobile-layout .process-enhanced.process-stack .step-content h3 {
+    font-size: var(--m-text-base);
+  }
+
+  html.planovo-mobile .landing-page .process-enhanced.process-stack .step-content p,
+  .landing-page.mobile-layout .process-enhanced.process-stack .step-content p {
+    font-size: var(--m-text-sm);
+    line-height: 1.45;
+  }
+
+  html.planovo-mobile .landing-page .process-enhanced.process-stack .process-step-badge,
+  .landing-page.mobile-layout .process-enhanced.process-stack .process-step-badge {
+    width: 44px;
+    height: 44px;
   }
 
   /* —— Lead / contact —— */
