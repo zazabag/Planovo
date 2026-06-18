@@ -461,6 +461,15 @@
     gap: var(--m-2);
   }
 
+  .landing-page.mobile-layout .niches-grid .niche-demo-btn,
+  .landing-page.mobile-layout .niches-grid .demo-card-btn {
+    margin-top: var(--m-4);
+    min-height: var(--m-touch);
+    padding: var(--m-3);
+    font-size: var(--m-text-sm);
+    width: 100%;
+  }
+
   /* —— Demos: vertical steps with numbers —— */
   html.planovo-mobile .landing-page .demos-grid,
   .landing-page.mobile-layout .demos-grid {

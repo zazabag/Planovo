@@ -28,10 +28,46 @@
       var i = DEMO_KEYS.indexOf(key);
       if (i >= 0) return demoPage(DEMO_FILES[i]);
     }
-    var grid = card.closest(".demos-grid");
-    var cards = grid ? grid.querySelectorAll(".demo-card") : [];
-    var index = Array.prototype.indexOf.call(cards, card);
-    return index >= 0 && DEMO_FILES[index] ? demoPage(DEMO_FILES[index]) : "";
+    var demosGrid = card.closest(".demos-grid");
+    if (demosGrid) {
+      var demoCards = demosGrid.querySelectorAll(".demo-card");
+      var demoIndex = Array.prototype.indexOf.call(demoCards, card);
+      return demoIndex >= 0 && DEMO_FILES[demoIndex]
+        ? demoPage(DEMO_FILES[demoIndex])
+        : "";
+    }
+    var nichesGrid = card.closest(".niches-grid");
+    if (nichesGrid) {
+      var nicheCards = nichesGrid.querySelectorAll(".niche-card");
+      var nicheIndex = Array.prototype.indexOf.call(nicheCards, card);
+      return nicheIndex >= 0 && DEMO_FILES[nicheIndex]
+        ? demoPage(DEMO_FILES[nicheIndex])
+        : "";
+    }
+    return "";
+  }
+
+  function wireNicheCards() {
+    var grid = document.querySelector(".niches-grid");
+    if (!grid) return;
+
+    grid.querySelectorAll(".niche-card").forEach(function (card, index) {
+      var key = DEMO_KEYS[index];
+      if (key) card.setAttribute("data-demo-key", key);
+
+      var btn = card.querySelector(".niche-demo-btn, .demo-card-btn");
+      if (!btn) return;
+
+      var href = demoPage(DEMO_FILES[index]);
+      if (!href) return;
+
+      if (btn.tagName === "A") {
+        if (!isDemoPageHref(btn.getAttribute("href"))) {
+          btn.setAttribute("href", href);
+        }
+        if (key) btn.setAttribute("data-demo-key", key);
+      }
+    });
   }
 
   function wireCards() {
@@ -69,7 +105,22 @@
 
   function onClick(e) {
     var btn = e.target.closest(".demo-card-btn");
-    if (!btn || !btn.closest(".demos-grid")) return;
+    if (!btn) return;
+
+    var nicheCard = btn.closest(".niche-card");
+    if (nicheCard && btn.closest(".niches-grid")) {
+      var hrefAttr = btn.getAttribute("href");
+      var nicheUrl = isDemoPageHref(hrefAttr) ? hrefAttr : urlForCard(nicheCard);
+      if (!nicheUrl) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      window.location.assign(nicheUrl);
+      return;
+    }
+
+    if (!btn.closest(".demos-grid")) return;
 
     var card = btn.closest(".demo-card");
     if (!card) return;
@@ -87,14 +138,22 @@
   function boot() {
     if (/\/(education|sports|clubs)\.html$/i.test(location.pathname)) return;
     wireCards();
+    wireNicheCards();
     document.addEventListener("click", onClick, true);
     document.addEventListener("click", onClick, false);
 
-    var grid = document.querySelector(".demos-grid");
-    if (grid && typeof MutationObserver !== "undefined") {
+    var demosGrid = document.querySelector(".demos-grid");
+    if (demosGrid && typeof MutationObserver !== "undefined") {
       new MutationObserver(function () {
-        if (grid.querySelector("button.demo-card-btn")) wireCards();
-      }).observe(grid, { childList: true, subtree: true });
+        if (demosGrid.querySelector("button.demo-card-btn")) wireCards();
+      }).observe(demosGrid, { childList: true, subtree: true });
+    }
+
+    var nichesGrid = document.querySelector(".niches-grid");
+    if (nichesGrid && typeof MutationObserver !== "undefined") {
+      new MutationObserver(function () {
+        wireNicheCards();
+      }).observe(nichesGrid, { childList: true, subtree: true });
     }
   }
 

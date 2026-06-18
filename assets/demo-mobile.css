@@ -1,27 +1,90 @@
 /* Planovo — mobile overrides for education / sports / clubs demos */
 
-/* Showcase: accent blocks (points 1 and 3) */
-.showcase-block-accent .showcase-block-note {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
-  border-color: rgba(99, 102, 241, 0.32);
+/* Showcase: accent block (point 2) — theme via --primary, transparent surfaces */
+.showcase-block-accent {
+  --showcase-accent-border: color-mix(in srgb, var(--primary) 28%, var(--gray-200));
+  --showcase-accent-border-soft: color-mix(in srgb, var(--primary) 16%, var(--gray-200));
+  --showcase-accent-surface: color-mix(in srgb, var(--primary) 6%, transparent);
 }
 
+.showcase-block-accent .showcase-block-note,
 .showcase-block-accent .showcase-block-demo {
-  background: linear-gradient(180deg, rgba(99, 102, 241, 0.04) 0%, #fff 45%);
-  border-color: rgba(99, 102, 241, 0.22);
-  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.1);
+  background: transparent;
+  border-color: var(--showcase-accent-border);
+  box-shadow: none;
 }
 
 .showcase-block-accent .showcase-note-num {
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  background: var(--gradient-primary);
 }
 
 .showcase-block-accent .showcase-block-title {
-  color: var(--primary-dark, #4f46e5);
+  color: var(--primary);
 }
 
 .showcase-block-accent .showcase-block-text {
   color: var(--gray-700, #374151);
+}
+
+/* Inner demo UI (screenshots) — same transparent treatment as the comment column */
+.showcase-block-accent .showcase-block-demo :is(
+  .card,
+  .showcase-day-card,
+  .showcase-card,
+  .pair-full,
+  .pair-card,
+  .client-slot,
+  .event-full,
+  .showcase-training-card,
+  .showcase-event-card,
+  .training-card,
+  .stat-card
+) {
+  background: transparent !important;
+}
+
+.showcase-block-accent .showcase-block-demo :is(
+  .card,
+  .showcase-day-card,
+  .showcase-card,
+  .pair-full,
+  .pair-card,
+  .client-slot,
+  .event-full,
+  .showcase-training-card,
+  .showcase-event-card,
+  .training-card
+) {
+  border-color: var(--showcase-accent-border-soft);
+}
+
+.showcase-block-accent .showcase-block-demo :is(
+  .grid-header,
+  .grid-row,
+  .grid-header-cell,
+  .time-cell,
+  .day-cell
+) {
+  border-color: var(--showcase-accent-border-soft);
+}
+
+.showcase-block-accent .showcase-block-demo :is(
+  .grid-header-cell.today,
+  .day-cell.today-col,
+  .grid-row.current-slot,
+  .pair-card.now,
+  .pair-full.now
+) {
+  background: var(--showcase-accent-surface) !important;
+}
+
+.showcase-block-accent .showcase-block-demo :is(.pair-card.now, .pair-full.now) {
+  border-color: color-mix(in srgb, var(--primary) 42%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+.showcase-block-accent .showcase-block-demo .card-body {
+  background: transparent;
 }
 
 .logo-icon .planovo-logo-img,

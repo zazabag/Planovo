@@ -102,7 +102,57 @@ if (!html.includes('href="#contact"')) {
   );
 }
 
-// Кнопки «Попробовать демо» → прямые ссылки на standalone-демо
+const DEMO_BTN_ARROW =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right demo-btn-arrow" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+
+function nicheDemoBtnHtml(color, key, href) {
+  return (
+    '<a class="niche-demo-btn demo-card-btn" href="' +
+    href +
+    '" data-demo-key="' +
+    key +
+    '" style="background:linear-gradient(135deg, ' +
+    color +
+    ', ' +
+    color +
+    'cc)">Попробовать демо' +
+    DEMO_BTN_ARROW +
+    '</a>'
+  );
+}
+
+// Кнопки «Попробовать демо» в карточках ниш + подпись снизу
+[
+  ['Для: учебной части, преподавателей, студентов', '#6366f1', 'education', 'education.html'],
+  ['Для: руководителей секций, тренеров, спортсменов', '#10b981', 'sports', 'sports.html'],
+  ['Для: организаторов, администраторов, участников', '#f59e0b', 'clubs', 'clubs.html'],
+].forEach(function (row) {
+  var marker =
+    '<span class="niche-target">' + row[0] + '</span></div></div>';
+  if (!html.includes(marker)) return;
+  html = html.replace(
+    marker,
+    '<span class="niche-target">' +
+      row[0] +
+      '</span></div>' +
+      nicheDemoBtnHtml(row[1], row[2], row[3]) +
+      '</div>'
+  );
+});
+
+// Скрытая секция #demos (кнопки перенесены в ниши)
+html = html.replace(
+  /<p class="niches-demo-caption">[\s\S]*?<\/p>/g,
+  ""
+);
+if (!html.includes('id="demos" hidden')) {
+  html = html.replace(
+    '</div></div></div></section><section class="demos" id="demos">',
+    '</div></div></div></section><section class="demos" id="demos" hidden aria-hidden="true">'
+  );
+}
+
+// Кнопки «Попробовать демо» → прямые ссылки на standalone-демо (секция #demos)
 const demoButtons = [
   { color: '#6366f1', key: 'education', href: 'education.html' },
   { color: '#10b981', key: 'sports', href: 'sports.html' },
@@ -179,6 +229,9 @@ html = html.replace(/<span class="logo-icon">📅<\/span>/g, LOGO_ICON_IMG);
 
 // Hero stats (3+ ниши / 2 роли / 1 платформа) — убрано с лендинга
 html = html.replace(/<div class="hero-stats">[\s\S]*?<\/div>/, '');
+
+// Якоря «Попробовать демо» → секция ниш
+html = html.replace(/href="#demos"/g, 'href="#niches"');
 
 fs.writeFileSync(indexPath, html, 'utf8');
 console.log('index.html patched OK');

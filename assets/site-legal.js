@@ -200,8 +200,16 @@
 
   var DEMO_PAGE_URLS = ["education.html", "sports.html", "clubs.html"];
   var DEMO_KEYS = ["education", "sports", "clubs"];
+  var DEMO_BTN_ARROW =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right demo-btn-arrow" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+  var NICHE_DEMO_ROWS = [
+    { target: "Для: учебной части, преподавателей, студентов", color: "#6366f1", key: "education" },
+    { target: "Для: руководителей секций, тренеров, спортсменов", color: "#10b981", key: "sports" },
+    { target: "Для: организаторов, администраторов, участников", color: "#f59e0b", key: "clubs" },
+  ];
   var demoCaptureInstalled = false;
   var demoGridObserver = null;
+  var nicheDemoObserver = null;
 
   function getDemoPageUrl(index) {
     var file = DEMO_PAGE_URLS[index];
@@ -212,6 +220,99 @@
     if (!href || href === "#") return false;
     if (/^javascript:/i.test(href)) return false;
     return /\/(education|sports|clubs)\.html(?:$|[?#])/i.test(href);
+  }
+
+  function getDemoUrlFromNicheCard(card) {
+    if (!card) return null;
+
+    var key = card.getAttribute("data-demo-key");
+    if (key) {
+      var i = DEMO_KEYS.indexOf(key);
+      if (i >= 0) return getDemoPageUrl(i);
+    }
+
+    var grid = card.closest(".niches-grid");
+    var cards = grid ? grid.querySelectorAll(".niche-card") : [];
+    var index = Array.prototype.indexOf.call(cards, card);
+    return getDemoPageUrl(index);
+  }
+
+  function nicheDemoBtnHtml(color, key, href) {
+    return (
+      '<a class="niche-demo-btn demo-card-btn" href="' +
+      href +
+      '" data-demo-key="' +
+      key +
+      '" style="background:linear-gradient(135deg, ' +
+      color +
+      ", " +
+      color +
+      'cc)">Попробовать демо' +
+      DEMO_BTN_ARROW +
+      "</a>"
+    );
+  }
+
+  function injectNicheDemoButtons() {
+    var section = document.querySelector("section.niches#niches, section#niches");
+    if (!section) return false;
+
+    var grid = section.querySelector(".niches-grid");
+    if (!grid) return false;
+
+    var cards = grid.querySelectorAll(".niche-card");
+    if (!cards.length) return false;
+
+    cards.forEach(function (card, index) {
+      var row = NICHE_DEMO_ROWS[index];
+      if (!row) return;
+
+      card.setAttribute("data-demo-key", row.key);
+
+      if (card.querySelector(".niche-demo-btn")) return;
+
+      var href = getDemoPageUrl(index);
+      if (!href) return;
+
+      var wrap = document.createElement("div");
+      wrap.innerHTML = nicheDemoBtnHtml(row.color, row.key, href);
+      card.appendChild(wrap.firstChild);
+    });
+
+    section.querySelectorAll(".niches-demo-caption").forEach(function (el) {
+      el.remove();
+    });
+
+    return true;
+  }
+
+  function hideDemosSection() {
+    var section = document.querySelector("section.demos#demos, section#demos");
+    if (!section) return;
+    section.setAttribute("hidden", "");
+    section.setAttribute("aria-hidden", "true");
+  }
+
+  function patchDemoNavAnchors() {
+    document.querySelectorAll('a[href="#demos"]').forEach(function (a) {
+      a.setAttribute("href", "#niches");
+    });
+  }
+
+  function watchNicheDemoButtons() {
+    injectNicheDemoButtons();
+    hideDemosSection();
+    patchDemoNavAnchors();
+
+    if (nicheDemoObserver) return;
+
+    var grid = document.querySelector(".niches-grid");
+    if (!grid || typeof MutationObserver === "undefined") return;
+
+    nicheDemoObserver = new MutationObserver(function () {
+      injectNicheDemoButtons();
+    });
+    nicheDemoObserver.observe(grid, { childList: true, subtree: true });
   }
 
   function getDemoUrlFromCard(card) {
@@ -330,7 +431,21 @@
       return;
     }
 
-    if (!btn || !btn.closest(".demos-grid")) return;
+    if (!btn) return;
+
+    var nicheCard = btn.closest(".niche-card");
+    if (nicheCard && btn.closest(".niches-grid")) {
+      var nicheUrl = resolveDemoNavUrl(btn, nicheCard) || getDemoUrlFromNicheCard(nicheCard);
+      if (!nicheUrl) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      window.location.assign(nicheUrl);
+      return;
+    }
+
+    if (!btn.closest(".demos-grid")) return;
 
     var card = btn.closest(".demo-card");
     if (!card) return;
@@ -674,6 +789,7 @@
     injectNavLink();
     patchFooterLinks();
     watchDemoGrid();
+    watchNicheDemoButtons();
     wireFooterDemoLinks();
     upgradeLeadContacts();
     if (injected || document.getElementById("planovoLeadForm")) {
@@ -695,6 +811,7 @@
         initLeadForm();
       }
       watchDemoGrid();
+      watchNicheDemoButtons();
       wireFooterDemoLinks();
     });
     landingObserver.observe(landingPage, { childList: true, subtree: true });
