@@ -20,7 +20,7 @@ if (!html.includes('site-mobile-landing.css')) {
   );
 }
 
-const leadSection = `<section class="lead-section" id="contact"><div class="landing-container"><div class="lead-grid"><div class="lead-intro"><span class="section-tag">Связаться</span><h2 class="section-title">Обсудим ваш <span class="gradient-text">проект</span></h2><p class="lead-intro-text">Оставьте заявку — расскажем, как Планово закроет боли с расписанием в вашей нише. Без шаблонных решений, только под ваш бизнес.</p><div class="lead-contacts-mini cta-buttons"><a href="https://t.me/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">✈️ Написать в Telegram</a><a href="mailto:hello@planovo.ru" class="btn btn-secondary">✉️ hello@planovo.ru</a></div></div><div class="lead-form-card"><h3>Заявка на консультацию</h3><p>Заполните форму — ответим в течение рабочего дня.</p><form id="planovoLeadForm" class="lead-form" novalidate><div class="lead-form-row"><div class="lead-field"><label for="leadName">Имя <span class="req">*</span></label><input type="text" id="leadName" name="name" required autocomplete="name" placeholder="Как к вам обращаться" /></div><div class="lead-field"><label for="leadOrg">Организация</label><input type="text" id="leadOrg" name="organization" autocomplete="organization" placeholder="Школа, клуб, секция" /></div></div><div class="lead-form-row"><div class="lead-field"><label for="leadEmail">Email</label><input type="email" id="leadEmail" name="email" autocomplete="email" placeholder="name@example.ru" /></div><div class="lead-field"><label for="leadPhone">Телефон <span class="req">*</span></label><input type="tel" id="leadPhone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__" inputmode="tel" /></div></div><div class="lead-field"><label for="leadNiche">Ниша</label><select id="leadNiche" name="niche"><option value="">Выберите направление</option><option value="education">Учебное заведение</option><option value="sports">Спортивная секция</option><option value="clubs">Клуб / мероприятия</option><option value="other">Другое</option></select></div><div class="lead-field"><label for="leadMessage">Сообщение</label><textarea id="leadMessage" name="message" placeholder="Кратко опишите задачу и текущие боли с расписанием"></textarea></div><div class="lead-checkboxes"><label class="lead-checkbox"><input type="checkbox" id="leadConsentPdn" name="consentPdn" required /><span>Даю <a href="consent-pdn.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> в соответствии с <a href="privacy.html" target="_blank" rel="noopener">Политикой обработки ПДн</a> <span class="req">*</span></span></label><label class="lead-checkbox"><input type="checkbox" id="leadMarketing" name="marketing" /><span>Согласен(на) получать информационные материалы о продукте «Планово» (необязательно)</span></label></div><div id="leadFormMessage" class="lead-form-message" role="status" aria-live="polite"></div><button type="submit" class="lead-submit" id="leadSubmitBtn" disabled>Отправить заявку</button></form></div></div></div></section>`;
+const leadSection = `<section class="lead-section" id="contact"><div class="landing-container"><div class="lead-grid"><div class="lead-intro"><span class="section-tag">Связаться</span><h2 class="section-title">Обсудим ваш <span class="gradient-text">проект</span></h2><p class="lead-intro-text">Оставьте заявку — расскажем, как Планово закроет боли с расписанием в вашей нише. Без шаблонных решений, только под ваш бизнес.</p><div class="lead-contacts-mini cta-buttons"><a href="https://t.me/planovoo" class="btn btn-primary" target="_blank" rel="noopener noreferrer">✈️ Написать в Telegram</a><a href="mailto:an.shpar@mail.ru" class="btn btn-secondary">✉️ an.shpar@mail.ru</a></div></div><div class="lead-form-card"><h3>Заявка на консультацию</h3><p>Заполните форму — ответим в течение рабочего дня.</p><form id="planovoLeadForm" class="lead-form" novalidate><div class="lead-form-row"><div class="lead-field"><label for="leadName">Имя <span class="req">*</span></label><input type="text" id="leadName" name="name" required autocomplete="name" placeholder="Как к вам обращаться" /></div><div class="lead-field"><label for="leadOrg">Организация</label><input type="text" id="leadOrg" name="organization" autocomplete="organization" placeholder="Школа, клуб, секция" /></div></div><div class="lead-form-row"><div class="lead-field"><label for="leadEmail">Email</label><input type="email" id="leadEmail" name="email" autocomplete="email" placeholder="name@example.ru" /></div><div class="lead-field"><label for="leadPhone">Телефон <span class="req">*</span></label><input type="tel" id="leadPhone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__" inputmode="tel" /></div></div><div class="lead-field"><label for="leadNiche">Ниша</label><select id="leadNiche" name="niche"><option value="">Выберите направление</option><option value="education">Учебное заведение</option><option value="sports">Спортивная секция</option><option value="clubs">Клуб / мероприятия</option><option value="other">Другое</option></select></div><div class="lead-field"><label for="leadMessage">Сообщение</label><textarea id="leadMessage" name="message" placeholder="Кратко опишите задачу и текущие боли с расписанием"></textarea></div><div class="lead-checkboxes"><label class="lead-checkbox"><input type="checkbox" id="leadConsentPdn" name="consentPdn" required /><span>Даю <a href="consent-pdn.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> в соответствии с <a href="privacy.html" target="_blank" rel="noopener">Политикой обработки ПДн</a> <span class="req">*</span></span></label><label class="lead-checkbox"><input type="checkbox" id="leadMarketing" name="marketing" /><span>Согласен(на) получать информационные материалы о продукте «Планово» (необязательно)</span></label></div><div id="leadFormMessage" class="lead-form-message" role="status" aria-live="polite"></div><button type="submit" class="lead-submit" id="leadSubmitBtn" disabled>Отправить заявку</button></form></div></div></div></section>`;
 
 const ctaPattern =
   /<section class="cta" id="contact">[\s\S]*?<\/section>/;
@@ -34,8 +34,8 @@ const footerLegalLinks = `<li><a href="privacy.html">Политика ПДн</a>
 
 if (!html.includes('href="privacy.html"')) {
   html = html.replace(
-    '<li><a href="https://t.me/" target="_blank">Telegram</a></li></ul></div></div></div><div class="footer-bottom">',
-    '<li><a href="https://t.me/" target="_blank" rel="noopener noreferrer">Telegram</a></li>' +
+    '<li><a href="https://t.me/planovoo" target="_blank">Telegram</a></li></ul></div></div></div><div class="footer-bottom">',
+    '<li><a href="https://t.me/planovoo" target="_blank" rel="noopener noreferrer">Telegram</a></li>' +
       footerLegalLinks +
       '</ul></div></div></div><div class="footer-bottom">'
   );
@@ -212,10 +212,24 @@ html = html.replace(
   '<label for="leadPhone">Телефон <span class="req">*</span></label><input type="tel" id="leadPhone" name="phone" required autocomplete="tel" inputmode="tel"'
 );
 
-// Favicon для GitHub Pages (/Planovo/)
-html = html.replace('href="/logo.svg"', 'href="/Planovo/logo.png"');
-html = html.replace('href="/Planovo/logo.svg"', 'href="/Planovo/logo.png"');
-html = html.replace('href="/Planovo/logo-icon.svg"', 'href="/Planovo/logo.png"');
+// Favicon — Next.js RSC payload перезаписывает icon на logo.svg (старая «Z»)
+const FAVICON = "/Planovo/favicon-32.png";
+html = html.replace(/href="\/logo\.svg"/g, 'href="' + FAVICON + '"');
+html = html.replace(/href="\/Planovo\/logo\.svg"/g, 'href="' + FAVICON + '"');
+html = html.replace(/href="\/Planovo\/logo-icon\.svg"/g, 'href="' + FAVICON + '"');
+html = html.replace(/href="\/Planovo\/logo\.png"(?=[^>]*rel="icon")/g, 'href="' + FAVICON + '"');
+html = html.replace(/\\"href\\":\\"\/logo\.svg\\"/g, '\\"href\\":\\"' + FAVICON + '\\"');
+html = html.replace(/\\"href\\":\\"\/Planovo\/logo\.svg\\"/g, '\\"href\\":\\"' + FAVICON + '\\"');
+
+const faviconLinks =
+  '<link rel="icon" type="image/png" sizes="32x32" href="' +
+  FAVICON +
+  '"/><link rel="shortcut icon" href="' +
+  FAVICON +
+  '"/>';
+if (!html.includes("favicon-32.png")) {
+  html = html.replace("</head>", faviconLinks + "</head>");
+}
 
 const LOGO_ICON_IMG =
   '<span class="logo-icon"><img src="/Planovo/logo.png" alt="" class="planovo-logo-img" width="60" height="60" decoding="async"/></span>';

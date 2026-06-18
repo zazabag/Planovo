@@ -3,10 +3,8 @@ from pathlib import Path
 
 from PIL import Image, ImageEnhance, ImageFilter
 
-SRC = Path(
-    r"C:\Users\Admin\.cursor\projects\d-cursor-project-vpn-Planovo\assets\c__Users_Admin_AppData_Roaming_Cursor_User_workspaceStorage_fa815635a8e92876bd4625eec51cf6b6_images_5305664528177633704-d42e2d10-4e07-46d9-be3a-ea02f711faf3.png"
-)
 ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "assets" / "logo-source.png"
 OUT = ROOT / "logo.png"
 ASSETS = ROOT / "assets" / "logo.png"
 TARGET = 1024
@@ -65,6 +63,8 @@ def main():
 
     fav32 = square.resize((32, 32), Image.Resampling.LANCZOS)
     fav32.save(ROOT / "favicon-32.png", format="PNG", optimize=True)
+
+    fav32.save(ROOT / "favicon.ico", format="ICO", sizes=[(16, 16), (32, 32)])
 
     print(json.dumps({"out": str(OUT), "size": square.size}))
 

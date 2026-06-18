@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none" aria-hidden="true">
   <g stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Sync / refresh ring (bottom-left) -->
     <path d="M14 52a14 14 0 0 1 20-10"/>
     <path d="M34 42l3-5-5 1"/>
     <path d="M26 58a14 14 0 0 1-20-10"/>
@@ -7,13 +8,19 @@
     <rect x="10" y="46" width="4.5" height="4.5" rx="1" stroke-width="1.6"/>
     <rect x="18" y="38" width="4.5" height="4.5" rx="1" stroke-width="1.6"/>
     <rect x="26" y="50" width="4.5" height="4.5" rx="1" stroke-width="1.6"/>
+
+    <!-- Calendar sheet -->
     <path d="M24 24h34a4 4 0 0 1 4 4v36a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4V28a4 4 0 0 1 4-4z"/>
+
+    <!-- Binding rings -->
     <path d="M31 24v-6"/>
     <path d="M41 24v-6"/>
     <path d="M51 24v-6"/>
     <ellipse cx="31" cy="16.5" rx="3" ry="2"/>
     <ellipse cx="41" cy="16.5" rx="3" ry="2"/>
     <ellipse cx="51" cy="16.5" rx="3" ry="2"/>
+
+    <!-- Day grid -->
     <rect x="29" y="34" width="7" height="7" rx="1.5" stroke-width="1.7"/>
     <rect x="39" y="34" width="7" height="7" rx="1.5" stroke-width="1.7"/>
     <rect x="49" y="34" width="7" height="7" rx="1.5" stroke-width="1.7"/>
@@ -23,6 +30,8 @@
     <rect x="29" y="54" width="7" height="7" rx="1.5" stroke-width="1.7"/>
     <rect x="39" y="54" width="7" height="7" rx="1.5" stroke-width="1.7"/>
     <rect x="49" y="54" width="7" height="7" rx="1.5" stroke-width="1.7"/>
+
+    <!-- Page curl -->
     <path d="M52 60c6 2 10 6 10 10"/>
     <path d="M58 64c2 2 4 4 6 6"/>
   </g>

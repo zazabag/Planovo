@@ -653,3 +653,33 @@ section#demos .demo-card-features {
   font-size: 0.85rem;
   color: var(--gray-500, #6b7280);
 }
+
+.legal-requisites {
+  margin: 16px 0 24px;
+  padding: 20px 24px;
+  background: var(--gray-50, #f9fafb);
+  border: 1px solid var(--gray-200, #e5e7eb);
+  border-radius: var(--radius-md, 12px);
+}
+
+.legal-requisites p {
+  margin: 0 0 8px;
+}
+
+.legal-requisites p:last-child {
+  margin-bottom: 0;
+}
+
+.legal-requisites-short,
+.landing-footer .footer-requisites {
+  font-size: 0.75rem;
+  color: var(--gray-500, #6b7280);
+  line-height: 1.5;
+}
+
+.landing-footer .footer-requisites {
+  color: var(--gray-600, #4b5563);
+  flex: 1 1 100%;
+  text-align: center;
+  margin-top: 4px;
+}
