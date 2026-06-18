@@ -18,7 +18,7 @@
 | TASK-10 | Бренд-логотип, фон лендинга, glow «Проблема», mockup | zazabag | `feature/zazabag/brand-logo-landing` | done | [#7](https://github.com/zazabag/Planovo/pull/7) | logo.png 60px, landing-background, problem-aura |
 | TASK-11 | Мобильный лендинг — отдельный компактный дизайн | zazabag | `feature/zazabag/mobile-landing-layout` | done | [#9](https://github.com/zazabag/Planovo/pull/9) | site-mobile-landing.css, process-stack, RESPONSIVE §4.0 |
 | TASK-12 | Мобильный лендинг v2 (skills, карусели, touch) | zazabag | `feature/zazabag/mobile-landing-v2` | done | [#11](https://github.com/zazabag/Planovo/pull/11) | skills README, site-mobile-landing v2 |
-| TASK-13 | Fix mobile: hero overlap, process line, problem, mockup | zazabag | `fix/zazabag/mobile-layout-fixes` | in-progress | — | hero, demos steps, process SVG, admin panel |
+| TASK-13 | Fix mobile: hero overlap, process line, problem, mockup | zazabag | `fix/zazabag/mobile-layout-fixes` | done | [#13](https://github.com/zazabag/Planovo/pull/13) | hero, demos steps, process SVG, admin panel |
 
 ## Как добавить задачу
 
