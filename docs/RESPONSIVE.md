@@ -2,7 +2,7 @@
 
 > **Источник истины** для вёрстки под разные экраны.  
 > Цель: на любом разрешении контент **виден целиком** — без обрезки страницы и без «уезжания» блоков за край.  
-> Реализация: `assets/site-mobile.css` (лендинг + legal), `assets/demo-mobile.css` (демо), базовые стили — `_next/static/chunks/ca02de87dd32ea73.css`, `assets/site-legal.css`, inline-стили в `*.html`.
+> Реализация: `assets/site-mobile-landing.css` (лендинг ≤768px — **отдельный** компактный layout), `assets/site-mobile.css` (overflow/legal), `assets/demo-mobile.css` (демо), базовые стили — `_next/static/chunks/ca02de87dd32ea73.css`, `assets/site-legal.css`, inline-стили в `*.html`.
 
 ---
 
@@ -20,6 +20,7 @@
 | 8 | **`env(safe-area-inset-*)`** | Вырез iPhone, home indicator |
 | 9 | **Текст: `overflow-wrap: anywhere` / `word-break` в узких колонках** | Длинные слова не рвут layout |
 | 10 | **При сомнении — одна колонка + вертикальный стек** | Лучше скролл вниз, чем вбок |
+| 11 | **Лендинг ≤768px — не масштабировать десктоп** | Отдельный `site-mobile-landing.css` + класс `.mobile-layout`; десктопные стили из бандла не «ужимаются», а переопределяются |
 
 ### Стратегия overflow
 
@@ -92,7 +93,46 @@
 
 ---
 
+## 4.0 Мобильный лендинг — отдельный layout (≤768px)
+
+> **TASK-11.** На телефоне не используется уменьшенная копия десктопа. Подключается отдельный CSS с `media="(max-width: 768px)"`; на `.landing-page` вешается класс `.mobile-layout` (`site-legal.js` → `syncMobileLandingLayout()`).
+
+### Файлы
+
+| Файл | Назначение |
+|------|------------|
+| `assets/site-mobile-landing.css` | Компактная типографика, сетки, отступы секций |
+| `assets/site-legal.js` | Инъекция CSS + класс `.mobile-layout` по `matchMedia` |
+| `assets/process-scroll.js` | Режим `process-stack` — вертикальный стек без SVG-таймлайна |
+| `assets/process-scroll.css` | Стили `.process-stack` для шагов в ряд (badge + текст) |
+| `scripts/patch-index-legal.js` | `<link … site-mobile-landing.css" media="(max-width: 768px)"/>` в `index.html` |
+
+### Отличия от десктопа / старого `site-mobile.css`
+
+| Блок | Десктоп / бандл ≤768px | `.mobile-layout` |
+|------|------------------------|------------------|
+| Секции | padding 60–100px | **28px** вертикально |
+| `.hero-title` | 2.2rem | **1.35rem** |
+| `.section-title` | 1.8rem | **1.12rem** |
+| `.problem-grid` | 1 колонка, карточки 24–32px padding | **Строки** (flex row): иконка 32px + текст |
+| `.features-grid` | 1 колонка | **2 колонки** мини-карточек (1 колонка на ≤380px) |
+| `.how-it-works` | SVG-таймлайн, min-height ~1240px | **`process-stack`**: колонка, без SVG, min-height 0 |
+| `.mockup-container` | полная высота | **max-height 210px**, sidebar скрыт |
+| `.demos-grid .demo-card-body` | min-height 220px | **min-height 0**, padding 12px |
+| Nav / logo | 72px / 60px | **52px** / **40px** |
+
+### Тест на мобильном
+
+1. DevTools → 390×844, hard refresh.
+2. На `<html>` или `.landing-page` есть класс `planovo-mobile` / `mobile-layout`.
+3. Секция «Процесс» — четыре компактные карточки подряд, без длинного пустого скролла.
+4. «Проблема» — три узкие строки, не квадратные плитки.
+
+---
+
 ## 4. Лендинг (`index.html`) — по блокам
+
+> Ниже — базовое поведение из Next-бандла. На **≤768px** при активном `.mobile-layout` приоритет у `site-mobile-landing.css` (см. §4.0).
 
 ### 4.1 Навбар `.landing-navbar`
 
@@ -163,9 +203,10 @@
 | Брейкпоинт | Layout |
 |------------|--------|
 | **≥769px** | Canvas ~920px; 4 шага в разных углах (zigzag); длинная SVG-кривая + декоративные ответвления |
-| **≤768px** | Canvas ~1180px; шаги смещены влево/вправо по очереди; упрощённые ответвления |
+| **≤768px** (бандл) | Canvas ~1180px; шаги смещены влево/вправо по очереди; упрощённые ответвления |
+| **≤768px** (`.mobile-layout`) | **`process-stack`**: статичная колонка, SVG скрыт, шаги в одну линию (badge + текст) |
 
-Scroll-анимация: `assets/process-scroll.js` — Catmull-Rom сплайн через ~28 точек; 7 веток-дoodle; точка и линия по scroll.
+Scroll-анимация: `assets/process-scroll.js` — на десктопе Catmull-Rom сплайн; на мобильном stack-режим без draw-path.
 
 ### 4.9 Заявка `.lead-section`
 

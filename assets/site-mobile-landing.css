@@ -1,0 +1,487 @@
+/* Planovo landing — dedicated mobile layout (≤768px only).
+   Loaded with media="(max-width: 768px)" — not a scaled-down desktop. */
+
+@media (max-width: 768px) {
+  .landing-page.mobile-layout {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .landing-page.mobile-layout .landing-container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* —— Nav —— */
+  .landing-page.mobile-layout .nav-container {
+    height: 52px;
+  }
+
+  .landing-page.mobile-layout .logo-text {
+    font-size: 1rem;
+  }
+
+  .landing-page.mobile-layout .logo-icon {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .landing-page.mobile-layout .logo-icon img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .landing-page.mobile-layout .nav-links {
+    top: 52px;
+    padding: 16px;
+    gap: 10px;
+  }
+
+  .landing-page.mobile-layout .nav-links a {
+    font-size: 0.88rem;
+    padding: 8px 0;
+  }
+
+  /* —— Hero —— */
+  .landing-page.mobile-layout .hero {
+    min-height: 0;
+    padding: 72px 0 24px;
+  }
+
+  .landing-page.mobile-layout .hero-badge {
+    font-size: 0.68rem;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+  }
+
+  .landing-page.mobile-layout .hero-title {
+    font-size: 1.35rem;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .landing-page.mobile-layout .hero-subtitle {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    margin-bottom: 16px;
+    max-width: 100%;
+  }
+
+  .landing-page.mobile-layout .hero-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    gap: 8px;
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  .landing-page.mobile-layout .hero-buttons .btn {
+    flex: 1 1 calc(50% - 4px);
+    width: auto;
+    max-width: none;
+    min-height: 40px;
+    padding: 9px 10px;
+    font-size: 0.76rem;
+    justify-content: center;
+  }
+
+  /* —— Sections common —— */
+  .landing-page.mobile-layout .problem,
+  .landing-page.mobile-layout .solution,
+  .landing-page.mobile-layout .niches,
+  .landing-page.mobile-layout .demos,
+  .landing-page.mobile-layout .features,
+  .landing-page.mobile-layout .how-it-works,
+  .landing-page.mobile-layout .lead-section {
+    padding: 28px 0;
+  }
+
+  .landing-page.mobile-layout .section-header {
+    margin-bottom: 14px;
+    text-align: left;
+  }
+
+  .landing-page.mobile-layout .section-header.center {
+    text-align: left;
+  }
+
+  .landing-page.mobile-layout .section-header.center .section-subtitle {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .landing-page.mobile-layout .section-tag {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    margin-bottom: 6px;
+  }
+
+  .landing-page.mobile-layout .section-title {
+    font-size: 1.12rem;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  .landing-page.mobile-layout .section-subtitle {
+    font-size: 0.76rem;
+    line-height: 1.4;
+    max-width: 100%;
+  }
+
+  /* —— Problem: compact rows —— */
+  .landing-page.mobile-layout .problem-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .landing-page.mobile-layout .problem-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    transform: none !important;
+  }
+
+  .landing-page.mobile-layout .problem-card:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .landing-page.mobile-layout .problem-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+
+  .landing-page.mobile-layout .problem-card h3 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    line-height: 1.25;
+  }
+
+  .landing-page.mobile-layout .problem-card p {
+    font-size: 0.72rem;
+    line-height: 1.35;
+    color: var(--gray-500);
+  }
+
+  /* —— Solution —— */
+  .landing-page.mobile-layout .solution-content {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .landing-page.mobile-layout .solution-description {
+    font-size: 0.78rem;
+    margin-bottom: 12px;
+    line-height: 1.45;
+  }
+
+  .landing-page.mobile-layout .solution-points {
+    gap: 8px;
+  }
+
+  .landing-page.mobile-layout .solution-points .point {
+    font-size: 0.74rem;
+    gap: 8px;
+  }
+
+  .landing-page.mobile-layout .mockup-container {
+    max-height: 210px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .landing-page.mobile-layout .mockup-body {
+    font-size: 0.7rem;
+  }
+
+  .landing-page.mobile-layout .mockup-main {
+    padding: 8px;
+  }
+
+  .landing-page.mobile-layout .mockup-sidebar {
+    display: none;
+  }
+
+  .landing-page.mobile-layout .mockup-row {
+    min-width: 0;
+    grid-template-columns: 28px repeat(5, minmax(0, 1fr)) !important;
+  }
+
+  .landing-page.mobile-layout .mockup-row .cell {
+    min-height: 28px;
+    font-size: 0.5rem;
+    padding: 2px;
+  }
+
+  /* —— Niches: compact list —— */
+  .landing-page.mobile-layout .niches-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .landing-page.mobile-layout .niche-card {
+    padding: 10px 12px;
+    border-radius: 10px;
+    transform: none !important;
+  }
+
+  .landing-page.mobile-layout .niche-card:hover {
+    transform: none !important;
+  }
+
+  .landing-page.mobile-layout .niche-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+  }
+
+  .landing-page.mobile-layout .niche-card h3 {
+    font-size: 0.84rem;
+    margin-bottom: 4px;
+  }
+
+  .landing-page.mobile-layout .niche-card p {
+    font-size: 0.72rem;
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+
+  .landing-page.mobile-layout .niche-features {
+    gap: 4px;
+  }
+
+  .landing-page.mobile-layout .niche-feature {
+    font-size: 0.68rem;
+    gap: 6px;
+  }
+
+  /* —— Demos —— */
+  .landing-page.mobile-layout .demos-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .landing-page.mobile-layout .demo-card {
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .landing-page.mobile-layout .demo-card:hover {
+    transform: none;
+  }
+
+  .landing-page.mobile-layout .demo-card-accent {
+    height: 4px;
+  }
+
+  .landing-page.mobile-layout .demo-card-body,
+  .landing-page.mobile-layout .demos-grid .demo-card-body {
+    padding: 12px 14px;
+    min-height: 0 !important;
+  }
+
+  .landing-page.mobile-layout .demo-card-header {
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .landing-page.mobile-layout .demo-card-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .landing-page.mobile-layout .demo-card-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .landing-page.mobile-layout .demo-card-header h3 {
+    font-size: 0.88rem;
+  }
+
+  .landing-page.mobile-layout .demo-card-btn,
+  .landing-page.mobile-layout .demos-grid .demo-card-btn {
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    min-height: 40px;
+  }
+
+  .landing-page.mobile-layout .demos-grid .demo-card-header {
+    margin-bottom: 10px;
+  }
+
+  /* —— Features: 2-col mini grid —— */
+  .landing-page.mobile-layout .features-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .landing-page.mobile-layout .feature-card {
+    padding: 10px;
+    border-radius: 10px;
+    transform: none !important;
+  }
+
+  .landing-page.mobile-layout .feature-card:hover {
+    transform: none !important;
+  }
+
+  .landing-page.mobile-layout .feature-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+    border-radius: 8px;
+  }
+
+  .landing-page.mobile-layout .feature-card h3 {
+    font-size: 0.78rem;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+
+  .landing-page.mobile-layout .feature-card p {
+    font-size: 0.68rem;
+    line-height: 1.35;
+  }
+
+  /* —— Process: vertical stack (see process-stack in process-scroll.css) —— */
+  .landing-page.mobile-layout .how-it-works.process-enhanced .section-header {
+    margin-bottom: 10px;
+  }
+
+  /* —— Lead form —— */
+  .landing-page.mobile-layout .lead-section {
+    padding: 28px 0 36px;
+  }
+
+  .landing-page.mobile-layout .lead-grid {
+    gap: 16px;
+  }
+
+  .landing-page.mobile-layout .lead-intro .section-title {
+    font-size: 1.1rem;
+    text-align: left;
+  }
+
+  .landing-page.mobile-layout .lead-intro-text {
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
+  .landing-page.mobile-layout .lead-contacts-mini {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .landing-page.mobile-layout .lead-contacts-mini .btn {
+    width: 100%;
+    font-size: 0.78rem;
+    padding: 10px 12px;
+    min-height: 40px;
+  }
+
+  .landing-page.mobile-layout .lead-form-card {
+    padding: 14px 12px;
+    border-radius: 12px;
+  }
+
+  .landing-page.mobile-layout .lead-form-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .landing-page.mobile-layout .lead-form-card > p {
+    font-size: 0.72rem;
+    margin-bottom: 12px;
+  }
+
+  .landing-page.mobile-layout .lead-form-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .landing-page.mobile-layout .lead-field label {
+    font-size: 0.72rem;
+  }
+
+  .landing-page.mobile-layout .lead-field input,
+  .landing-page.mobile-layout .lead-field select,
+  .landing-page.mobile-layout .lead-field textarea {
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+
+  .landing-page.mobile-layout .lead-checkbox {
+    font-size: 0.68rem;
+  }
+
+  .landing-page.mobile-layout .lead-submit {
+    padding: 11px 16px;
+    font-size: 0.85rem;
+  }
+
+  /* —— Footer —— */
+  .landing-page.mobile-layout .landing-footer {
+    padding: 32px 0 20px;
+  }
+
+  .landing-page.mobile-layout .landing-footer-links {
+    gap: 20px;
+  }
+
+  .landing-page.mobile-layout .footer-brand p {
+    font-size: 0.74rem;
+    line-height: 1.4;
+  }
+
+  .landing-page.mobile-layout .footer-col h4 {
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+  }
+
+  .landing-page.mobile-layout .footer-col a,
+  .landing-page.mobile-layout .footer-col li {
+    font-size: 0.72rem;
+  }
+
+  .landing-page.mobile-layout .landing-footer-bottom {
+    font-size: 0.68rem;
+    padding-top: 16px;
+  }
+
+  /* —— Background: lighter on small screens —— */
+  .landing-page.mobile-layout::after {
+    background-size: 40px 40px;
+    opacity: 0.7;
+  }
+
+  .landing-page.mobile-layout .btn {
+    padding: 10px 14px;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .landing-page.mobile-layout .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-page.mobile-layout .hero-buttons .btn {
+    flex: 1 1 100%;
+  }
+}

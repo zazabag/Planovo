@@ -316,9 +316,67 @@
 
 @media (max-width: 768px) {
   .process-timeline-wrap {
-    min-height: 1240px;
-    margin-top: 28px;
-    padding: 8px 4px 32px;
+    min-height: 0 !important;
+    margin-top: 12px;
+    padding: 0;
+  }
+
+  .how-it-works.process-enhanced.process-stack::after {
+    display: none;
+  }
+
+  .how-it-works.process-enhanced.process-stack .process-path-svg {
+    display: none !important;
+  }
+
+  .how-it-works.process-enhanced.process-stack .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .how-it-works.process-enhanced.process-stack .process-step-slot {
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+  }
+
+  .how-it-works.process-enhanced.process-stack .step {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    transform: none !important;
+    opacity: 1;
+    border-radius: 10px;
+  }
+
+  .how-it-works.process-enhanced.process-stack .step.is-visible,
+  .how-it-works.process-enhanced.process-stack .step.is-active {
+    transform: none !important;
+  }
+
+  .process-enhanced.process-stack .process-step-badge {
+    width: 36px;
+    height: 36px;
+  }
+
+  .process-enhanced.process-stack .step-number {
+    font-size: 1rem;
+  }
+
+  .process-enhanced.process-stack .step-content h3 {
+    font-size: 0.82rem;
+    margin-bottom: 2px;
+  }
+
+  .process-enhanced.process-stack .step-content p {
+    font-size: 0.72rem;
+    line-height: 1.35;
   }
 
   .process-enhanced .step {

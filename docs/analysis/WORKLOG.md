@@ -1,7 +1,21 @@
 # Planovo Demo — Work Log
 
 ---
-Task ID: 10
+Task ID: 11
+Agent: Cursor
+Task: Мобильный лендинг — отдельный компактный дизайн (не scaled desktop)
+
+Work Log:
+- `assets/site-mobile-landing.css` — mobile-only stylesheet (`media="(max-width: 768px)"`)
+- `.mobile-layout` на `.landing-page` через `syncMobileLandingLayout()` в `site-legal.js`
+- Компактные секции: problem rows, features 2-col, demos без min-height, hero/nav уменьшены
+- `process-scroll.js` + CSS: режим `process-stack` — вертикальный стек без SVG min-height 1200px
+- `docs/RESPONSIVE.md` §4.0 — спецификация мобильного layout
+
+Stage Summary:
+- Телефон получил отдельный UI; десктопный CSS на мобильном переопределяется, а не масштабируется
+
+---
 Agent: Cursor
 Task: Бренд-логотип и полировка лендинга (фон, problem glow, mockup)
 

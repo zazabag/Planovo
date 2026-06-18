@@ -202,6 +202,47 @@
     }
   }
 
+  function applyStackLayout() {
+    var stack = isMobile();
+    if (section) section.classList.toggle("process-stack", stack);
+
+    if (!stack) {
+      stepSlots.forEach(function (slot) {
+        slot.style.position = "";
+        slot.style.top = "";
+        slot.style.left = "";
+        slot.style.right = "";
+        slot.style.bottom = "";
+        slot.style.width = "";
+        slot.style.marginBottom = "";
+      });
+      if (wrap) {
+        wrap.style.minHeight = "";
+        wrap.style.height = "";
+      }
+      if (svg) svg.style.display = "";
+      return false;
+    }
+
+    stepSlots.forEach(function (slot) {
+      slot.style.position = "static";
+      slot.style.top = "";
+      slot.style.left = "";
+      slot.style.right = "";
+      slot.style.bottom = "";
+      slot.style.width = "100%";
+      slot.style.marginBottom = "8px";
+    });
+
+    if (wrap) {
+      wrap.style.minHeight = "0";
+      wrap.style.height = "auto";
+    }
+
+    if (svg) svg.style.display = "none";
+    return true;
+  }
+
   function applyStepLayout() {
     var layout = isMobile() ? LAYOUT.mobile : LAYOUT.desktop;
     stepSlots.forEach(function (slot, i) {
@@ -243,6 +284,13 @@
 
   function rebuildPath() {
     if (!wrap || !pathTrack || !pathLine) return;
+
+    if (applyStackLayout()) {
+      updateScroll(true);
+      return;
+    }
+
+    if (svg) svg.style.display = "";
 
     applyStepLayout();
 
@@ -342,6 +390,7 @@
 
   function applyPathProgress(progress) {
     if (!pathLine || pathLength <= 0) return;
+    if (section && section.classList.contains("process-stack")) return;
 
     var offset = pathLength * (1 - progress);
     pathLine.style.strokeDashoffset = String(offset);
@@ -357,13 +406,19 @@
   }
 
   function updateScroll(instant) {
-    if (!wrap || !pathLine) return;
+    if (!wrap) return;
 
+    var stack = section && section.classList.contains("process-stack");
     var target = getScrollProgress();
 
     if (section) {
       section.classList.toggle("is-in-view", scrollActive);
       section.style.setProperty("--process-progress", String(target));
+    }
+
+    if (stack || !pathLine) {
+      updateActiveStep(target);
+      return;
     }
 
     if (reducedMotion) {
