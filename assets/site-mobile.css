@@ -277,24 +277,9 @@ body {
     scroll-snap-align: start;
   }
 
-  /* Process — вертикальный стек, линия в левом рельсе */
+  /* Process — вертикальный стек (PR #20) */
   .how-it-works.process-enhanced .process-timeline-wrap {
     min-height: 0 !important;
-  }
-
-  .process-timeline-stack .step {
-    position: relative;
-    padding-left: 52px;
-  }
-
-  .process-timeline-stack .process-step-badge {
-    position: absolute;
-    left: 0;
-    top: 20px;
-  }
-
-  .process-timeline-stack .process-path-svg {
-    z-index: 3;
   }
 
   /* Niches — карусель (fallback без mobile-layout) */

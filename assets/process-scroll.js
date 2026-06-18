@@ -53,8 +53,6 @@
     return window.matchMedia("(max-width: 768px)").matches;
   }
 
-  var MOBILE_RAIL_X = 28;
-
   function createSvgEl(tag, attrs) {
     var el = document.createElementNS("http://www.w3.org/2000/svg", tag);
     Object.keys(attrs).forEach(function (key) {
@@ -249,9 +247,7 @@
         if (!badge) return null;
         var r = badge.getBoundingClientRect();
         return {
-          x: isMobile()
-            ? MOBILE_RAIL_X
-            : r.left + r.width / 2 - wrapRect.left,
+          x: r.left + r.width / 2 - wrapRect.left,
           y: r.top + r.height / 2 - wrapRect.top,
         };
       })
@@ -317,7 +313,8 @@
   }
 
   /**
-   * Прогресс по позиции badge шагов в viewport (работает и на mobile stack).
+   * Прогресс по позиции шагов в viewport.
+   * Линия доходит до конца раньше: когда последний шаг ещё в верхней половине экрана.
    */
   function getScrollProgress() {
     if (!stepEls.length) return 0;
@@ -327,8 +324,8 @@
     var lastY = getBadgeCenterY(stepEls[stepEls.length - 1]);
     if (firstY == null || lastY == null) return 0;
 
-    var startAt = isMobile() ? vh * 0.88 : vh * 0.84;
-    var finishAt = isMobile() ? vh * 0.38 : vh * 0.68;
+    var startAt = vh * 0.84;
+    var finishAt = vh * 0.68;
 
     if (firstY > startAt) return 0;
     if (lastY <= finishAt) return 1;

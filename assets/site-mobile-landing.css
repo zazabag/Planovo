@@ -741,27 +741,6 @@
     margin-bottom: 0;
   }
 
-  html.planovo-mobile .landing-page .process-timeline-stack .process-step-badge,
-  .landing-page.mobile-layout .process-timeline-stack .process-step-badge {
-    position: absolute;
-    left: 0;
-    top: var(--m-4);
-    width: 44px;
-    height: 44px;
-  }
-
-  html.planovo-mobile .landing-page .process-timeline-stack .step,
-  .landing-page.mobile-layout .process-timeline-stack .step {
-    position: relative;
-    padding-left: 52px;
-  }
-
-  html.planovo-mobile .landing-page .process-timeline-stack .process-path-svg,
-  .landing-page.mobile-layout .process-timeline-stack .process-path-svg {
-    opacity: 1;
-    z-index: 3;
-  }
-
   html.planovo-mobile .landing-page .process-enhanced.process-stack .step-content h3,
   .landing-page.mobile-layout .process-enhanced.process-stack .step-content h3 {
     font-size: var(--m-text-base);
