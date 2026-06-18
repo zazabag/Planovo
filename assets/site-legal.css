@@ -33,14 +33,8 @@
   padding: 0 !important;
 }
 
-@media (max-width: 768px) {
-  .landing-page.mobile-layout .logo-icon,
-  html.planovo-mobile .landing-page .logo-icon {
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px !important;
-    min-height: 36px !important;
-  }
+.landing-page .hero-scroll {
+  display: none !important;
 }
 
 .lead-section {

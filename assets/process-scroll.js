@@ -202,45 +202,6 @@
     }
   }
 
-  function applyStackLayout() {
-    var stack = isMobile();
-    if (section) section.classList.toggle("process-stack", stack);
-
-    if (!stack) {
-      stepSlots.forEach(function (slot) {
-        slot.style.position = "";
-        slot.style.top = "";
-        slot.style.left = "";
-        slot.style.right = "";
-        slot.style.bottom = "";
-        slot.style.width = "";
-        slot.style.marginBottom = "";
-      });
-      if (wrap) {
-        wrap.style.minHeight = "";
-        wrap.style.height = "";
-      }
-      return false;
-    }
-
-    stepSlots.forEach(function (slot) {
-      slot.style.position = "static";
-      slot.style.top = "";
-      slot.style.left = "";
-      slot.style.right = "";
-      slot.style.bottom = "";
-      slot.style.width = "100%";
-      slot.style.marginBottom = "";
-    });
-
-    if (wrap) {
-      wrap.style.minHeight = "0";
-      wrap.style.height = "auto";
-    }
-
-    return true;
-  }
-
   function applyStepLayout() {
     var layout = isMobile() ? LAYOUT.mobile : LAYOUT.desktop;
     stepSlots.forEach(function (slot, i) {
@@ -283,11 +244,7 @@
   function rebuildPath() {
     if (!wrap || !pathTrack || !pathLine) return;
 
-    var stack = applyStackLayout();
-
-    if (!stack) {
-      applyStepLayout();
-    }
+    applyStepLayout();
 
     var wrapRect = wrap.getBoundingClientRect();
     var w = wrapRect.width;
@@ -402,7 +359,6 @@
   function updateScroll(instant) {
     if (!wrap) return;
 
-    var stack = section && section.classList.contains("process-stack");
     var target = getScrollProgress();
 
     if (section) {

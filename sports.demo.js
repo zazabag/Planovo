@@ -515,8 +515,9 @@ function ShowcaseBlock({
   note,
   children
 }) {
+  const accent = note.n === 1 || note.n === 3;
   return /*#__PURE__*/React.createElement("section", {
-    className: "showcase-block"
+    className: "showcase-block" + (accent ? " showcase-block-accent" : "")
   }, /*#__PURE__*/React.createElement("aside", {
     className: "showcase-block-note",
     "aria-label": note.title

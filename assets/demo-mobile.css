@@ -1,5 +1,29 @@
 /* Planovo — mobile overrides for education / sports / clubs demos */
 
+/* Showcase: accent blocks (points 1 and 3) */
+.showcase-block-accent .showcase-block-note {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
+  border-color: rgba(99, 102, 241, 0.32);
+}
+
+.showcase-block-accent .showcase-block-demo {
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.04) 0%, #fff 45%);
+  border-color: rgba(99, 102, 241, 0.22);
+  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.1);
+}
+
+.showcase-block-accent .showcase-note-num {
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+}
+
+.showcase-block-accent .showcase-block-title {
+  color: var(--primary-dark, #4f46e5);
+}
+
+.showcase-block-accent .showcase-block-text {
+  color: var(--gray-700, #374151);
+}
+
 .logo-icon .planovo-logo-img,
 .logo-icon .planovo-logo-svg {
   width: 100%;
