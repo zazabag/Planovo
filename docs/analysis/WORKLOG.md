@@ -1,6 +1,20 @@
 # Planovo Demo — Work Log
 
 ---
+Task ID: 10
+Agent: Cursor
+Task: Бренд-логотип и полировка лендинга (фон, problem glow, mockup)
+
+Work Log:
+- Обработан логотип из исходника (календарь + лавандовый круг), `logo.png` 1024px, favicon
+- Подключён на лендинге, legal-страницах и демо; runtime-подмена после React hydrate
+- `landing-background.css` — единый фон; `problem-aura` — glow карточек «Проблема»
+- Фикс mockup tabs height; hero-stats скрыт; process-scroll progress у последнего шага
+
+Stage Summary:
+- Лендинг визуально унифицирован, логотип крупнее и чётче
+
+---
 Task ID: 1
 Agent: Main Coordinator
 Task: Анализ источников (ScheduleKEMS, Planovo сайт, Planora.in)

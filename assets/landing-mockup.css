@@ -1,8 +1,60 @@
 /* Interactive admin mockup on landing — solution section */
 
+/* Стабильный размер панели при переключении вкладок (как у «Расписание») */
+.solution .solution-content {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+}
+
 .mockup-container.mockup-interactive {
   position: relative;
   user-select: none;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.mockup-container.mockup-interactive .mockup-body {
+  height: 400px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mockup-container.mockup-interactive .mockup-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mockup-container.mockup-interactive [data-mockup-toolbar-host] {
+  flex-shrink: 0;
+  min-height: 36px;
+}
+
+.mockup-container.mockup-interactive [data-mockup-toolbar-host] .mockup-toolbar {
+  min-height: 34px;
+  align-items: center;
+}
+
+.mockup-container.mockup-interactive [data-mockup-panel-host] {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.mockup-container.mockup-interactive [data-mockup-panel-host] > .mockup-panel-view {
+  flex: 1;
+  min-height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mockup-container.mockup-interactive .mockup-timetable {
+  width: 100%;
 }
 
 .mockup-container.mockup-interactive .mockup-nav-item {
@@ -348,6 +400,13 @@
 .mockup-toast.is-error {
   color: #fecaca;
   border-color: rgba(239, 68, 68, 0.4);
+}
+
+@media (max-width: 1024px) {
+  .mockup-container.mockup-interactive .mockup-body {
+    height: auto;
+    min-height: 320px;
+  }
 }
 
 @media (max-width: 768px) {

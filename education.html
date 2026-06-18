@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Планово — Демо: Учебные учреждения</title>
+<link rel="icon" href="logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -63,11 +64,12 @@ body {
 }
 .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .logo-icon {
-  width: 40px; height: 40px; border-radius: 12px;
-  background: var(--gradient-primary);
+  width: 60px; height: 60px; border-radius: 0;
   display: flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 18px; box-shadow: var(--shadow-md);
+  background: transparent; box-shadow: none; padding: 0;
 }
+.logo-icon .planovo-logo-svg,
+.logo-icon .planovo-logo-img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .logo-text { font-weight: 800; font-size: 18px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .logo-sub { font-size: 10px; color: var(--gray-500); display: none; }
 @media (min-width: 640px) { .logo-sub { display: block; } }
@@ -397,7 +399,7 @@ body {
 
 @media (max-width: 480px) {
   .header-inner { height: 56px; }
-  .logo-icon { width: 32px; height: 32px; font-size: 14px; }
+  .logo-icon { width: 50px; height: 50px; }
   .logo-text { font-size: 15px; }
   .main-content { padding: 16px 0 32px; }
   .card-body { padding: 16px; }
