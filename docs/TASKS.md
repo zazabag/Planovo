@@ -26,7 +26,8 @@
 | TASK-18 | Fix mobile: проблема aura, demo tabs, process line | zazabag | `fix/zazabag/mobile-ui-fixes` | done | [#20](https://github.com/zazabag/Planovo/pull/20) | overlap, overflow, 5 tabs, SVG stack |
 | TASK-19 | Мобильные ниши: карусель 1 карточка, кнопки на одной высоте | zazabag | `feature/zazabag/niche-mobile-carousel` | done | [#21](https://github.com/zazabag/Planovo/pull/21) | стрелка, flex CTA |
 | TASK-20 | Fix: «Процесс» — init SVG на mobile, левый рельс | zazabag | `feature/zazabag/niche-mobile-carousel` | done | [#21](https://github.com/zazabag/Planovo/pull/21) | self-boot, tryProcessInit |
-| TASK-21 | Fix: карусель ниш (2/3 slide) + анимация линии процесса | zazabag | `fix/zazabag/niche-carousel-process-regression` | review | — | px translate, badge scroll |
+<<<<<<< Updated upstream
+| TASK-21 | Fix: карусель ниш (2/3 slide) + анимация линии процесса | zazabag | `fix/zazabag/niche-carousel-process-regression` | done | [#22](https://github.com/zazabag/Planovo/pull/22) | px translate, badge scroll |
 
 ## Как добавить задачу
 
