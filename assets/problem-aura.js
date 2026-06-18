@@ -40,6 +40,7 @@
     cards.forEach(function (card) {
       var intensity = scrollActive ? getCardAuraIntensity(card) : 0;
       card.style.setProperty("--card-aura", intensity.toFixed(3));
+      card.classList.toggle("is-aura-hot", intensity > 0.08);
     });
   }
 
@@ -54,6 +55,7 @@
   function clearAura() {
     cards.forEach(function (card) {
       card.style.setProperty("--card-aura", "0");
+      card.classList.remove("is-aura-hot");
     });
   }
 

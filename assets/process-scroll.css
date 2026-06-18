@@ -316,9 +316,32 @@
 
 @media (max-width: 768px) {
   .process-timeline-wrap {
-    min-height: 780px;
+    min-height: 0 !important;
     margin-top: 24px;
     padding: 8px 4px 32px;
+  }
+
+  .process-timeline-wrap.process-timeline-stack,
+  .process-enhanced .process-timeline-wrap {
+    min-height: 0 !important;
+  }
+
+  .process-enhanced .process-step-slot {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+
+  .process-enhanced .process-step-slot:last-child {
+    margin-bottom: 0;
+  }
+
+  .process-path-svg {
+    opacity: 1;
   }
 
   .process-enhanced .step {

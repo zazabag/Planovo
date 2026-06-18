@@ -219,6 +219,68 @@ body {
     white-space: normal;
     min-height: 44px;
   }
+
+  /* Problem — aura clipping / overlap (fallback без mobile-layout) */
+  .landing-page .problem.problem-aura-enhanced {
+    overflow: visible;
+  }
+
+  .landing-page .problem.problem-aura-enhanced .landing-container,
+  .landing-page .problem.problem-aura-enhanced .problem-grid {
+    overflow: visible;
+  }
+
+  .landing-page .problem.problem-aura-enhanced .problem-card {
+    position: relative;
+    z-index: 0;
+    overflow: visible;
+  }
+
+  .landing-page .problem.problem-aura-enhanced .problem-card.is-aura-hot {
+    z-index: 2;
+  }
+
+  /* Mockup — все 5 вкладок, горизонтальный скролл */
+  .mockup-container.mockup-interactive .mockup-body {
+    flex-direction: column;
+    height: auto;
+    min-height: 380px;
+    overflow: visible;
+  }
+
+  .mockup-container.mockup-interactive .mockup-sidebar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100% !important;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .mockup-container.mockup-interactive .mockup-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mockup-container.mockup-interactive .mockup-nav-item {
+    flex: 0 0 auto;
+    width: auto !important;
+    min-height: 44px;
+    padding: 8px 12px;
+    white-space: nowrap;
+    scroll-snap-align: start;
+  }
+
+  /* Process — вертикальный стек, линия по badge */
+  .how-it-works.process-enhanced .process-timeline-wrap {
+    min-height: 0 !important;
+  }
 }
 
 @media (max-width: 480px) {

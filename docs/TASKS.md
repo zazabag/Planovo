@@ -23,6 +23,7 @@
 | TASK-15 | Лендинг: демо-кнопки в нишах; демо: accent на пункте 2 | zazabag | `feature/zazabag/niche-demo-accent` | done | [#17](https://github.com/zazabag/Planovo/pull/17) | кнопки в niche-card, accent пункт 2 |
 | TASK-16 | Fix: education teacher showcase — пункт 2 вместо 3 | zazabag | `fix/zazabag/education-teacher-showcase` | done | [#18](https://github.com/zazabag/Planovo/pull/18) | TeacherShowcase блок 2 |
 | TASK-17 | Мобильный лендинг v3: compact layout, mobile-layout | zazabag | `feature/zazabag/mobile-landing-v3` | done | [#19](https://github.com/zazabag/Planovo/pull/19) | site-mobile-landing, syncMobileLandingLayout |
+| TASK-18 | Fix mobile: проблема aura, demo tabs, process line | zazabag | `fix/zazabag/mobile-ui-fixes` | in-progress | — | overlap, overflow, 5 tabs, SVG stack |
 
 ## Как добавить задачу
 
