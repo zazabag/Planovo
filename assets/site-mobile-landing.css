@@ -449,38 +449,70 @@
     touch-action: manipulation;
   }
 
-  /* —— Niches: horizontal snap carousel —— */
-  .landing-page.mobile-layout .niches-grid {
+  /* —— Niches: single-card carousel + aligned demo buttons —— */
+  html.planovo-mobile .landing-page .niches-carousel,
+  .landing-page.mobile-layout .niches-carousel {
+    display: flex;
+    align-items: stretch;
+    gap: var(--m-2);
+    margin-top: var(--m-4);
+  }
+
+  html.planovo-mobile .landing-page .niches-carousel-viewport,
+  .landing-page.mobile-layout .niches-carousel-viewport {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  html.planovo-mobile .landing-page .niches-carousel .niches-grid,
+  .landing-page.mobile-layout .niches-carousel .niches-grid {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0;
+    overflow: hidden;
+    scroll-snap-type: none;
+    margin: 0;
+    padding: 0;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  html.planovo-mobile .landing-page .niches-grid:not(.niches-carousel .niches-grid),
+  .landing-page.mobile-layout .niches-grid:not(.niches-carousel .niches-grid) {
+    display: flex;
+    flex-direction: column;
     gap: var(--m-3);
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    padding: var(--m-1) var(--m-gutter) var(--m-3);
-    margin: 0 calc(var(--m-gutter) * -1);
-    scrollbar-width: none;
   }
 
-  .landing-page.mobile-layout .niches-grid::-webkit-scrollbar {
-    display: none;
-  }
-
-  .landing-page.mobile-layout .niche-card {
-    flex: 0 0 min(72vw, 260px);
-    scroll-snap-align: start;
+  html.planovo-mobile .landing-page .niches-carousel .niche-card,
+  .landing-page.mobile-layout .niches-carousel .niche-card {
+    flex: 0 0 100%;
+    width: 100%;
+    box-sizing: border-box;
+    scroll-snap-align: none;
     padding: var(--m-3);
     border-radius: var(--m-radius);
     transform: none !important;
-    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 
+  html.planovo-mobile .landing-page .niche-card,
+  .landing-page.mobile-layout .niche-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  html.planovo-mobile .landing-page .niche-card:hover,
   .landing-page.mobile-layout .niche-card:hover {
     transform: none !important;
   }
 
+  html.planovo-mobile .landing-page .niche-icon,
   .landing-page.mobile-layout .niche-icon {
     width: 36px;
     height: 36px;
@@ -488,34 +520,78 @@
     margin-bottom: var(--m-2);
   }
 
+  html.planovo-mobile .landing-page .niche-card h3,
   .landing-page.mobile-layout .niche-card h3 {
     font-size: var(--m-text-sm);
     margin-bottom: var(--m-2);
   }
 
+  html.planovo-mobile .landing-page .niche-card p,
   .landing-page.mobile-layout .niche-card p {
     font-size: var(--m-text-xs);
     line-height: 1.4;
     margin-bottom: var(--m-3);
   }
 
+  html.planovo-mobile .landing-page .niche-features,
   .landing-page.mobile-layout .niche-features {
+    flex: 1 1 auto;
     gap: var(--m-2);
     margin-bottom: var(--m-3);
   }
 
+  html.planovo-mobile .landing-page .niche-feature,
   .landing-page.mobile-layout .niche-feature {
     font-size: var(--m-text-xs);
     gap: var(--m-2);
   }
 
+  html.planovo-mobile .landing-page .niches-grid .niche-demo-btn,
+  html.planovo-mobile .landing-page .niches-grid .demo-card-btn,
   .landing-page.mobile-layout .niches-grid .niche-demo-btn,
   .landing-page.mobile-layout .niches-grid .demo-card-btn {
-    margin-top: var(--m-4);
+    margin-top: auto !important;
+    flex-shrink: 0;
     min-height: var(--m-touch);
     padding: var(--m-3);
     font-size: var(--m-text-sm);
     width: 100%;
+    box-sizing: border-box;
+  }
+
+  html.planovo-mobile .landing-page .niches-carousel-next,
+  .landing-page.mobile-layout .niches-carousel-next {
+    flex: 0 0 var(--m-touch);
+    width: var(--m-touch);
+    height: var(--m-touch);
+    min-width: var(--m-touch);
+    min-height: var(--m-touch);
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gray-200, #e5e7eb);
+    border-radius: 50%;
+    background: var(--white, #fff);
+    color: var(--primary, #6366f1);
+    box-shadow: var(--shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.06));
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  }
+
+  html.planovo-mobile .landing-page .niches-carousel-next:active,
+  .landing-page.mobile-layout .niches-carousel-next:active {
+    transform: scale(0.96);
+    background: rgba(99, 102, 241, 0.08);
+    border-color: var(--primary-light, #818cf8);
+  }
+
+  html.planovo-mobile .landing-page .niches-carousel-next:focus-visible,
+  .landing-page.mobile-layout .niches-carousel-next:focus-visible {
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: 2px;
   }
 
   /* —— Demos: vertical steps with numbers —— */
@@ -647,7 +723,7 @@
   .landing-page.mobile-layout .process-timeline-wrap.process-timeline-stack {
     min-height: 0 !important;
     margin-top: var(--m-4);
-    padding: 0 0 var(--m-3);
+    padding: 0 4px var(--m-3);
   }
 
   html.planovo-mobile .landing-page .process-timeline-stack .process-step-slot,
@@ -662,9 +738,25 @@
     margin-bottom: 0;
   }
 
+  html.planovo-mobile .landing-page .process-timeline-stack .process-step-badge,
+  .landing-page.mobile-layout .process-timeline-stack .process-step-badge {
+    position: absolute;
+    left: 0;
+    top: var(--m-4);
+    width: 44px;
+    height: 44px;
+  }
+
+  html.planovo-mobile .landing-page .process-timeline-stack .step,
+  .landing-page.mobile-layout .process-timeline-stack .step {
+    position: relative;
+    padding-left: 52px;
+  }
+
   html.planovo-mobile .landing-page .process-timeline-stack .process-path-svg,
   .landing-page.mobile-layout .process-timeline-stack .process-path-svg {
     opacity: 1;
+    z-index: 3;
   }
 
   html.planovo-mobile .landing-page .process-enhanced.process-stack .step-content h3,
@@ -809,13 +901,17 @@
     grid-template-columns: 1fr;
   }
 
-  .landing-page.mobile-layout .niche-card,
   .landing-page.mobile-layout .demo-card {
     flex-basis: 88vw;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html.planovo-mobile .landing-page .niches-carousel .niches-grid,
+  .landing-page.mobile-layout .niches-carousel .niches-grid {
+    transition: none;
+  }
+
   .landing-page.mobile-layout .niches-grid,
   .landing-page.mobile-layout .demos-grid {
     scroll-behavior: auto;

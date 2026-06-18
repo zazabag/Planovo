@@ -24,6 +24,8 @@
 | TASK-16 | Fix: education teacher showcase — пункт 2 вместо 3 | zazabag | `fix/zazabag/education-teacher-showcase` | done | [#18](https://github.com/zazabag/Planovo/pull/18) | TeacherShowcase блок 2 |
 | TASK-17 | Мобильный лендинг v3: compact layout, mobile-layout | zazabag | `feature/zazabag/mobile-landing-v3` | done | [#19](https://github.com/zazabag/Planovo/pull/19) | site-mobile-landing, syncMobileLandingLayout |
 | TASK-18 | Fix mobile: проблема aura, demo tabs, process line | zazabag | `fix/zazabag/mobile-ui-fixes` | done | [#20](https://github.com/zazabag/Planovo/pull/20) | overlap, overflow, 5 tabs, SVG stack |
+| TASK-19 | Мобильные ниши: карусель 1 карточка, кнопки на одной высоте | zazabag | `feature/zazabag/niche-mobile-carousel` | review | — | стрелка, flex CTA |
+| TASK-20 | Fix: «Процесс» — init SVG на mobile, левый рельс | zazabag | `feature/zazabag/niche-mobile-carousel` | review | — | self-boot, tryProcessInit |
 
 ## Как добавить задачу
 
