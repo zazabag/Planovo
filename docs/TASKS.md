@@ -21,6 +21,7 @@
 | TASK-13 | Fix mobile: hero overlap, process line, problem, mockup | zazabag | `fix/zazabag/mobile-layout-fixes` | done | [#13](https://github.com/zazabag/Planovo/pull/13) | hero, demos steps, process SVG, admin panel |
 | TASK-14 | Откат mobile-layout, hero-scroll, линия процесса, accent демо | zazabag | `fix/zazabag/landing-revert-process-demo` | done | [#15](https://github.com/zazabag/Planovo/pull/15) | без site-mobile-landing, пункты 1/3 |
 | TASK-15 | Лендинг: демо-кнопки в нишах; демо: accent на пункте 2 | zazabag | `feature/zazabag/niche-demo-accent` | done | [#17](https://github.com/zazabag/Planovo/pull/17) | кнопки в niche-card, accent пункт 2 |
+| TASK-16 | Fix: education teacher showcase — пункт 2 вместо 3 | zazabag | `fix/zazabag/education-teacher-showcase` | in-progress | — | TeacherShowcase блок 2 |
 
 ## Как добавить задачу
 
