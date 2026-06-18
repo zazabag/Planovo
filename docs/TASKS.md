@@ -15,7 +15,7 @@
 | TASK-7 | Fix: секция «Решение» — overflow на мобильном | Owl-14 | `fix/Owl-14/solution-mobile-overflow` | done | [#4](https://github.com/zazabag/Planovo/pull/4) | mockup, site-mobile.css |
 | TASK-8 | Документация: адаптивный интерфейс (RESPONSIVE.md) | Owl-14 | `docs/Owl-14/responsive-spec` | done | [#5](https://github.com/zazabag/Planovo/pull/5) | брейкпоинты, правила по устройствам |
 | TASK-9 | Лендинг: демо-ссылки, секция «Процесс», фиксы формы | zazabag | `fix/zazabag/landing-demo-process` | done | [#6](https://github.com/zazabag/Planovo/pull/6) | demo href, process-scroll, favicon |
-| TASK-10 | Бренд-логотип, фон лендинга, glow «Проблема», mockup | zazabag | `feature/zazabag/brand-logo-landing` | in-progress | — | logo.png 60px, landing-background, problem-aura |
+| TASK-10 | Бренд-логотип, фон лендинга, glow «Проблема», mockup | zazabag | `feature/zazabag/brand-logo-landing` | done | [#7](https://github.com/zazabag/Planovo/pull/7) | logo.png 60px, landing-background, problem-aura |
 
 ## Как добавить задачу
 
