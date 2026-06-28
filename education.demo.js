@@ -2102,7 +2102,7 @@ const STUDENT_SHOWCASE_BLOCKS = [{
   n: 1,
   icon: "fa-calendar-day",
   title: "День из расписания",
-  text: "Ученик открывает ссылку и сразу видит пары на день: во сколько, какой предмет, кто ведёт и в какой аудитории. Всё в карточках — не PDF в чате группы."
+  text: "Ученик открывает ссылку и сразу видит пары на день: во сколько, какой предмет, кто ведёт и в какой аудитории. Всё в карточках — не вложение в чате группы."
 }, {
   n: 2,
   icon: "fa-users",
@@ -2138,18 +2138,18 @@ const TEACHER_SHOWCASE_NOTES = [{
   n: 4,
   icon: "fa-paper-plane",
   title: "Отправка в учебную часть",
-  text: "Один клик — и окна переданы методистам. Не таблица в почте, а живые данные в системе."
+  text: "Один клик — и окна переданы методистам. Не файл в почте, а живые данные в системе."
 }];
 const ADMIN_SHOWCASE_NOTES = [{
   n: 1,
   icon: "fa-table-columns",
   title: "Конструктор расписания",
-  text: "Методист видит сетку группы и может добавить или поправить занятие. Всё на одном экране вместо разрозненных Excel-файлов."
+  text: "Методист видит сетку группы и может добавить или поправить занятие. Всё на одном экране вместо разрозненных файлов и переписок."
 }, {
   n: 2,
   icon: "fa-triangle-exclamation",
   title: "Конфликты сразу видны",
-  text: "Система подсвечивает пересечения: один преподаватель в двух местах, занятая аудитория. Не нужно вручную сверять таблицы."
+  text: "Система подсвечивает пересечения: один преподаватель в двух местах, занятая аудитория. Не нужно вручную сверять документы."
 }, {
   n: 3,
   icon: "fa-wand-magic-sparkles",
@@ -2400,13 +2400,13 @@ function TeacherShowcase({
   }), /*#__PURE__*/React.createElement(TeacherView, Object.assign({
     showcaseFixedTab: "schedule"
   }, teacherViewProps))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
-    note: TEACHER_SHOWCASE_NOTES[1]
+    note: TEACHER_SHOWCASE_NOTES[2]
   }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
-    icon: "fa-users",
-    label: "Группы в карточках",
+    icon: "fa-check-square",
+    label: "Доступность",
     meta: teacher ? `· ${teacher.surname}` : null
   }), /*#__PURE__*/React.createElement(TeacherView, Object.assign({
-    showcaseFixedTab: "schedule"
+    showcaseFixedTab: "availability"
   }, teacherViewProps))));
 }
 function AdminShowcase({
@@ -2422,24 +2422,39 @@ function AdminShowcase({
     currentParity: currentParity,
     availabilities: availabilities
   };
+  const desktopNote = /*#__PURE__*/React.createElement("div", {
+    className: "admin-desktop-note"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-desktop"
+  }), /*#__PURE__*/React.createElement("span", null, "Учебная часть — рабочее место за компьютером. На телефоне показываем превью с горизонтальной прокруткой, потому что конструктор с группами, аудиториями и преподавателями честно удобнее на большом экране."));
+  const desktopFrame = tab => /*#__PURE__*/React.createElement("div", {
+    className: "admin-demo-scroll"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "admin-desktop-shell"
+  }, /*#__PURE__*/React.createElement(AdminView, Object.assign({
+    showcaseFixedTab: tab
+  }, adminViewProps))));
   return /*#__PURE__*/React.createElement("div", {
     className: "showcase-walkthrough"
   }, /*#__PURE__*/React.createElement(ShowcaseBlock, {
     note: ADMIN_SHOWCASE_NOTES[0]
-  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+  }, desktopNote, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
     icon: "fa-table-columns",
     label: "Конструктор",
-    meta: "· ОЭ-11"
-  }), /*#__PURE__*/React.createElement(AdminView, Object.assign({
-    showcaseFixedTab: "constructor"
-  }, adminViewProps))), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    meta: "· desktop-кабинет"
+  }), desktopFrame("constructor")), /*#__PURE__*/React.createElement(ShowcaseBlock, {
+    note: ADMIN_SHOWCASE_NOTES[2]
+  }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
+    icon: "fa-wand-magic-sparkles",
+    label: "Автогенерация",
+    meta: "· первый черновик"
+  }), desktopFrame("autogen")), /*#__PURE__*/React.createElement(ShowcaseBlock, {
     note: ADMIN_SHOWCASE_NOTES[1]
   }, /*#__PURE__*/React.createElement(ShowcaseDemoChrome, {
     icon: "fa-triangle-exclamation",
-    label: "Конфликты"
-  }), /*#__PURE__*/React.createElement(AdminView, Object.assign({
-    showcaseFixedTab: "conflicts"
-  }, adminViewProps))));
+    label: "Конфликты",
+    meta: "· проверка перед публикацией"
+  }), desktopFrame("conflicts")));
 }
 // ═══════════════════════════════════════════════
 // MAIN APP
@@ -2458,20 +2473,24 @@ function App() {
   const roles = [{
     key: "student",
     label: "Ученик",
-    icon: "fa-graduation-cap"
+    icon: "fa-graduation-cap",
+    desc: "Расписание с телефона"
   }, {
     key: "teacher",
     label: "Преподаватель",
-    icon: "fa-book-open"
+    icon: "fa-book-open",
+    desc: "Мои пары и доступность"
   }, {
     key: "admin",
     label: "Учебная часть",
-    icon: "fa-shield-alt"
+    icon: "fa-shield-alt",
+    desc: "Desktop-конструктор"
   }];
+  const activeRole = roles.find(r => r.key === role) || roles[0];
   const introByRole = {
-    student: /*#__PURE__*/React.createElement(React.Fragment, null, "Три блока: ", /*#__PURE__*/React.createElement("strong", null, "пояснение слева"), ", пример интерфейса справа. Во втором блоке можно переключить группу."),
-    teacher: /*#__PURE__*/React.createElement(React.Fragment, null, "Расписание и доступность преподавателя — ", /*#__PURE__*/React.createElement("strong", null, "отдельными блоками"), " с пояснениями слева."),
-    admin: /*#__PURE__*/React.createElement(React.Fragment, null, "Конструктор сетки и список конфликтов — ", /*#__PURE__*/React.createElement("strong", null, "по блокам"), ", как в рабочем месте методиста.")
+    student: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "Ученик"), " открывает ссылку с телефона и сразу видит актуальные пары, аудитории и преподавателей."),
+    teacher: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "Преподаватель"), " смотрит своё расписание и отправляет доступность учебной части без переписок."),
+    admin: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "Учебная часть"), " работает в desktop-кабинете: собирает сетку, запускает черновик, проверяет конфликты и публикует.")
   };
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2549,8 +2568,51 @@ function App() {
     "aria-label": "Вернуться на главную страницу сайта"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-arrow-left"
-  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement("p", {
-    className: "showcase-intro"
+  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement("section", {
+    className: "demo-hero",
+    "aria-labelledby": "demo-title"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "demo-hero-copy"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "demo-kicker"
+  }, "Интерактивная демоверсия"), /*#__PURE__*/React.createElement("h1", {
+    className: "demo-title",
+    id: "demo-title"
+  }, "Планово для ", /*#__PURE__*/React.createElement("span", null, "учебного учреждения")), /*#__PURE__*/React.createElement("p", {
+    className: "demo-lead"
+  }, "Показываем полный сценарий на примере колледжа: ученик видит расписание, преподаватель отдаёт доступность, учебная часть собирает и публикует сетку."), /*#__PURE__*/React.createElement("div", {
+    className: "demo-hero-actions",
+    "aria-label": "Ключевые сценарии"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "demo-chip"
+  }, "мобильный ученик"), /*#__PURE__*/React.createElement("span", {
+    className: "demo-chip"
+  }, "мобильный преподаватель"), /*#__PURE__*/React.createElement("span", {
+    className: "demo-chip"
+  }, "desktop учебной части"))), /*#__PURE__*/React.createElement("div", {
+    className: "demo-hero-panel"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "demo-panel-title"
+  }, "Выберите роль"), /*#__PURE__*/React.createElement("div", {
+    className: "demo-role-switch",
+    role: "tablist",
+    "aria-label": "Роли демоверсии"
+  }, roles.map(r => /*#__PURE__*/React.createElement("button", {
+    key: r.key,
+    type: "button",
+    role: "tab",
+    "aria-selected": role === r.key,
+    className: `demo-role-button ${role === r.key ? "active" : ""}`,
+    onClick: () => setRole(r.key)
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${r.icon}`
+  }), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, r.label), /*#__PURE__*/React.createElement("span", null, r.desc))))), /*#__PURE__*/React.createElement("div", {
+    className: "demo-chip",
+    style: {
+      alignSelf: "flex-start"
+    }
+  }, "Сейчас: ", activeRole.label))), /*#__PURE__*/React.createElement("p", {
+    className: "demo-role-context"
   }, introByRole[role]), role === "student" && /*#__PURE__*/React.createElement(EducationShowcase, {
     cells: cells
   }), role === "teacher" && /*#__PURE__*/React.createElement(TeacherShowcase, {

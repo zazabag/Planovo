@@ -15,13 +15,13 @@
     --m-radius-sm: 8px;
     --m-radius: 12px;
     --m-radius-lg: 16px;
-    --m-text-xs: clamp(0.69rem, 2.6vw, 0.75rem);
-    --m-text-sm: clamp(0.78rem, 2.9vw, 0.84rem);
-    --m-text-base: clamp(0.88rem, 3.2vw, 0.94rem);
-    --m-text-lg: clamp(1.05rem, 4vw, 1.2rem);
-    --m-text-xl: clamp(1.28rem, 5.2vw, 1.45rem);
-    --m-section-y: 20px;
-    --m-gutter: var(--m-3);
+    --m-text-xs: clamp(0.72rem, 2.7vw, 0.78rem);
+    --m-text-sm: clamp(0.84rem, 3vw, 0.9rem);
+    --m-text-base: clamp(0.94rem, 3.35vw, 1rem);
+    --m-text-lg: clamp(1.28rem, 5vw, 1.55rem);
+    --m-text-xl: clamp(1.82rem, 8.2vw, 2.35rem);
+    --m-section-y: 36px;
+    --m-gutter: var(--m-4);
     font-size: var(--m-text-base);
     line-height: 1.5;
     -webkit-text-size-adjust: 100%;
@@ -36,6 +36,9 @@
   /* —— Sticky nav (thumb-friendly) —— */
   .landing-page.mobile-layout .landing-navbar {
     padding-top: env(safe-area-inset-top, 0);
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
   }
 
   /* Scope: mobile-layout OR planovo-mobile on html */
@@ -62,6 +65,17 @@
     white-space: nowrap;
   }
 
+  .landing-page.mobile-layout.landing-preview .logo-text {
+    background: none !important;
+    -webkit-text-fill-color: var(--preview-accent-deep, #6b6540) !important;
+    color: var(--preview-accent-deep, #6b6540) !important;
+  }
+
+  .landing-page.mobile-layout .logo-icon img {
+    opacity: 1;
+    filter: saturate(1.08) contrast(1.08);
+  }
+
   html.planovo-mobile .landing-page .mobile-toggle,
   .landing-page.mobile-layout .mobile-toggle {
     min-width: var(--m-touch);
@@ -69,6 +83,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    border-radius: var(--m-radius-sm);
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
   }
 
   .landing-page.mobile-layout .nav-links {
@@ -96,7 +114,7 @@
   html.planovo-mobile .landing-page .hero,
   .landing-page.mobile-layout .hero {
     min-height: 0 !important;
-    padding: calc(52px + var(--m-6) + env(safe-area-inset-top, 0)) 0 var(--m-6);
+    padding: calc(56px + var(--m-6) + env(safe-area-inset-top, 0)) 0 44px;
     text-align: left;
     overflow: visible;
     display: block;
@@ -107,7 +125,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--m-3);
+    gap: var(--m-4);
     text-align: left;
     position: relative;
     z-index: 1;
@@ -116,27 +134,28 @@
   html.planovo-mobile .landing-page .hero-badge,
   .landing-page.mobile-layout .hero-badge {
     font-size: var(--m-text-xs);
-    padding: var(--m-1) var(--m-3);
+    padding: 7px var(--m-3);
     margin: 0;
     display: inline-flex;
     max-width: 100%;
+    box-shadow: 0 6px 18px rgba(140, 130, 90, 0.08);
   }
 
   html.planovo-mobile .landing-page .hero-title,
   .landing-page.mobile-layout .hero-title {
     font-size: var(--m-text-xl);
-    line-height: 1.2;
+    line-height: 1.06;
     margin: 0;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     text-align: left;
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
     max-width: 100%;
   }
 
   html.planovo-mobile .landing-page .hero-subtitle,
   .landing-page.mobile-layout .hero-subtitle {
-    font-size: var(--m-text-sm);
-    line-height: 1.55;
+    font-size: var(--m-text-base);
+    line-height: 1.58;
     margin: 0;
     max-width: 100%;
     text-align: left;
@@ -147,7 +166,7 @@
     flex-direction: column;
     align-items: stretch;
     gap: var(--m-3);
-    margin: var(--m-2) 0 0;
+    margin: var(--m-1) 0 0;
     width: 100%;
   }
 
@@ -156,9 +175,17 @@
     width: 100%;
     max-width: none;
     min-height: var(--m-touch);
-    padding: var(--m-3) var(--m-4);
-    font-size: var(--m-text-sm);
+    padding: 14px var(--m-4);
+    font-size: var(--m-text-base);
     justify-content: center;
+  }
+
+  .landing-page.mobile-layout.landing-preview .hero-note {
+    margin-top: 0;
+    font-size: var(--m-text-sm);
+    line-height: 1.45;
+    text-align: center;
+    width: 100%;
   }
 
   html.planovo-mobile .landing-page .logo,
@@ -180,7 +207,7 @@
   }
 
   .landing-page.mobile-layout .section-header {
-    margin-bottom: var(--m-4);
+    margin-bottom: var(--m-5);
     text-align: left !important;
   }
 
@@ -199,14 +226,14 @@
 
   .landing-page.mobile-layout .section-title {
     font-size: var(--m-text-lg) !important;
-    line-height: 1.25;
+    line-height: 1.18;
     margin-bottom: var(--m-2);
     text-align: left;
   }
 
   .landing-page.mobile-layout .section-subtitle {
-    font-size: var(--m-text-sm);
-    line-height: 1.45;
+    font-size: var(--m-text-base);
+    line-height: 1.5;
     max-width: 40ch;
     text-align: left;
   }
@@ -214,15 +241,15 @@
   /* —— Problem: compact list rows in one card —— */
   html.planovo-mobile .landing-page .problem-grid,
   .landing-page.mobile-layout .problem-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border: 1px solid var(--gray-200, #e5e7eb);
-    border-radius: var(--m-radius-lg);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--m-3);
+    border: none;
+    border-radius: 0;
     overflow: visible;
-    background: var(--white, #fff);
-    box-shadow: var(--shadow-sm);
-    padding: 4px;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
     margin: 0;
     position: relative;
     z-index: 0;
@@ -236,18 +263,17 @@
   html.planovo-mobile .landing-page .problem-card,
   .landing-page.mobile-layout .problem-card {
     display: grid;
-    grid-template-columns: 32px minmax(0, 1fr);
+    grid-template-columns: 42px minmax(0, 1fr);
     grid-template-rows: auto auto;
     column-gap: var(--m-3);
-    row-gap: var(--m-1);
+    row-gap: 5px;
     align-items: start;
-    padding: var(--m-3);
+    padding: var(--m-4);
     min-height: 0;
-    border-radius: 0 !important;
-    border: none !important;
-    border-bottom: 1px solid var(--gray-200, #e5e7eb) !important;
-    box-shadow: none !important;
-    background: transparent;
+    border-radius: var(--m-radius-lg) !important;
+    border: 1px solid rgba(212, 196, 105, 0.28) !important;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.055) !important;
+    background: rgba(255, 255, 255, 0.78);
     transform: none !important;
     position: relative;
     z-index: 0;
@@ -262,35 +288,35 @@
   html.planovo-mobile .landing-page .problem-icon,
   .landing-page.mobile-layout .problem-icon {
     grid-row: 1 / span 2;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    font-size: 0.95rem;
-    border-radius: var(--m-radius-sm);
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    font-size: 1.12rem;
+    border-radius: 14px;
     margin: 0;
   }
 
   html.planovo-mobile .landing-page .problem-card h3,
   .landing-page.mobile-layout .problem-card h3 {
     grid-column: 2;
-    font-size: var(--m-text-sm);
-    font-weight: 700;
+    font-size: var(--m-text-base);
+    font-weight: 800;
     margin: 0;
-    line-height: 1.3;
+    line-height: 1.22;
   }
 
   html.planovo-mobile .landing-page .problem-card p,
   .landing-page.mobile-layout .problem-card p {
     grid-column: 2;
-    font-size: var(--m-text-xs);
-    line-height: 1.45;
+    font-size: var(--m-text-sm);
+    line-height: 1.48;
     color: var(--gray-600, #4b5563);
     margin: 0;
   }
 
   html.planovo-mobile .landing-page .problem-card:last-child,
   .landing-page.mobile-layout .problem-card:last-child {
-    border-bottom: none !important;
+    border-bottom: 1px solid rgba(212, 196, 105, 0.28) !important;
   }
 
   html.planovo-mobile .landing-page .problem-card:hover,
@@ -300,22 +326,12 @@
 
   html.planovo-mobile .landing-page .problem.problem-aura-enhanced .problem-card::after,
   .landing-page.mobile-layout .problem.problem-aura-enhanced .problem-card::after {
-    inset: 0;
-    border-radius: 0;
+    inset: -2px;
+    border-radius: calc(var(--m-radius-lg) + 2px);
     z-index: -1;
     box-shadow:
       0 0 0 1px rgba(185, 28, 28, calc(var(--card-aura, 0) * 0.85)),
-      0 0 14px rgba(220, 38, 38, calc(var(--card-aura, 0) * 0.45));
-  }
-
-  html.planovo-mobile .landing-page .problem-grid .problem-card:first-child::after,
-  .landing-page.mobile-layout .problem-grid .problem-card:first-child::after {
-    border-radius: calc(var(--m-radius-lg) - 2px) calc(var(--m-radius-lg) - 2px) 0 0;
-  }
-
-  html.planovo-mobile .landing-page .problem-grid .problem-card:last-child::after,
-  .landing-page.mobile-layout .problem-grid .problem-card:last-child::after {
-    border-radius: 0 0 calc(var(--m-radius-lg) - 2px) calc(var(--m-radius-lg) - 2px);
+      0 0 20px rgba(220, 38, 38, calc(var(--card-aura, 0) * 0.32));
   }
 
   /* —— Solution —— */

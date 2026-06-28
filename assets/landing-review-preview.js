@@ -30,6 +30,13 @@
     el.textContent = text;
   }
 
+  function setButtonLabel(button, text) {
+    if (!button) return;
+    var icon = button.querySelector("svg");
+    button.textContent = text;
+    if (icon) button.appendChild(icon);
+  }
+
   function ensureRibbon() {
     if (!isPreviewMode()) return;
     if (document.getElementById("landingPreviewRibbon")) return;
@@ -49,7 +56,7 @@
     if (subtitle) {
       setText(
         subtitle,
-        "Планово — это умная экосистема для создания, управления и публикации расписаний. От колледжей до спортивных секций и клубов. Мы закрываем боль организаторов и делаем жизнь участников проще."
+        "Меняете занятие один раз — студенты, преподаватели и администраторы сразу видят актуальную версию с телефона."
       );
     }
 
@@ -60,25 +67,81 @@
       var dot = badge.querySelector(".badge-dot");
       badge.textContent = "";
       if (dot) badge.appendChild(dot);
-      badge.appendChild(document.createTextNode("Без Excel и PDF"));
+      badge.appendChild(document.createTextNode("Для расписаний, где много изменений"));
     }
 
     var title = qs(".hero-title", hero);
     setHtml(
       title,
-      'Расписание без Excel и\u00a0<span class="gradient-text">нервов</span>'
+      'Планово держит <span class="gradient-text">расписание</span> в порядке'
     );
+
+    var buttons = qs(".hero-buttons", hero);
+    if (buttons) {
+      var primary = buttons.querySelector(".btn-primary");
+      var secondary = buttons.querySelector(".btn-secondary");
+      if (primary) setButtonLabel(primary, "Открыть демо");
+      if (secondary) setButtonLabel(secondary, "Оставить заявку");
+    }
+
+    var navCta = qs(".nav-cta", page);
+    if (navCta) setText(navCta, "Открыть демо");
+
+    if (!qs(".hero-schedule-preview", hero)) {
+      var preview = document.createElement("div");
+      preview.className = "hero-schedule-preview";
+      preview.innerHTML =
+        '<div class="hero-schedule-top">' +
+        '<span>Сегодня</span>' +
+        '<strong>Группа 2А</strong>' +
+        "</div>" +
+        '<div class="hero-schedule-list">' +
+        '<div class="hero-schedule-row"><time>09:00</time><span>Математика</span><em>А-101</em></div>' +
+        '<div class="hero-schedule-row is-change"><time>11:00</time><span>Замена: английский</span><em>А-105</em></div>' +
+        '<div class="hero-schedule-row"><time>13:00</time><span>Проектная работа</span><em>Л-305</em></div>' +
+        "</div>" +
+        '<div class="hero-schedule-status">Обновлено только что</div>';
+      if (buttons) buttons.before(preview);
+      else hero.appendChild(preview);
+    }
 
     if (!qs(".hero-note", hero)) {
       var note = document.createElement("p");
       note.className = "hero-note";
       note.innerHTML =
-        "<strong>Демо за 30 секунд</strong> — без регистрации, просто нажмите «Посмотреть демо»";
-      var buttons = qs(".hero-buttons", hero);
+        "<strong>Демо без регистрации</strong> — за 30 секунд покажем сценарий администратора и участника.";
       if (buttons) buttons.after(note);
     }
 
     hero.setAttribute(PATCHED + "-hero", "1");
+  }
+
+  function patchProblem(page) {
+    var section = qs("section.problem", page);
+    if (!section || section.getAttribute(PATCHED + "-problem")) return;
+
+    setHtml(
+      qs(".section-title", section),
+      'Почему расписание быстро становится <span class="highlight">головной болью</span>'
+    );
+
+    var cards = section.querySelectorAll(".problem-card");
+    var copy = [
+      ["Правки в разных местах", "Одну замену приходится повторять в чатах, на сайте и во внутренних документах. Где актуальная версия — непонятно."],
+      ["Конфликты и накладки", "Аудитория, преподаватель или группа могут пересечься, а ошибка всплывает уже в день занятия."],
+      ["Участники не видят изменения", "Студент или клиент открывает старую ссылку, приходит не туда и пишет администратору."],
+      ["Нет единого процесса", "Колледж, секция или клуб решают задачу по-своему, хотя всем нужен один понятный источник расписания."],
+    ];
+
+    cards.forEach(function (card, i) {
+      if (!copy[i]) return;
+      var h3 = card.querySelector("h3");
+      var p = card.querySelector("p");
+      if (h3) setText(h3, copy[i][0]);
+      if (p) setText(p, copy[i][1]);
+    });
+
+    section.setAttribute(PATCHED + "-problem", "1");
   }
 
   function patchSolution(page) {
@@ -91,12 +154,12 @@
     if (!section.getAttribute(PATCHED + "-solution-v2")) {
       setHtml(
         qs(".section-title", section),
-        'Два клика вместо\u00a0<span class="gradient-text">недели в Excel</span>'
+        'Обновление расписания <span class="gradient-text">за пару минут</span>'
       );
 
       setText(
         qs(".solution-description", section),
-        "Открыл — добавил пару — нажал «Опубликовать». Всё."
+        "Открыл — изменил занятие — нажал «Опубликовать». Все роли видят актуальную версию."
       );
 
       section.setAttribute(PATCHED + "-solution-v2", "1");
@@ -111,8 +174,8 @@
     if (!host) return;
 
     var cards = [
-      { title: "Как календарь", text: "Не как Excel — просто и понятно" },
-      { title: "Конфликты сразу видны", text: "До того, как все увидят расписание" },
+      { title: "Понятно без обучения", text: "Логика календаря, короткие действия и видимый результат" },
+      { title: "Конфликты сразу видны", text: "Накладки подсвечиваются до публикации" },
     ];
 
     var wrap = host.querySelector(".solution-cards");
@@ -212,10 +275,10 @@
       '<div class="ba-card ba-before reveal active">' +
       "<h3>Было</h3>" +
       "<ul>" +
-      "<li>3 дня правок в Excel при каждой замене</li>" +
-      "<li>20 чатов: «а где расписание?»</li>" +
-      "<li>PDF на сайте, который никто не открывает</li>" +
-      "<li>Двойные брони — замечаете постфактум</li>" +
+      "<li>Правки повторяются в нескольких местах</li>" +
+      "<li>В чатах постоянно спрашивают: «а где актуально?»</li>" +
+      "<li>Участники открывают устаревшую версию</li>" +
+      "<li>Накладки замечаете постфактум</li>" +
       "</ul></div>" +
       '<div class="ba-arrow" aria-hidden="true">→</div>' +
       '<div class="ba-card ba-after reveal active">' +
@@ -223,7 +286,7 @@
       "<ul>" +
       "<li>Изменение — пара минут, не пара дней</li>" +
       "<li>Одна ссылка — все роли видят своё</li>" +
-      "<li>Расписание на телефоне, всегда актуальное</li>" +
+      "<li>Версия обновляется сразу на телефоне</li>" +
       "<li>Конфликты ловятся до публикации</li>" +
       "</ul></div></div>" +
       '<div class="ba-visual">' +
@@ -254,13 +317,13 @@
       '<div class="section-header center">' +
       '<span class="section-tag section-tag-success">Простота</span>' +
       '<h2 class="section-title">Как вы\u00a0<span class="gradient-text">пользуетесь</span> каждый день</h2>' +
-      '<p class="section-subtitle">Не «проектирование архитектуры» — три привычных шага для учебной части.</p>' +
+      '<p class="section-subtitle">Три понятных шага для администратора, без лишних экранов и долгого обучения.</p>' +
       "</div>" +
       '<div class="daily-steps">' +
       '<div class="daily-step reveal active">' +
       '<div class="daily-step-num">1</div>' +
       "<h3>Открыли — понятно</h3>" +
-      "<p>Интерфейс как календарь, не как ERP. Без десяти уровней меню.</p></div>" +
+      "<p>Видите день, группы, аудитории и ближайшие изменения без лишних переходов.</p></div>" +
       '<div class="daily-step reveal active">' +
       '<div class="daily-step-num">2</div>' +
       "<h3>Изменили — система помогла</h3>" +
@@ -271,7 +334,7 @@
       "<p>Студенты, преподаватели и админы видят актуальное — с телефона.</p></div>" +
       "</div>" +
       '<div class="daily-use-cta">' +
-      '<a href="#niches" class="btn btn-primary btn-large">Попробовать в демо — 30 секунд</a>' +
+      '<a href="#niches" class="btn btn-primary btn-large">Открыть демо — 30 секунд</a>' +
       "</div></div>";
 
     niches.insertAdjacentElement("beforebegin", section);
@@ -302,6 +365,10 @@
       hint.className = "niche-more-hint";
       hint.textContent = "+ ещё возможности — в демо";
       footer.after(hint);
+    });
+
+    section.querySelectorAll(".niche-demo-btn, .demo-card-btn").forEach(function (btn) {
+      setButtonLabel(btn, "Открыть демо 30 секунд");
     });
 
     section.setAttribute(PATCHED + "-niches", "1");
@@ -342,7 +409,7 @@
     var descCopy = [
       "15–30 минут разговора — без технического жаргона.",
       "Готовое ядро + ваш интерфейс. Не пишем с нуля полгода.",
-      "Вы тестируете сами — пока не станет «как в Excel, только проще».",
+      "Вы тестируете сами — пока сценарий не станет понятным вашей команде.",
       "Обучаем за один день. Поддержка — в Telegram.",
     ];
     descs.forEach(function (p, i) {
@@ -363,7 +430,7 @@
 
     var cards = section.querySelectorAll(".feature-card");
     var copy = [
-      ["Мгновенная публикация", "Одна кнопка — и расписание у всех. Без PDF и «посмотрите на доске»."],
+      ["Мгновенная публикация", "Одна кнопка — и расписание у всех. Без рассылок и устаревших копий."],
       ["Защита от ошибок", "Конфликты видны до публикации — не после звонка от преподавателя."],
       ["С телефона", "Участник открыл — увидел своё. Как мессенджер, не как архив документов."],
       ["Каждому своё", "Админ — всё. Преподаватель — свою загрузку. Ученик — только свою группу."],
@@ -394,9 +461,12 @@
     if (text) {
       setText(
         text,
-        "Расскажите, как у вас сейчас устроено расписание — покажем на демо, сколько времени сэкономите. Без давления и «корпоративных» презентаций."
+        "Расскажите, как у вас сейчас устроено расписание — покажем, какие экраны нужны вашей команде и где вы теряете время."
       );
     }
+
+    var submit = qs(".lead-submit", page);
+    if (submit) setText(submit, "Получить консультацию");
 
     intro.setAttribute(PATCHED + "-lead", "1");
   }
@@ -422,6 +492,24 @@
     }
 
     nav.setAttribute(PATCHED + "-nav", "1");
+  }
+
+  function patchSalesCtas(page) {
+    var labels = [
+      [".nav-cta", "Открыть демо"],
+      [".hero-buttons .btn-primary", "Открыть демо"],
+      [".hero-buttons .btn-secondary", "Оставить заявку"],
+      [".daily-use-cta .btn", "Открыть демо — 30 секунд"],
+      [".niche-demo-btn", "Открыть демо 30 секунд"],
+      [".demo-card-btn", "Открыть демо 30 секунд"],
+      [".lead-submit", "Получить консультацию"],
+    ];
+
+    labels.forEach(function (item) {
+      page.querySelectorAll(item[0]).forEach(function (el) {
+        setButtonLabel(el, item[1]);
+      });
+    });
   }
 
   var PURPLE_HEX = /#(?:6366f1|818cf8|8b5cf6|a855f7|4f46e5|667eea|764ba2)(?:[0-9a-f]{2})?/gi;
@@ -499,12 +587,12 @@
 
   function patchMeta() {
     if (!isPreviewMode()) return;
-    document.title = "Планово — Расписание без Excel (PREVIEW)";
+    document.title = "Планово — расписание для учебных заведений (PREVIEW)";
     var desc = document.querySelector('meta[name="description"]');
     if (desc) {
       desc.setAttribute(
         "content",
-        "Простое расписание для учебных заведений, секций и клубов. Два клика вместо недели в Excel. PREVIEW."
+        "Простое онлайн-расписание для учебных заведений, секций и клубов. Быстрое обновление, роли и мобильный доступ. PREVIEW."
       );
     }
   }
@@ -523,12 +611,14 @@
 
     patchMeta();
     patchHero(page);
+    patchProblem(page);
     patchSolution(page);
     patchNiches(page);
     patchHowItWorks(page);
     patchFeatures(page);
     patchLead(page);
     patchNav(page);
+    patchSalesCtas(page);
     patchPurpleToYellow(page);
 
     var solution = qs("section.solution", page);
@@ -536,7 +626,7 @@
       solution,
       "ease-strip-after-solution",
       "Комфорт в 2 клика",
-      "<strong>Не Битрикс. Не госуслуги.</strong> Просто расписание, которое не пугает."
+      "<strong>Без тяжёлого внедрения.</strong> Просто расписание, которое команда понимает с первого дня."
     );
 
     insertBeforeAfter(page);
@@ -546,8 +636,8 @@
     insertEaseStrip(
       dailyUse,
       "ease-strip-before-niches",
-      "−80% времени",
-      "<strong>Меньше Excel — больше жизни.</strong> Учебная часть разберётся за один день."
+      "−80% ручных правок",
+      "<strong>Меньше рутины — больше контроля.</strong> Учебная часть разберётся за один день."
     );
 
     ensureRevealVisible(page);
@@ -565,7 +655,7 @@
     var needRetry =
       !ok ||
       !hero ||
-      hero.textContent.indexOf("нервов") === -1 ||
+      hero.textContent.indexOf("Планово держит") === -1 ||
       (page && countCoreSections(page) < 7);
 
     if (needRetry) {
@@ -580,19 +670,20 @@
       if (!page) return;
       insertBeforeAfter(page);
       insertDailyUse(page);
+      patchSalesCtas(page);
       var solution = qs("section.solution", page);
       insertEaseStrip(
         solution,
         "ease-strip-after-solution",
         "Комфорт в 2 клика",
-        "<strong>Не Битрикс. Не госуслуги.</strong> Просто расписание, которое не пугает."
+        "<strong>Без тяжёлого внедрения.</strong> Просто расписание, которое команда понимает с первого дня."
       );
       var dailyUse = document.getElementById("daily-use");
       insertEaseStrip(
         dailyUse,
         "ease-strip-before-niches",
-        "−80% времени",
-        "<strong>Меньше Excel — больше жизни.</strong> Учебная часть разберётся за один день."
+        "−80% ручных правок",
+        "<strong>Меньше рутины — больше контроля.</strong> Учебная часть разберётся за один день."
       );
       ensureRevealVisible(page);
     }, 120);
