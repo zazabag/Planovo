@@ -793,6 +793,22 @@ function getConflicts(cells, availabilities) {
         msg: `${teacher?.full || tid}: конфликт в ${slotKey}`
       });
     }
+    // Room conflicts (по образцу demo/education/src/store/schedule-store.ts)
+    const byRoom = {};
+    for (const c of slotCells) {
+      if (!byRoom[c.roomId]) byRoom[c.roomId] = [];
+      byRoom[c.roomId].push(c);
+    }
+    for (const [rid, rcCells] of Object.entries(byRoom)) {
+      const nonCombined = rcCells.filter(c => !c.combinedKey);
+      if (nonCombined.length > 1) {
+        const room = roomMap.get(rid);
+        conflicts.push({
+          severity: "error",
+          msg: `Аудитория ${room?.name || rid}: двойное бронирование в ${slotKey}`
+        });
+      }
+    }
   }
   // Availability warnings
   for (const cell of cells) {
@@ -2457,6 +2473,470 @@ function AdminShowcase({
   }), desktopFrame("conflicts")));
 }
 // ═══════════════════════════════════════════════
+// GUIDED SCENARIO v2 (TASK-28)
+// Движок шагов — общий для education/sports/clubs.demo.js;
+// при правках синхронизировать вручную (docs/Demoplan.md §Guided v2).
+// Файл правится руками; scripts/rebuild-demos.js НЕ запускать —
+// он перезатрёт demo.js из старых git-коммитов.
+// ═══════════════════════════════════════════════
+
+const gEl = React.createElement;
+const GUIDED_STORAGE_KEY = "planovo.guided.education";
+
+const GUIDED_STEPS = [{
+  id: "pick-lesson",
+  target: "cell-mon-0",
+  title: "Преподаватель заболел",
+  text: "Буфеев И.В. не выйдет в понедельник. Нажмите его занятие «Математика», чтобы перенести.",
+  placement: "bottom"
+}, {
+  id: "pick-conflict",
+  target: "cell-wed-0",
+  title: "Куда перенести?",
+  text: "Слот «среда, 1 пара» выглядит свободным. Нажмите на него.",
+  placement: "bottom"
+}, {
+  id: "resolve",
+  target: "cell-wed-1",
+  title: "Система поймала конфликт",
+  text: "В это время Буфеев уже ведёт пару у ОЭ-12, а аудитория 21 занята. Занятие всё ещё «в руке» — нажмите свободный слот «среда, 2 пара».",
+  placement: "bottom"
+}, {
+  id: "publish",
+  target: "publish-btn",
+  title: "Конфликтов нет ✓",
+  text: "Осталось опубликовать — и группа сразу увидит замену на телефонах.",
+  placement: "top"
+}];
+
+function prefersReducedMotion() {
+  return typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function useGuidedScenario(steps, storageKey, onReset) {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [wasCompleted] = useState(() => {
+    try {
+      return localStorage.getItem(storageKey) === "1";
+    } catch (e) {
+      return false;
+    }
+  });
+  const [mode, setMode] = useState(wasCompleted ? "replay" : "running");
+  const step = mode === "running" ? steps[stepIndex] : null;
+  const complete = stepId => {
+    if (mode !== "running" || !step || step.id !== stepId) return;
+    if (stepIndex + 1 >= steps.length) {
+      setMode("done");
+      try {
+        localStorage.setItem(storageKey, "1");
+      } catch (e) {}
+    } else {
+      setStepIndex(stepIndex + 1);
+    }
+  };
+  const skip = () => setMode("free");
+  const explore = () => setMode("free");
+  const restart = () => {
+    if (onReset) onReset();
+    setStepIndex(0);
+    setMode("running");
+  };
+  return {
+    steps,
+    stepIndex,
+    step,
+    mode,
+    complete,
+    skip,
+    explore,
+    restart
+  };
+}
+
+function guidedTargetProps(engine, id, baseClass) {
+  const active = engine.step && engine.step.target === id;
+  return {
+    "data-guide": id,
+    className: (baseClass || "") + (active ? " guide-target" : "")
+  };
+}
+
+function GuidedProgress({
+  engine
+}) {
+  if (engine.mode === "done") return null;
+  const total = engine.steps.length;
+  return gEl("div", {
+    className: "guided-topbar"
+  }, gEl("div", {
+    className: "guided-progress"
+  }, engine.mode === "running" ? gEl("span", null, "Шаг ", engine.stepIndex + 1, " из ", total) : gEl("span", null, "Свободный режим — кликайте по расписанию"), engine.mode === "running" && gEl("div", {
+    className: "guided-dots"
+  }, engine.steps.map((s, i) => gEl("span", {
+    key: s.id,
+    className: "guided-dot" + (i < engine.stepIndex ? " done" : i === engine.stepIndex ? " current" : "")
+  })))), engine.mode === "running" ? gEl("button", {
+    type: "button",
+    className: "guided-skip",
+    onClick: engine.skip
+  }, "Пропустить сценарий") : gEl("button", {
+    type: "button",
+    className: "guided-skip",
+    onClick: engine.restart
+  }, "Пройти сценарий заново"));
+}
+
+function GuidedFrame({
+  engine,
+  children
+}) {
+  const stageRef = useRef(null);
+  const [mark, setMark] = useState(null);
+  const step = engine.step;
+  const targetId = step ? step.target : null;
+  const placement = step ? step.placement || "bottom" : "bottom";
+
+  useEffect(() => {
+    if (!targetId) {
+      setMark(null);
+      return;
+    }
+    let raf = 0;
+    const measure = () => {
+      const stage = stageRef.current;
+      if (!stage) return;
+      const el = stage.querySelector('[data-guide="' + targetId + '"]');
+      if (!el) {
+        setMark(null);
+        return;
+      }
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        setMark({
+          sheet: true
+        });
+        return;
+      }
+      const sRect = stage.getBoundingClientRect();
+      const tRect = el.getBoundingClientRect();
+      const width = Math.min(280, sRect.width - 16);
+      let left = tRect.left - sRect.left + tRect.width / 2 - width / 2;
+      left = Math.max(8, Math.min(left, sRect.width - width - 8));
+      const top = placement === "top" ? tRect.top - sRect.top - 12 : tRect.bottom - sRect.top + 12;
+      const arrowLeft = Math.max(14, Math.min(tRect.left - sRect.left + tRect.width / 2 - left - 6, width - 26));
+      setMark({
+        top,
+        left,
+        width,
+        placement,
+        arrowLeft
+      });
+    };
+    measure();
+    // Повторные замеры: поздняя загрузка шрифтов/картинок сдвигает layout
+    const t1 = setTimeout(measure, 400);
+    const t2 = setTimeout(measure, 1200);
+    const onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measure);
+    };
+    window.addEventListener("resize", onResize);
+    window.addEventListener("load", measure);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("load", measure);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      cancelAnimationFrame(raf);
+    };
+  }, [targetId, placement]);
+
+  useEffect(() => {
+    if (!targetId || engine.stepIndex === 0) return;
+    const stage = stageRef.current;
+    if (!stage) return;
+    const el = stage.querySelector('[data-guide="' + targetId + '"]');
+    if (el && typeof el.scrollIntoView === "function") {
+      el.scrollIntoView({
+        block: "center",
+        behavior: prefersReducedMotion() ? "auto" : "smooth"
+      });
+    }
+  }, [targetId]);
+
+  return gEl("div", {
+    className: "guided-stage",
+    ref: stageRef
+  }, children, step && gEl("div", {
+    className: "guided-stage-overlay",
+    "aria-hidden": "true"
+  }), step && mark && gEl("div", {
+    className: "guided-coachmark placement-" + (mark.sheet ? "sheet" : mark.placement),
+    role: "status",
+    style: mark.sheet ? undefined : {
+      top: mark.top,
+      left: mark.left,
+      width: mark.width,
+      transform: mark.placement === "top" ? "translateY(-100%)" : undefined
+    }
+  }, !mark.sheet && gEl("div", {
+    className: "guided-coachmark-arrow",
+    style: {
+      left: mark.arrowLeft
+    }
+  }), gEl("div", {
+    className: "guided-coachmark-title"
+  }, step.title), gEl("div", {
+    className: "guided-coachmark-text"
+  }, step.text)));
+}
+
+function guidedPrettyConflict(msg) {
+  return msg.replace(/(mon|tue|wed|thu|fri|sat):(\d+):(even|odd)/, (m, d, s) => {
+    const day = DAYS.find(x => x.key === d);
+    const slot = TIME_SLOTS[Number(s)];
+    return (day ? day.full.toLowerCase() : d) + (slot ? ", " + slot.label : "");
+  });
+}
+
+// --- Данные сценария education: «преподаватель заболел» ---
+// Скрытая ячейка ОЭ-12 в среду/1 паре делает конфликт детерминированным:
+// тот же преподаватель (t1) и та же аудитория (r1).
+const EDU_SCENARIO_GROUP = "ОЭ-11";
+const EDU_SCENARIO_CELLS = [{
+  id: "gsc-move",
+  groupCode: "ОЭ-11",
+  dayKey: "mon",
+  slotIndex: 0,
+  parity: "even",
+  subjectId: "s1",
+  teacherId: "t1",
+  roomId: "r1"
+}, {
+  id: "gsc-bg",
+  groupCode: "ОЭ-11",
+  dayKey: "mon",
+  slotIndex: 1,
+  parity: "even",
+  subjectId: "s2",
+  teacherId: "t7",
+  roomId: "r2"
+}, {
+  id: "gsc-hidden",
+  groupCode: "ОЭ-12",
+  dayKey: "wed",
+  slotIndex: 0,
+  parity: "even",
+  subjectId: "s1",
+  teacherId: "t1",
+  roomId: "r1"
+}];
+
+function EducationGuidedStage({
+  engine
+}) {
+  const [scCells, setScCells] = useState(EDU_SCENARIO_CELLS);
+  const [movingId, setMovingId] = useState(null);
+  const [lastMovedId, setLastMovedId] = useState(null);
+  const [published, setPublished] = useState(false);
+  const errors = useMemo(() => getConflicts(scCells, {}).filter(c => c.severity === "error"), [scCells]);
+  const movedOnce = lastMovedId !== null;
+  const cellAt = (dayKey, slotIndex) => scCells.find(c => c.groupCode === EDU_SCENARIO_GROUP && c.dayKey === dayKey && c.slotIndex === slotIndex);
+  const handleCellClick = (dayKey, slotIndex) => {
+    if (published) return;
+    const here = cellAt(dayKey, slotIndex);
+    if (movingId === null) {
+      if (!here) return;
+      setMovingId(here.id);
+      engine.complete("pick-lesson");
+      return;
+    }
+    if (here && here.id === movingId) {
+      setMovingId(null); // повторный клик — отменить перенос
+      return;
+    }
+    if (here) {
+      setMovingId(here.id); // выбрать другое занятие
+      return;
+    }
+    const next = scCells.map(c => c.id === movingId ? {
+      ...c,
+      dayKey,
+      slotIndex
+    } : c);
+    setScCells(next);
+    setLastMovedId(movingId);
+    const nextErrors = getConflicts(next, {}).filter(c => c.severity === "error");
+    if (nextErrors.length > 0) {
+      // в guided-режиме занятие остаётся «в руке» — шаг 3 в один клик
+      if (engine.mode !== "running") setMovingId(null);
+      engine.complete("pick-conflict");
+    } else {
+      setMovingId(null);
+      engine.complete("resolve");
+    }
+  };
+  const handlePublish = () => {
+    if (errors.length > 0 || published) return;
+    setPublished(true);
+    engine.complete("publish");
+  };
+  const pairFor = cell => cell ? {
+    subject: subjectMap.get(cell.subjectId),
+    teacher: teacherMap.get(cell.teacherId),
+    room: roomMap.get(cell.roomId),
+    parity: cell.parity,
+    combined: false
+  } : null;
+  const conflictIds = errors.length > 0 && lastMovedId ? [lastMovedId] : [];
+  const weekForPhone = useMemo(() => buildGroupSchedule(scCells, EDU_SCENARIO_GROUP), [scCells]);
+  const phoneGetPair = (dayKey, slotIndex) => {
+    if (!weekForPhone[dayKey] || !weekForPhone[dayKey][slotIndex]) return null;
+    return weekForPhone[dayKey][slotIndex].even || null;
+  };
+  return gEl(React.Fragment, null, gEl(GuidedFrame, {
+    engine
+  }, gEl("div", {
+    className: "schedule-wrapper"
+  }, gEl("div", {
+    className: "schedule-grid"
+  }, gEl("div", {
+    className: "grid-header"
+  }, gEl("div", {
+    className: "grid-header-cell"
+  }, "Время"), DEMO_DAYS.map(d => gEl("div", {
+    key: d.key,
+    className: "grid-header-cell"
+  }, d.full))), DEMO_SLOTS.map(slot => gEl("div", {
+    key: slot.index,
+    className: "grid-row"
+  }, gEl("div", {
+    className: "time-cell"
+  }, gEl("span", {
+    className: "time"
+  }, slot.start, "–", slot.end), gEl("span", {
+    className: "label"
+  }, slot.label)), DEMO_DAYS.map(d => {
+    const cell = cellAt(d.key, slot.index);
+    const pair = pairFor(cell);
+    const guideId = "cell-" + d.key + "-" + slot.index;
+    const tp = guidedTargetProps(engine, guideId, "guided-cell" + (cell && movingId === cell.id ? " guided-cell-selected" : "") + (cell && conflictIds.includes(cell.id) ? " guided-cell-conflict" : ""));
+    return gEl("div", {
+      key: d.key,
+      className: "day-cell"
+    }, gEl("button", Object.assign({
+      type: "button",
+      onClick: () => handleCellClick(d.key, slot.index),
+      "aria-label": d.full + ", " + slot.label + (pair ? " — " + pair.subject.name : " — свободный слот")
+    }, tp), pair ? gEl(PairCardCompact, {
+      pair,
+      currentParity: "even"
+    }) : gEl("div", {
+      className: "empty-cell"
+    }, gEl("div", {
+      className: "empty-dots"
+    }, [0, 1, 2].map(i => gEl("div", {
+      key: i,
+      className: "empty-dot"
+    }))))));
+  }))))), errors.length > 0 && gEl("div", {
+    className: "guided-banner guided-banner-conflict"
+  }, gEl("i", {
+    className: "fas fa-triangle-exclamation"
+  }), gEl("div", null, gEl("strong", null, "Система нашла конфликты:"), gEl("ul", null, errors.map((c, i) => gEl("li", {
+    key: i
+  }, guidedPrettyConflict(c.msg)))))), errors.length === 0 && movedOnce && !published && gEl("div", {
+    className: "guided-banner guided-banner-ok"
+  }, gEl("i", {
+    className: "fas fa-circle-check"
+  }), gEl("span", null, "Конфликтов нет — расписание можно публиковать.")), published && gEl("div", {
+    className: "guided-banner guided-banner-ok"
+  }, gEl("i", {
+    className: "fas fa-circle-check"
+  }), gEl("span", null, "Опубликовано! Группа ", EDU_SCENARIO_GROUP, " уже видит замену.")), gEl("div", {
+    className: "guided-actionbar"
+  }, gEl("button", Object.assign({
+    type: "button",
+    onClick: handlePublish,
+    disabled: errors.length > 0 || published
+  }, guidedTargetProps(engine, "publish-btn", "guided-primary-btn")), published ? "Опубликовано ✓" : "Опубликовать"), engine.mode !== "running" && gEl("span", {
+    className: "guided-free-hint"
+  }, "Нажмите занятие, затем свободный слот — конфликты подсвечиваются сами."))), engine.mode === "done" && gEl("div", {
+    className: "guided-success-panel"
+  }, gEl("div", null, gEl("div", {
+    className: "guided-success-headline"
+  }, gEl("i", {
+    className: "fas fa-circle-check"
+  }), "Замена опубликована — за 4 клика"), gEl("p", {
+    className: "guided-success-text"
+  }, "Группа уже видит новое расписание на телефоне — без рассылок и чатов. Так это работает и с вашим расписанием: одно изменение — все в курсе."), gEl("div", {
+    className: "guided-success-actions"
+  }, gEl("a", {
+    className: "guided-cta",
+    href: "index.html#contact"
+  }, gEl("i", {
+    className: "fas fa-arrow-right"
+  }), "Получить бесплатный разбор"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: engine.explore
+  }, "Исследовать свободно"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: engine.restart
+  }, "Пройти ещё раз"))), gEl("div", {
+    className: "phone-mockup"
+  }, gEl("div", {
+    className: "phone-mockup-notch"
+  }), gEl("span", {
+    className: "phone-badge-updated"
+  }, gEl("i", {
+    className: "fas fa-bolt"
+  }), "Обновлено только что"), gEl(ShowcaseDayList, {
+    dayKey: "wed",
+    getDisplayPair: phoneGetPair,
+    currentParity: "even",
+    groupCode: EDU_SCENARIO_GROUP
+  }))));
+}
+
+function GuidedScenarioSection() {
+  const [runId, setRunId] = useState(0);
+  const engine = useGuidedScenario(GUIDED_STEPS, GUIDED_STORAGE_KEY, () => setRunId(r => r + 1));
+  return gEl("section", {
+    className: "guided-section",
+    "aria-label": "Интерактивный сценарий"
+  }, gEl("span", {
+    className: "guided-kicker"
+  }, gEl("i", {
+    className: "fas fa-hand-pointer"
+  }), "Попробуйте сами · 4 клика"), gEl("h2", {
+    className: "guided-title"
+  }, "Сценарий: преподаватель заболел"), gEl("p", {
+    className: "guided-sub"
+  }, "Перенесите занятие, поймайте скрытый конфликт и опубликуйте замену — ровно так это делает учебная часть в Планово."), engine.mode === "replay" ? gEl("div", {
+    className: "guided-replay-banner"
+  }, gEl("span", null, "Вы уже проходили этот сценарий."), gEl("div", {
+    className: "guided-replay-actions"
+  }, gEl("button", {
+    type: "button",
+    className: "guided-primary-btn",
+    onClick: engine.restart
+  }, "Пройти ещё раз"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: engine.explore
+  }, "Смотреть свободно"))) : gEl(GuidedProgress, {
+    engine
+  }), engine.mode !== "replay" && gEl(EducationGuidedStage, {
+    key: runId,
+    engine
+  }), gEl("div", {
+    className: "guided-divider"
+  }, "Ниже — витрина по ролям"));
+}
+
+// ═══════════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════════
 function App() {
@@ -2580,12 +3060,12 @@ function App() {
     id: "demo-title"
   }, "Планово для ", /*#__PURE__*/React.createElement("span", null, "учебного учреждения")), /*#__PURE__*/React.createElement("p", {
     className: "demo-lead"
-  }, "Показываем полный сценарий на примере колледжа: ученик видит расписание, преподаватель отдаёт доступность, учебная часть собирает и публикует сетку."), /*#__PURE__*/React.createElement("div", {
+  }, "Начните с интерактивного сценария — 4 клика, полминуты. Ниже витрина: ученик видит расписание, преподаватель отдаёт доступность, учебная часть собирает и публикует сетку."), /*#__PURE__*/React.createElement("div", {
     className: "demo-hero-actions",
     "aria-label": "Ключевые сценарии"
   }, /*#__PURE__*/React.createElement("span", {
     className: "demo-chip"
-  }, "мобильный ученик"), /*#__PURE__*/React.createElement("span", {
+  }, "сценарий за 30 секунд"), /*#__PURE__*/React.createElement("span", {
     className: "demo-chip"
   }, "мобильный преподаватель"), /*#__PURE__*/React.createElement("span", {
     className: "demo-chip"
@@ -2611,7 +3091,7 @@ function App() {
     style: {
       alignSelf: "flex-start"
     }
-  }, "Сейчас: ", activeRole.label))), /*#__PURE__*/React.createElement("p", {
+  }, "Сейчас: ", activeRole.label))), /*#__PURE__*/React.createElement(GuidedScenarioSection, null), /*#__PURE__*/React.createElement("p", {
     className: "demo-role-context"
   }, introByRole[role]), role === "student" && /*#__PURE__*/React.createElement(EducationShowcase, {
     cells: cells
