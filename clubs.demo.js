@@ -1,7 +1,8 @@
 const {
   useState,
   useMemo,
-  useEffect
+  useEffect,
+  useRef
 } = React;
 
 // ═══════════════════════════════════════════
@@ -2074,6 +2075,409 @@ function MemberView() {
   }))))));
 }
 
+// ═══════════════════════════════════════════════
+// GUIDED SCENARIO v2 (TASK-28)
+// Движок шагов — общий для education/sports/clubs.demo.js;
+// при правках синхронизировать вручную (docs/Demoplan.md §Guided v2).
+// Файл правится ТОЛЬКО руками: скрипты пересборки (rebuild-demos.js,
+// compile-demos.js) удалены в TASK-28 — они восстанавливали файл из
+// старых git-коммитов и стёрли бы guided-код.
+// ═══════════════════════════════════════════════
+
+const gEl = React.createElement;
+const GUIDED_STORAGE_KEY = "planovo.guided.clubs";
+
+const GUIDED_STEPS = [{
+  id: "open-event",
+  target: "event-card",
+  title: "Пятница, 19:00 — покерный турнир",
+  text: "Осталось 2 места из 20. Нажмите на событие, чтобы записаться.",
+  placement: "bottom"
+}, {
+  id: "rsvp",
+  target: "rsvp-going",
+  title: "Запишитесь в один клик",
+  text: "Нажмите «Иду» — место закрепится за вами мгновенно, без переписки с администратором.",
+  placement: "bottom"
+}];
+
+function prefersReducedMotion() {
+  return typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function useGuidedScenario(steps, storageKey, onReset) {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [wasCompleted] = useState(() => {
+    try {
+      return localStorage.getItem(storageKey) === "1";
+    } catch (e) {
+      return false;
+    }
+  });
+  const [mode, setMode] = useState(wasCompleted ? "replay" : "running");
+  const step = mode === "running" ? steps[stepIndex] : null;
+  const complete = stepId => {
+    if (mode !== "running" || !step || step.id !== stepId) return;
+    if (stepIndex + 1 >= steps.length) {
+      setMode("done");
+      try {
+        localStorage.setItem(storageKey, "1");
+      } catch (e) {}
+    } else {
+      setStepIndex(stepIndex + 1);
+    }
+  };
+  const skip = () => setMode("free");
+  const explore = () => setMode("free");
+  const restart = () => {
+    if (onReset) onReset();
+    setStepIndex(0);
+    setMode("running");
+  };
+  return {
+    steps,
+    stepIndex,
+    step,
+    mode,
+    complete,
+    skip,
+    explore,
+    restart
+  };
+}
+
+function guidedTargetProps(engine, id, baseClass) {
+  const active = engine.step && engine.step.target === id;
+  return {
+    "data-guide": id,
+    className: (baseClass || "") + (active ? " guide-target" : "")
+  };
+}
+
+function GuidedProgress({
+  engine
+}) {
+  if (engine.mode === "done") return null;
+  const total = engine.steps.length;
+  return gEl("div", {
+    className: "guided-topbar"
+  }, gEl("div", {
+    className: "guided-progress"
+  }, engine.mode === "running" ? gEl("span", null, "Шаг ", engine.stepIndex + 1, " из ", total) : gEl("span", null, "Свободный режим — управляйте записью"), engine.mode === "running" && gEl("div", {
+    className: "guided-dots"
+  }, engine.steps.map((s, i) => gEl("span", {
+    key: s.id,
+    className: "guided-dot" + (i < engine.stepIndex ? " done" : i === engine.stepIndex ? " current" : "")
+  })))), engine.mode === "running" ? gEl("button", {
+    type: "button",
+    className: "guided-skip",
+    onClick: engine.skip
+  }, "Пропустить сценарий") : gEl("button", {
+    type: "button",
+    className: "guided-skip",
+    onClick: engine.restart
+  }, "Пройти сценарий заново"));
+}
+
+function GuidedFrame({
+  engine,
+  children
+}) {
+  const stageRef = useRef(null);
+  const [mark, setMark] = useState(null);
+  const step = engine.step;
+  const targetId = step ? step.target : null;
+  const placement = step ? step.placement || "bottom" : "bottom";
+
+  useEffect(() => {
+    if (!targetId) {
+      setMark(null);
+      return;
+    }
+    let raf = 0;
+    const measure = () => {
+      const stage = stageRef.current;
+      if (!stage) return;
+      const el = stage.querySelector('[data-guide="' + targetId + '"]');
+      if (!el) {
+        setMark(null);
+        return;
+      }
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        setMark({
+          sheet: true
+        });
+        return;
+      }
+      const sRect = stage.getBoundingClientRect();
+      const tRect = el.getBoundingClientRect();
+      const width = Math.min(280, sRect.width - 16);
+      let left = tRect.left - sRect.left + tRect.width / 2 - width / 2;
+      left = Math.max(8, Math.min(left, sRect.width - width - 8));
+      const top = placement === "top" ? tRect.top - sRect.top - 12 : tRect.bottom - sRect.top + 12;
+      const arrowLeft = Math.max(14, Math.min(tRect.left - sRect.left + tRect.width / 2 - left - 6, width - 26));
+      setMark({
+        top,
+        left,
+        width,
+        placement,
+        arrowLeft
+      });
+    };
+    measure();
+    // Повторные замеры: поздняя загрузка шрифтов/картинок сдвигает layout
+    const t1 = setTimeout(measure, 400);
+    const t2 = setTimeout(measure, 1200);
+    const onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measure);
+    };
+    window.addEventListener("resize", onResize);
+    window.addEventListener("load", measure);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("load", measure);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      cancelAnimationFrame(raf);
+    };
+  }, [targetId, placement]);
+
+  useEffect(() => {
+    if (!targetId || engine.stepIndex === 0) return;
+    const stage = stageRef.current;
+    if (!stage) return;
+    const el = stage.querySelector('[data-guide="' + targetId + '"]');
+    if (el && typeof el.scrollIntoView === "function") {
+      el.scrollIntoView({
+        block: "center",
+        behavior: prefersReducedMotion() ? "auto" : "smooth"
+      });
+    }
+  }, [targetId]);
+
+  return gEl("div", {
+    className: "guided-stage",
+    ref: stageRef
+  }, children, step && gEl("div", {
+    className: "guided-stage-overlay",
+    "aria-hidden": "true"
+  }), step && mark && gEl("div", {
+    className: "guided-coachmark placement-" + (mark.sheet ? "sheet" : mark.placement),
+    role: "status",
+    style: mark.sheet ? undefined : {
+      top: mark.top,
+      left: mark.left,
+      width: mark.width,
+      transform: mark.placement === "top" ? "translateY(-100%)" : undefined
+    }
+  }, !mark.sheet && gEl("div", {
+    className: "guided-coachmark-arrow",
+    style: {
+      left: mark.arrowLeft
+    }
+  }), gEl("div", {
+    className: "guided-coachmark-title"
+  }, step.title), gEl("div", {
+    className: "guided-coachmark-text"
+  }, step.text)));
+}
+
+// --- Данные сценария clubs: запись на ивент с лимитом мест ---
+// Отдельный объект: общий массив EVENTS не мутируем.
+const SCENARIO_EVENT = {
+  id: "gsc-poker",
+  clubId: "club2",
+  name: "Покерный турнир",
+  day: 4,
+  slot: 5,
+  room: "rb",
+  maxAttendees: 20,
+  baseGoing: 18
+};
+
+function ClubsGuidedStage({
+  engine
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const [myStatus, setMyStatus] = useState("none"); // none | going | maybe
+  const club = getClub(SCENARIO_EVENT.clubId);
+  const slot = TIME_SLOTS[SCENARIO_EVENT.slot];
+  const going = SCENARIO_EVENT.baseGoing + (myStatus === "going" ? 1 : 0);
+  const spotsLeft = SCENARIO_EVENT.maxAttendees - going;
+  const fillPct = Math.round(going / SCENARIO_EVENT.maxAttendees * 100);
+  const handleCardClick = () => {
+    setExpanded(!expanded);
+    engine.complete("open-event");
+  };
+  const handleRsvpGoing = () => {
+    // семантика handleRsvp из MemberView: повторный клик снимает статус
+    setMyStatus(myStatus === "going" ? "none" : "going");
+    engine.complete("rsvp");
+  };
+  const handleRsvpMaybe = () => {
+    setMyStatus(myStatus === "maybe" ? "none" : "maybe");
+  };
+  return gEl(React.Fragment, null, gEl(GuidedFrame, {
+    engine
+  }, gEl("div", {
+    className: "showcase-day-header",
+    style: {
+      marginBottom: 12
+    }
+  }, gEl("i", {
+    className: "fas fa-calendar-day"
+  }), gEl("span", null, "Пятница"), gEl("span", {
+    className: "showcase-panel-meta"
+  }, "· ", club.name)), gEl("button", Object.assign({
+    type: "button",
+    onClick: handleCardClick,
+    "aria-label": SCENARIO_EVENT.name + ", пятница " + slot.start + ", осталось " + spotsLeft + " мест",
+    style: {
+      borderLeft: "3px solid " + club.color
+    }
+  }, guidedTargetProps(engine, "event-card", "guided-item-card")), gEl("div", {
+    className: "guided-item-time"
+  }, slot.start, "–", slot.end, " · Зал Б", myStatus === "going" && gEl("span", {
+    className: "phone-badge-updated",
+    style: {
+      marginLeft: 8,
+      marginBottom: 0
+    }
+  }, "✓ Вы записаны")), gEl("div", {
+    className: "guided-item-title",
+    style: {
+      color: club.color
+    }
+  }, gEl("i", {
+    className: "fas " + club.icon,
+    style: {
+      marginRight: 6
+    }
+  }), SCENARIO_EVENT.name), gEl("div", {
+    className: "guided-item-meta"
+  }, gEl("i", {
+    className: "fas fa-users",
+    style: {
+      marginRight: 4
+    }
+  }), going, "/", SCENARIO_EVENT.maxAttendees, spotsLeft > 0 ? " · Осталось " + spotsLeft + (spotsLeft === 1 ? " место" : " места") : " · Мест нет"), gEl("div", {
+    className: "guided-fill-bar"
+  }, gEl("span", {
+    style: {
+      width: fillPct + "%"
+    }
+  }))), expanded && gEl("div", {
+    className: "guided-actionbar"
+  }, gEl("button", Object.assign({
+    type: "button",
+    onClick: handleRsvpGoing,
+    disabled: myStatus !== "going" && spotsLeft <= 0
+  }, guidedTargetProps(engine, "rsvp-going", "guided-primary-btn")), myStatus === "going" ? "Вы идёте ✓ (отменить)" : "Иду"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: handleRsvpMaybe
+  }, myStatus === "maybe" ? "Может быть ✓" : "Может быть"), engine.mode !== "running" && gEl("span", {
+    className: "guided-free-hint"
+  }, "Повторный клик снимает запись — счётчик обновляется сразу."))), engine.mode === "done" && gEl("div", {
+    className: "guided-success-panel"
+  }, gEl("div", null, gEl("div", {
+    className: "guided-success-headline"
+  }, gEl("i", {
+    className: "fas fa-circle-check"
+  }), "Место забронировано — за 2 клика"), gEl("p", {
+    className: "guided-success-text"
+  }, "Никакой переписки с администратором: вы в списке, счётчик обновился, а организатор уже видит вашу запись."), gEl("div", {
+    className: "guided-success-actions"
+  }, gEl("a", {
+    className: "guided-cta",
+    href: "index.html#contact"
+  }, gEl("i", {
+    className: "fas fa-arrow-right"
+  }), "Получить бесплатный разбор"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: engine.explore
+  }, "Исследовать свободно"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: engine.restart
+  }, "Пройти ещё раз"))), gEl("div", null, gEl("div", {
+    className: "showcase-demo-chrome",
+    style: {
+      marginBottom: 10
+    }
+  }, gEl("i", {
+    className: "fas fa-user-tie"
+  }), gEl("span", null, "Вид организатора"), gEl("span", {
+    className: "showcase-panel-meta"
+  }, "· обновился сам")), gEl("div", {
+    className: "guided-item-card",
+    style: {
+      cursor: "default",
+      borderLeft: "3px solid " + club.color
+    }
+  }, gEl("div", {
+    className: "guided-item-title",
+    style: {
+      color: club.color
+    }
+  }, SCENARIO_EVENT.name), gEl("div", {
+    className: "guided-item-meta"
+  }, "Пятница · ", slot.start, " · Зал Б"), gEl("div", {
+    className: "guided-item-meta",
+    style: {
+      marginTop: 6
+    }
+  }, "Заполненность: ", going, "/", SCENARIO_EVENT.maxAttendees, " (", fillPct, "%)"), gEl("div", {
+    className: "guided-fill-bar"
+  }, gEl("span", {
+    style: {
+      width: fillPct + "%"
+    }
+  }))), gEl("div", {
+    className: "guided-notif-row"
+  }, gEl("i", {
+    className: "fas fa-bell"
+  }), gEl("span", null, "Новая запись: вы · только что")))));
+}
+
+function GuidedScenarioSection() {
+  const [runId, setRunId] = useState(0);
+  const engine = useGuidedScenario(GUIDED_STEPS, GUIDED_STORAGE_KEY, () => setRunId(r => r + 1));
+  return gEl("section", {
+    className: "guided-section",
+    "aria-label": "Интерактивный сценарий"
+  }, gEl("span", {
+    className: "guided-kicker"
+  }, gEl("i", {
+    className: "fas fa-hand-pointer"
+  }), "Попробуйте сами · 2 клика"), gEl("h2", {
+    className: "guided-title"
+  }, "Сценарий: запишитесь на турнир"), gEl("p", {
+    className: "guided-sub"
+  }, "Займите одно из последних мест — и посмотрите, как запись мгновенно доходит до организатора."), engine.mode === "replay" ? gEl("div", {
+    className: "guided-replay-banner"
+  }, gEl("span", null, "Вы уже проходили этот сценарий."), gEl("div", {
+    className: "guided-replay-actions"
+  }, gEl("button", {
+    type: "button",
+    className: "guided-primary-btn",
+    onClick: engine.restart
+  }, "Пройти ещё раз"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: engine.explore
+  }, "Смотреть свободно"))) : gEl(GuidedProgress, {
+    engine
+  }), engine.mode !== "replay" && gEl(ClubsGuidedStage, {
+    key: runId,
+    engine
+  }), gEl("div", {
+    className: "guided-divider"
+  }, "Ниже — витрина по ролям"));
+}
+
 // ═══════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════
@@ -2168,7 +2572,7 @@ function App() {
     className: "back-link"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-arrow-left"
-  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement("p", {
+  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement(GuidedScenarioSection, null), /*#__PURE__*/React.createElement("p", {
     className: "showcase-intro"
   }, introByRole[role]), role === 'member' && /*#__PURE__*/React.createElement(MemberShowcase, null), role === 'organizer' && /*#__PURE__*/React.createElement(OrganizerShowcase, null))));
 }

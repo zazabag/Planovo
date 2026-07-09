@@ -2,7 +2,8 @@ const {
   useState,
   useMemo,
   useEffect,
-  useCallback
+  useCallback,
+  useRef
 } = React;
 
 // ═══════════════════════════════════════════
@@ -2027,6 +2028,494 @@ function AdminView({
   }, stats.totalClients * 2500, " ₽"))))))));
 }
 
+// ═══════════════════════════════════════════════
+// GUIDED SCENARIO v2 (TASK-28)
+// Движок шагов — общий для education/sports/clubs.demo.js;
+// при правках синхронизировать вручную (docs/Demoplan.md §Guided v2).
+// Файл правится ТОЛЬКО руками: скрипты пересборки (rebuild-demos.js,
+// compile-demos.js) удалены в TASK-28 — они восстанавливали файл из
+// старых git-коммитов и стёрли бы guided-код.
+// ═══════════════════════════════════════════════
+
+const gEl = React.createElement;
+const GUIDED_STORAGE_KEY = "planovo.guided.sports";
+
+const GUIDED_STEPS = [{
+  id: "pick-training",
+  target: "training-gss-1",
+  title: "Тренер заболел",
+  text: "Иванов А.С. не проведёт утреннюю тренировку в понедельник. Нажмите на занятие по борьбе.",
+  placement: "bottom"
+}, {
+  id: "cancel",
+  target: "cancel-btn",
+  title: "Что делаем?",
+  text: "Отмените занятие — система сама предупредит всю группу. Перенос работает так же.",
+  placement: "bottom"
+}, {
+  id: "confirm",
+  target: "confirm-btn",
+  title: "Подтвердите отмену",
+  text: "Одно нажатие — и уведомление уйдёт каждому участнику группы.",
+  placement: "top"
+}];
+
+function prefersReducedMotion() {
+  return typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function useGuidedScenario(steps, storageKey, onReset) {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [wasCompleted] = useState(() => {
+    try {
+      return localStorage.getItem(storageKey) === "1";
+    } catch (e) {
+      return false;
+    }
+  });
+  const [mode, setMode] = useState(wasCompleted ? "replay" : "running");
+  const step = mode === "running" ? steps[stepIndex] : null;
+  const complete = stepId => {
+    if (mode !== "running" || !step || step.id !== stepId) return;
+    if (stepIndex + 1 >= steps.length) {
+      setMode("done");
+      try {
+        localStorage.setItem(storageKey, "1");
+      } catch (e) {}
+    } else {
+      setStepIndex(stepIndex + 1);
+    }
+  };
+  const skip = () => setMode("free");
+  const explore = () => setMode("free");
+  const restart = () => {
+    if (onReset) onReset();
+    setStepIndex(0);
+    setMode("running");
+  };
+  return {
+    steps,
+    stepIndex,
+    step,
+    mode,
+    complete,
+    skip,
+    explore,
+    restart
+  };
+}
+
+function guidedTargetProps(engine, id, baseClass) {
+  const active = engine.step && engine.step.target === id;
+  return {
+    "data-guide": id,
+    className: (baseClass || "") + (active ? " guide-target" : "")
+  };
+}
+
+function GuidedProgress({
+  engine
+}) {
+  if (engine.mode === "done") return null;
+  const total = engine.steps.length;
+  return gEl("div", {
+    className: "guided-topbar"
+  }, gEl("div", {
+    className: "guided-progress"
+  }, engine.mode === "running" ? gEl("span", null, "Шаг ", engine.stepIndex + 1, " из ", total) : gEl("span", null, "Свободный режим — кликайте по тренировкам"), engine.mode === "running" && gEl("div", {
+    className: "guided-dots"
+  }, engine.steps.map((s, i) => gEl("span", {
+    key: s.id,
+    className: "guided-dot" + (i < engine.stepIndex ? " done" : i === engine.stepIndex ? " current" : "")
+  })))), engine.mode === "running" ? gEl("button", {
+    type: "button",
+    className: "guided-skip",
+    onClick: engine.skip
+  }, "Пропустить сценарий") : gEl("button", {
+    type: "button",
+    className: "guided-skip",
+    onClick: engine.restart
+  }, "Пройти сценарий заново"));
+}
+
+function GuidedFrame({
+  engine,
+  children
+}) {
+  const stageRef = useRef(null);
+  const [mark, setMark] = useState(null);
+  const step = engine.step;
+  const targetId = step ? step.target : null;
+  const placement = step ? step.placement || "bottom" : "bottom";
+
+  useEffect(() => {
+    if (!targetId) {
+      setMark(null);
+      return;
+    }
+    let raf = 0;
+    const measure = () => {
+      const stage = stageRef.current;
+      if (!stage) return;
+      const el = stage.querySelector('[data-guide="' + targetId + '"]');
+      if (!el) {
+        setMark(null);
+        return;
+      }
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        setMark({
+          sheet: true
+        });
+        return;
+      }
+      const sRect = stage.getBoundingClientRect();
+      const tRect = el.getBoundingClientRect();
+      const width = Math.min(280, sRect.width - 16);
+      let left = tRect.left - sRect.left + tRect.width / 2 - width / 2;
+      left = Math.max(8, Math.min(left, sRect.width - width - 8));
+      const top = placement === "top" ? tRect.top - sRect.top - 12 : tRect.bottom - sRect.top + 12;
+      const arrowLeft = Math.max(14, Math.min(tRect.left - sRect.left + tRect.width / 2 - left - 6, width - 26));
+      setMark({
+        top,
+        left,
+        width,
+        placement,
+        arrowLeft
+      });
+    };
+    measure();
+    // Повторные замеры: поздняя загрузка шрифтов/картинок сдвигает layout
+    const t1 = setTimeout(measure, 400);
+    const t2 = setTimeout(measure, 1200);
+    const onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measure);
+    };
+    window.addEventListener("resize", onResize);
+    window.addEventListener("load", measure);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("load", measure);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      cancelAnimationFrame(raf);
+    };
+  }, [targetId, placement]);
+
+  useEffect(() => {
+    if (!targetId || engine.stepIndex === 0) return;
+    const stage = stageRef.current;
+    if (!stage) return;
+    const el = stage.querySelector('[data-guide="' + targetId + '"]');
+    if (el && typeof el.scrollIntoView === "function") {
+      el.scrollIntoView({
+        block: "center",
+        behavior: prefersReducedMotion() ? "auto" : "smooth"
+      });
+    }
+  }, [targetId]);
+
+  return gEl("div", {
+    className: "guided-stage",
+    ref: stageRef
+  }, children, step && gEl("div", {
+    className: "guided-stage-overlay",
+    "aria-hidden": "true"
+  }), step && mark && gEl("div", {
+    className: "guided-coachmark placement-" + (mark.sheet ? "sheet" : mark.placement),
+    role: "status",
+    style: mark.sheet ? undefined : {
+      top: mark.top,
+      left: mark.left,
+      width: mark.width,
+      transform: mark.placement === "top" ? "translateY(-100%)" : undefined
+    }
+  }, !mark.sheet && gEl("div", {
+    className: "guided-coachmark-arrow",
+    style: {
+      left: mark.arrowLeft
+    }
+  }), gEl("div", {
+    className: "guided-coachmark-title"
+  }, step.title), gEl("div", {
+    className: "guided-coachmark-text"
+  }, step.text)));
+}
+
+// --- Данные сценария sports: «тренер заболел» ---
+const SPORTS_SCENARIO_SESSIONS = [{
+  id: "gss-1",
+  sectionId: "s1",
+  dayIndex: 0,
+  slotIndex: 0,
+  group: "Младшая группа",
+  status: "active"
+}, {
+  id: "gss-2",
+  sectionId: "s1",
+  dayIndex: 0,
+  slotIndex: 6,
+  group: "Старшая группа",
+  status: "active"
+}, {
+  id: "gss-3",
+  sectionId: "s5",
+  dayIndex: 0,
+  slotIndex: 6,
+  group: "Взрослые",
+  status: "active"
+}];
+
+function SportsGuidedStage({
+  engine
+}) {
+  const [sessions, setSessions] = useState(SPORTS_SCENARIO_SESSIONS);
+  const [actionForId, setActionForId] = useState(null);
+  const [confirming, setConfirming] = useState(false);
+  const [notified, setNotified] = useState(null); // {group, count}
+  const actionSession = sessions.find(s => s.id === actionForId) || null;
+  const actionSection = actionSession ? SECTIONS.find(s => s.id === actionSession.sectionId) : null;
+  const cancelSession = id => {
+    setSessions(prev => prev.map(s => s.id === id ? {
+      ...s,
+      status: "cancelled"
+    } : s));
+  };
+  const restoreSession = id => {
+    setSessions(prev => prev.map(s => s.id === id ? {
+      ...s,
+      status: "active"
+    } : s));
+  };
+  const handleCardClick = session => {
+    if (session.status === "cancelled") {
+      // свободный режим: вернуть занятие
+      restoreSession(session.id);
+      if (actionForId === session.id) setActionForId(null);
+      return;
+    }
+    setActionForId(actionForId === session.id ? null : session.id);
+    setConfirming(false);
+    engine.complete("pick-training");
+  };
+  const handleCancelClick = () => {
+    setConfirming(true);
+    engine.complete("cancel");
+  };
+  const handleConfirm = () => {
+    if (!actionSession) return;
+    const fill = getSectionFill(actionSession.sectionId);
+    cancelSession(actionSession.id);
+    setNotified({
+      group: (actionSection ? actionSection.name + " — " : "") + actionSession.group,
+      count: fill.enrolled
+    });
+    setActionForId(null);
+    setConfirming(false);
+    engine.complete("confirm");
+  };
+  const renderCard = session => {
+    const section = SECTIONS.find(s => s.id === session.sectionId);
+    const slot = TIME_SLOTS[session.slotIndex];
+    const fill = getSectionFill(session.sectionId);
+    const cancelled = session.status === "cancelled";
+    const tp = guidedTargetProps(engine, "training-" + session.id, "guided-item-card" + (cancelled ? " training-cancelled" : "") + (actionForId === session.id ? " guided-cell-selected" : ""));
+    return gEl("button", Object.assign({
+      key: session.id,
+      type: "button",
+      onClick: () => handleCardClick(session),
+      "aria-label": section.name + " — " + session.group + ", " + slot.start + (cancelled ? " (отменена, нажмите чтобы вернуть)" : "")
+    }, tp), gEl("div", {
+      className: "guided-item-time"
+    }, slot.start, "–", slot.end, " · ", slot.label, cancelled && gEl("span", {
+      className: "guided-badge-cancelled",
+      style: {
+        marginLeft: 8
+      }
+    }, "Отменена")), gEl("div", {
+      className: "guided-item-title",
+      style: {
+        color: section.color
+      }
+    }, section.name, " — ", session.group), gEl("div", {
+      className: "guided-item-meta"
+    }, gEl("i", {
+      className: "fas fa-user",
+      style: {
+        marginRight: 4
+      }
+    }), section.trainer, " · ", gEl("i", {
+      className: "fas fa-users",
+      style: {
+        margin: "0 4px 0 8px"
+      }
+    }), fill.enrolled, "/", fill.max));
+  };
+  const phoneSession = sessions.find(s => s.id === "gss-1");
+  const phoneSection = SECTIONS.find(s => s.id === phoneSession.sectionId);
+  const phoneSlot = TIME_SLOTS[phoneSession.slotIndex];
+  return gEl(React.Fragment, null, gEl(GuidedFrame, {
+    engine
+  }, gEl("div", {
+    className: "showcase-day-header",
+    style: {
+      marginBottom: 12
+    }
+  }, gEl("i", {
+    className: "fas fa-calendar-day"
+  }), gEl("span", null, "Понедельник"), gEl("span", {
+    className: "showcase-panel-meta"
+  }, "· расписание тренера и залов")), gEl("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, sessions.map(renderCard)), actionSession && !confirming && gEl("div", {
+    className: "guided-banner guided-banner-ok",
+    style: {
+      background: "var(--gray-50)",
+      borderColor: "var(--gray-200)",
+      color: "var(--gray-700)"
+    }
+  }, gEl("i", {
+    className: "fas fa-hand-pointer"
+  }), gEl("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      flexWrap: "wrap",
+      alignItems: "center"
+    }
+  }, gEl("span", null, actionSection.name, " — ", actionSession.group, ":"), gEl("button", Object.assign({
+    type: "button",
+    onClick: handleCancelClick
+  }, guidedTargetProps(engine, "cancel-btn", "guided-primary-btn")), "Отменить занятие"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    disabled: true,
+    title: "Доступно в полной версии"
+  }, "Перенести"), gEl("span", {
+    className: "guided-free-hint"
+  }, "перенос — в полной версии"))), actionSession && confirming && gEl("div", {
+    className: "guided-banner guided-banner-conflict"
+  }, gEl("i", {
+    className: "fas fa-triangle-exclamation"
+  }), gEl("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      flexWrap: "wrap",
+      alignItems: "center"
+    }
+  }, gEl("span", null, "Отменить «", actionSection.name, " — ", actionSession.group, "» и уведомить группу (", getSectionFill(actionSession.sectionId).enrolled, " участников)?"), gEl("button", Object.assign({
+    type: "button",
+    onClick: handleConfirm
+  }, guidedTargetProps(engine, "confirm-btn", "guided-primary-btn")), "Подтвердить и уведомить"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: () => setConfirming(false)
+  }, "Назад"))), notified && gEl("div", {
+    className: "guided-banner guided-banner-ok"
+  }, gEl("i", {
+    className: "fas fa-circle-check"
+  }), gEl("span", null, "Тренировка отменена. Группа «", notified.group, "» уведомлена — ", notified.count, " участников.")), engine.mode !== "running" && gEl("div", {
+    className: "guided-actionbar"
+  }, gEl("span", {
+    className: "guided-free-hint"
+  }, "Нажмите тренировку — можно отменить занятие; нажмите отменённую — вернуть."))), engine.mode === "done" && gEl("div", {
+    className: "guided-success-panel"
+  }, gEl("div", null, gEl("div", {
+    className: "guided-success-headline"
+  }, gEl("i", {
+    className: "fas fa-circle-check"
+  }), "Группа предупреждена — за 3 клика"), gEl("p", {
+    className: "guided-success-text"
+  }, "Никаких обзвонов: каждый участник получил уведомление и не приедет к закрытому залу. Так же работают переносы и замены тренера."), gEl("div", {
+    className: "guided-success-actions"
+  }, gEl("a", {
+    className: "guided-cta",
+    href: "index.html#contact"
+  }, gEl("i", {
+    className: "fas fa-arrow-right"
+  }), "Получить бесплатный разбор"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: engine.explore
+  }, "Исследовать свободно"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: engine.restart
+  }, "Пройти ещё раз"))), gEl("div", {
+    className: "phone-mockup"
+  }, gEl("div", {
+    className: "phone-mockup-notch"
+  }), gEl("span", {
+    className: "phone-badge-updated"
+  }, gEl("i", {
+    className: "fas fa-bolt"
+  }), "Обновлено только что"), gEl("div", {
+    className: "guided-item-card training-cancelled",
+    style: {
+      cursor: "default"
+    }
+  }, gEl("div", {
+    className: "guided-item-time"
+  }, phoneSlot.start, "–", phoneSlot.end, " ", gEl("span", {
+    className: "guided-badge-cancelled",
+    style: {
+      marginLeft: 6
+    }
+  }, "Отменена")), gEl("div", {
+    className: "guided-item-title",
+    style: {
+      color: phoneSection.color
+    }
+  }, phoneSection.name, " — ", phoneSession.group), gEl("div", {
+    className: "guided-item-meta"
+  }, phoneSection.trainer)), gEl("div", {
+    className: "guided-notif-row"
+  }, gEl("i", {
+    className: "fas fa-bell"
+  }), gEl("span", null, "Группа уведомлена (", getSectionFill("s1").enrolled, " участников) · только что")))));
+}
+
+function GuidedScenarioSection() {
+  const [runId, setRunId] = useState(0);
+  const engine = useGuidedScenario(GUIDED_STEPS, GUIDED_STORAGE_KEY, () => setRunId(r => r + 1));
+  return gEl("section", {
+    className: "guided-section",
+    "aria-label": "Интерактивный сценарий"
+  }, gEl("span", {
+    className: "guided-kicker"
+  }, gEl("i", {
+    className: "fas fa-hand-pointer"
+  }), "Попробуйте сами · 3 клика"), gEl("h2", {
+    className: "guided-title"
+  }, "Сценарий: тренер заболел"), gEl("p", {
+    className: "guided-sub"
+  }, "Отмените тренировку — и посмотрите, как вся группа узнаёт об этом мгновенно, без обзвонов и чатов."), engine.mode === "replay" ? gEl("div", {
+    className: "guided-replay-banner"
+  }, gEl("span", null, "Вы уже проходили этот сценарий."), gEl("div", {
+    className: "guided-replay-actions"
+  }, gEl("button", {
+    type: "button",
+    className: "guided-primary-btn",
+    onClick: engine.restart
+  }, "Пройти ещё раз"), gEl("button", {
+    type: "button",
+    className: "guided-secondary-btn",
+    onClick: engine.explore
+  }, "Смотреть свободно"))) : gEl(GuidedProgress, {
+    engine
+  }), engine.mode !== "replay" && gEl(SportsGuidedStage, {
+    key: runId,
+    engine
+  }), gEl("div", {
+    className: "guided-divider"
+  }, "Ниже — витрина по ролям"));
+}
+
 // ═══════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════
@@ -2126,7 +2615,7 @@ function App() {
     className: "back-link"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-arrow-left"
-  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement("p", {
+  }), " Вернуться на сайт"), /*#__PURE__*/React.createElement(GuidedScenarioSection, null), /*#__PURE__*/React.createElement("p", {
     className: "showcase-intro"
   }, introByRole[role]), role === 'client' && /*#__PURE__*/React.createElement(ClientShowcase, null), role === 'coach' && /*#__PURE__*/React.createElement(CoachShowcase, null), role === 'admin' && /*#__PURE__*/React.createElement(AdminShowcase, null))));
 }
