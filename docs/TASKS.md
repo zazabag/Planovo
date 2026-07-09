@@ -31,6 +31,8 @@
 | TASK-23 | Новый бренд-логотип (календарь + процесс) | zazabag | — | done | — | logo-source.png → logo.png |
 | TASK-24 | Деплой planovo.pro: legal, favicon, контакты, скрипты | zazabag | `feature/zazabag/planovo-pro-deploy` | done | [#24](https://github.com/zazabag/Planovo/pull/24) | Reg.ru, HTTPS, ИП реквизиты |
 | TASK-25 | Лендинг: preview правок по рецензии (копирайт, простота, цвет) | Owl-14 | `feature/Owl-14/landing-review-recenziya` | done | [#25](https://github.com/zazabag/Planovo/pull/25) | review-ассеты на прод, `index-preview.html` для QA |
+| TASK-26 | Лендинг v2: структура по логике akeda.ru, статика без React (fix мигания) | Owl-14 | `feature/Owl-14/landing-v2-static` | review | — | index.html — источник правды; FAQ; `landing-core.js` |
+| TASK-27 | Убрать переходные файлы (`landing-review-preview.js`, чанк `4c37fd759bda90ef.js`) | — | — | todo | — | после инвалидации кэша, через 1–2 недели после деплоя TASK-26 |
 
 ## Как добавить задачу
 
