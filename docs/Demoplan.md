@@ -33,8 +33,9 @@
 - Целевые элементы помечаются `data-guide` через `guidedTargetProps(engine, id, class)`.
 - Стили — общий `assets/demo-guided.css` (тема ниши через `var(--primary)`);
   мобильный ≤767px: коуч-марк = fixed bottom-sheet.
-- ⚠️ **`scripts/rebuild-demos.js` не запускать** — он восстанавливает `*.demo.js`
-  из старых git-коммитов и удалит guided-код. Файлы правятся только руками.
+- ⚠️ Скрипты пересборки **удалены** (TASK-28): `scripts/rebuild-demos.js` и
+  `scripts/compile-demos.js` восстанавливали `*.demo.js` из старых git-коммитов
+  и стёрли бы guided-код. `*.demo.js` правятся **только руками**.
 
 ---
 

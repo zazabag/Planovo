@@ -2032,8 +2032,9 @@ function AdminView({
 // GUIDED SCENARIO v2 (TASK-28)
 // Движок шагов — общий для education/sports/clubs.demo.js;
 // при правках синхронизировать вручную (docs/Demoplan.md §Guided v2).
-// Файл правится руками; scripts/rebuild-demos.js НЕ запускать —
-// он перезатрёт demo.js из старых git-коммитов.
+// Файл правится ТОЛЬКО руками: скрипты пересборки (rebuild-demos.js,
+// compile-demos.js) удалены в TASK-28 — они восстанавливали файл из
+// старых git-коммитов и стёрли бы guided-код.
 // ═══════════════════════════════════════════════
 
 const gEl = React.createElement;
