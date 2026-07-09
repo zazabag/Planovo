@@ -83,15 +83,15 @@
   function getLeadSectionHTML() {
     return (
       '<div class="landing-container"><div class="lead-grid">' +
-      '<div class="lead-intro"><span class="section-tag">Связаться</span>' +
-      '<h2 class="section-title">Обсудим ваш <span class="gradient-text">проект</span></h2>' +
-      '<p class="lead-intro-text">Оставьте заявку — расскажем, как Планово закроет боли с расписанием в вашей нише. Без шаблонных решений, только под ваш бизнес.</p>' +
+      '<div class="lead-intro"><span class="section-tag">Первый шаг</span>' +
+      '<h2 class="section-title">Начните с <span class="gradient-text">бесплатного разбора</span></h2>' +
+      '<p class="lead-intro-text">Расскажите, как у вас устроено расписание. За 20–30 минут онлайн покажем, где команда теряет время и какие экраны нужны именно вам.</p>' +
       '<div class="lead-contacts-mini cta-buttons">' +
       '<a href="' + TELEGRAM_URL + '" class="btn btn-primary" target="_blank" rel="noopener noreferrer">✈️ Написать в Telegram</a>' +
       '<a href="mailto:' + CONTACT_EMAIL + '" class="btn btn-secondary">✉️ ' + CONTACT_EMAIL + '</a>' +
       "</div></div>" +
-      '<div class="lead-form-card"><h3>Заявка на консультацию</h3>' +
-      "<p>Заполните форму — ответим в течение рабочего дня.</p>" +
+      '<div class="lead-form-card"><h3>Заявка на бесплатный разбор</h3>' +
+      "<p>Заполните форму — вернёмся с ответом в течение рабочего дня.</p>" +
       '<form id="planovoLeadForm" class="lead-form" novalidate>' +
       '<div class="lead-form-row"><div class="lead-field"><label for="leadName">Имя <span class="req">*</span></label>' +
       '<input type="text" id="leadName" name="name" required autocomplete="name" placeholder="Как к вам обращаться" /></div>' +
@@ -119,7 +119,7 @@
       '<label class="lead-checkbox"><input type="checkbox" id="leadMarketing" name="marketing" />' +
       "<span>Согласен(на) получать информационные материалы о продукте «Планово» (необязательно)</span></label></div>" +
       '<div id="leadFormMessage" class="lead-form-message" role="status" aria-live="polite"></div>' +
-      '<button type="submit" class="lead-submit" id="leadSubmitBtn" disabled>Отправить заявку</button>' +
+      '<button type="submit" class="lead-submit" id="leadSubmitBtn" disabled>Получить бесплатный разбор</button>' +
       "</form></div></div></div>"
     );
   }
@@ -1372,7 +1372,7 @@
           );
           if (submitBtn) {
             submitBtn.disabled = !consent.checked;
-            submitBtn.textContent = "Отправить заявку";
+            submitBtn.textContent = "Получить бесплатный разбор";
           }
         });
       return;
