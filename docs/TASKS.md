@@ -31,6 +31,7 @@
 | TASK-23 | Новый бренд-логотип (календарь + процесс) | zazabag | — | done | — | logo-source.png → logo.png |
 | TASK-24 | Деплой planovo.pro: legal, favicon, контакты, скрипты | zazabag | `feature/zazabag/planovo-pro-deploy` | done | [#24](https://github.com/zazabag/Planovo/pull/24) | Reg.ru, HTTPS, ИП реквизиты |
 | TASK-25 | Лендинг: preview правок по рецензии (копирайт, простота, цвет) | Owl-14 | `feature/Owl-14/landing-review-recenziya` | done | [#25](https://github.com/zazabag/Planovo/pull/25) | review-ассеты на прод, `index-preview.html` для QA |
+| TASK-28 | Guided-демо v2: интерактивные сценарии в 3 демо + витрина ниже | Owl-14 | `feature/Owl-14/guided-demo-v2` | review | — | движок шагов в `*.demo.js`, `assets/demo-guided.css`; деплой-копию обновить при следующем деплое |
 
 ## Как добавить задачу
 
