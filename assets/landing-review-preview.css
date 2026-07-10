@@ -8,8 +8,52 @@
   visibility: visible !important;
 }
 
-.landing-page.landing-preview section {
-  min-height: 1px;
+/* ============================================================
+   Посекционная подача (TASK-29): один экран — одна секция.
+   Hero занимает ровно вьюпорт (следующая секция не выглядывает),
+   каждая смысловая секция — минимум высота экрана с вертикальным
+   центрированием; на десктопе мягкая привязка прокрутки к началу
+   секции (proximity — длинные секции скроллятся свободно).
+   ============================================================ */
+.landing-page.landing-preview section.hero {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.landing-page.landing-preview section.problem,
+.landing-page.landing-preview section.solution,
+.landing-page.landing-preview section.before-after,
+.landing-page.landing-preview section.niches,
+.landing-page.landing-preview section.daily-use,
+.landing-page.landing-preview section.features,
+.landing-page.landing-preview section.how-it-works,
+.landing-page.landing-preview section.faq,
+.landing-page.landing-preview section.lead-section {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+
+  .landing-page.landing-preview section.hero,
+  .landing-page.landing-preview section.problem,
+  .landing-page.landing-preview section.solution,
+  .landing-page.landing-preview section.before-after,
+  .landing-page.landing-preview section.niches,
+  .landing-page.landing-preview section.daily-use,
+  .landing-page.landing-preview section.features,
+  .landing-page.landing-preview section.how-it-works,
+  .landing-page.landing-preview section.faq,
+  .landing-page.landing-preview section.lead-section {
+    scroll-snap-align: start;
+  }
 }
 
 .landing-page.landing-preview {
