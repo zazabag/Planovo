@@ -34,7 +34,7 @@
 | TASK-26 | Лендинг v2: структура по логике akeda.ru, статика без React (fix мигания) | Owl-14 | `feature/Owl-14/landing-v2-static` | done | [#26](https://github.com/zazabag/Planovo/pull/26) | index.html — источник правды; FAQ; `landing-core.js`; задеплоено на planovo.pro 10.07 |
 | TASK-27 | Убрать переходные файлы (`landing-review-preview.js`, чанк `4c37fd759bda90ef.js`) | — | — | todo | — | после инвалидации кэша, через 1–2 недели после деплоя TASK-26 |
 | TASK-28 | Guided-демо v2: интерактивные сценарии в 3 демо + витрина ниже | Owl-14 | `feature/Owl-14/guided-demo-v2` | done | [#27](https://github.com/zazabag/Planovo/pull/27) | движок шагов в `*.demo.js`, `assets/demo-guided.css`; задеплоено на planovo.pro 10.07 |
-| TASK-29 | Лендинг: посекционная подача — один экран = одна секция | Owl-14 | `feature/Owl-14/landing-fullscreen-sections` | review | — | фикс `min-height:1px`, секции 100svh + scroll-snap proximity (desktop) |
+| TASK-29 | Лендинг: посекционная подача — один экран = одна секция | Owl-14 | `feature/Owl-14/landing-fullscreen-sections` | done | [#28](https://github.com/zazabag/Planovo/pull/28) | фикс `min-height:1px`, секции 100svh + snap; задеплоено 10.07 |
 
 ## Как добавить задачу
 
