@@ -1333,6 +1333,13 @@ html.landing-preview-root .landing-page.landing-preview {
   line-height: 1.6;
 }
 
+/* --- Демо-карта конструктора (education-фокус, TASK-30) --- */
+.landing-page.landing-preview .demo-feature-card {
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+}
+
 /* --- Адаптив --- */
 @media (max-width: 1024px) {
   .landing-page.landing-preview .problem-grid.situations-grid {

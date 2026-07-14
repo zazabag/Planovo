@@ -96,17 +96,17 @@
       '<div class="lead-form-row"><div class="lead-field"><label for="leadName">Имя <span class="req">*</span></label>' +
       '<input type="text" id="leadName" name="name" required autocomplete="name" placeholder="Как к вам обращаться" /></div>' +
       '<div class="lead-field"><label for="leadOrg">Организация</label>' +
-      '<input type="text" id="leadOrg" name="organization" autocomplete="organization" placeholder="Школа, клуб, секция" /></div></div>' +
+      '<input type="text" id="leadOrg" name="organization" autocomplete="organization" placeholder="Колледж, школа, вуз" /></div></div>' +
       '<div class="lead-form-row"><div class="lead-field"><label for="leadEmail">Email</label>' +
       '<input type="email" id="leadEmail" name="email" autocomplete="email" placeholder="name@example.ru" inputmode="email" /></div>' +
       '<div class="lead-field"><label for="leadPhone">Телефон <span class="req">*</span></label>' +
       '<input type="tel" id="leadPhone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__" inputmode="tel" /></div></div>' +
-      '<div class="lead-field"><label for="leadNiche">Ниша</label><select id="leadNiche" name="niche">' +
-      '<option value="">Выберите направление</option>' +
-      '<option value="education">Учебное заведение</option>' +
-      '<option value="sports">Спортивная секция</option>' +
-      '<option value="clubs">Клуб / мероприятия</option>' +
-      '<option value="other">Другое</option></select></div>' +
+      '<div class="lead-field"><label for="leadNiche">Тип учреждения</label><select id="leadNiche" name="niche">' +
+      '<option value="">Выберите тип</option>' +
+      '<option value="college">Колледж / техникум</option>' +
+      '<option value="school">Школа</option>' +
+      '<option value="university">Вуз</option>' +
+      '<option value="other">Другое (доп. образование и т.п.)</option></select></div>' +
       '<div class="lead-field"><label for="leadMessage">Сообщение</label>' +
       '<textarea id="leadMessage" name="message" placeholder="Кратко опишите задачу и текущие боли с расписанием"></textarea></div>' +
       '<div class="lead-checkboxes">' +

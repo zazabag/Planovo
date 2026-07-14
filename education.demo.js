@@ -113,10 +113,10 @@ const DAYS = [{
   short: "Сб",
   full: "Суббота"
 }];
-// Demoplan: compact demo window (see docs/Demoplan.md)
-const DEMO_DAY_KEYS = ["mon", "wed"];
+// Education-фокус (TASK-30): расширенное окно демо — конструктор как главный экран
+const DEMO_DAY_KEYS = ["mon", "tue", "wed", "thu", "fri"];
 const DEMO_DAYS = DAYS.filter((d) => DEMO_DAY_KEYS.includes(d.key));
-const DEMO_SLOT_COUNT = 2;
+const DEMO_SLOT_COUNT = 4;
 const DEMO_SLOTS = TIME_SLOTS.slice(0, DEMO_SLOT_COUNT);
 function pickDemoDay(rng) {
   return DEMO_DAY_KEYS[Math.floor(rng() * DEMO_DAY_KEYS.length)];
@@ -503,10 +503,18 @@ function generateSchedule(seed = "planovo-demo-2025") {
   }
   const teacherSlotOccupied = {};
   for (const t of TEACHERS) teacherSlotOccupied[t.id] = new Set();
-  function pickRoom(subjectId) {
+  // Room-aware подбор (TASK-30): не бронируем занятую аудиторию в том же слоте
+  const roomSlotOccupied = new Set();
+  function pickRoom(subjectId, dayKey, slotIndex, parities) {
     const s = subjectMap.get(subjectId);
-    if (s && (s.id === "s14" || s.name.toLowerCase().includes("лаб"))) return LAB_ROOMS[Math.floor(rng() * LAB_ROOMS.length)];
-    return LECTURE_ROOMS[Math.floor(rng() * LECTURE_ROOMS.length)];
+    const pool = s && (s.id === "s14" || s.name.toLowerCase().includes("лаб")) ? LAB_ROOMS : LECTURE_ROOMS;
+    const ps = parities && parities.length ? parities : ["even", "odd"];
+    const free = dayKey != null ? pool.filter(rid => ps.every(p => !roomSlotOccupied.has(`${dayKey}:${slotIndex}:${p}:${rid}`))) : pool;
+    const list = free.length ? free : pool;
+    return list[Math.floor(rng() * list.length)];
+  }
+  function occupyRoom(roomId, dayKey, slotIndex, parities) {
+    for (const p of parities) roomSlotOccupied.add(`${dayKey}:${slotIndex}:${p}:${roomId}`);
   }
   for (const tsa of TEACHER_SUBJECTS) {
     const {
@@ -539,7 +547,8 @@ function generateSchedule(seed = "planovo-demo-2025") {
         if (!slotOk) continue;
         const existing = cells.find(c => c.groupCode === groupCode && c.dayKey === dayKey && c.slotIndex === slotIndex && parities.includes(c.parity));
         if (existing) continue;
-        const roomId = pickRoom(subjectId);
+        const roomId = pickRoom(subjectId, dayKey, slotIndex, parities);
+        occupyRoom(roomId, dayKey, slotIndex, parities);
         for (const parity of parities) {
           cells.push({
             id: nextCellId(),
@@ -575,7 +584,8 @@ function generateSchedule(seed = "planovo-demo-2025") {
   for (const [groups, info] of combinedPairs) {
     const dayKey = pickDemoDay(rng);
     const slotIndex = Math.floor(rng() * DEMO_SLOT_COUNT);
-    const roomId = pickRoom(info.subjectId);
+    const roomId = pickRoom(info.subjectId, dayKey, slotIndex, ["even", "odd"]);
+    occupyRoom(roomId, dayKey, slotIndex, ["even", "odd"]);
     const combinedKey = `combined-${groups[0]}-${groups[1]}-${info.subjectId}`;
     for (const g of groups) {
       const idx = cells.findIndex(c => c.groupCode === g && c.dayKey === dayKey && c.slotIndex === slotIndex);
@@ -636,7 +646,8 @@ function generateSchedule(seed = "planovo-demo-2025") {
     const parity = rng() < 0.5 ? "even" : "odd";
     const dayKey = pickDemoDay(rng);
     const slotIndex = Math.floor(rng() * DEMO_SLOT_COUNT);
-    const roomId = pickRoom(pos.subjectId);
+    const roomId = pickRoom(pos.subjectId, dayKey, slotIndex, [parity]);
+    occupyRoom(roomId, dayKey, slotIndex, [parity]);
     const existing = cells.find(c => c.groupCode === pos.groupCode && c.dayKey === dayKey && c.slotIndex === slotIndex && c.parity === parity);
     if (existing) continue;
     const tSlotKey = `${dayKey}:${slotIndex}:${parity}`;
@@ -1041,7 +1052,7 @@ function StudentView({
     if (!selectedGroupCode) return null;
     return buildGroupSchedule(cells, selectedGroupCode);
   }, [cells, selectedGroupCode]);
-  const filteredGroups = DEMO_GROUPS;
+  const filteredGroups = GROUPS; // education-фокус: студент выбирает любую из 6 групп
   const getDisplayPair = (dayKey, slotIndex) => {
     if (!weekSchedule?.[dayKey]?.[slotIndex]) return null;
     const pair = weekSchedule[dayKey][slotIndex][currentParity];
@@ -1690,9 +1701,43 @@ function AdminView({
   const [addForm, setAddForm] = useState({
     subjectId: '',
     teacherId: '',
-    roomId: ''
+    roomId: '',
+    dayKey: 'mon',
+    slotIndex: 0
   });
   const conflicts = useMemo(() => getConflicts(cells, availabilities), [cells, availabilities]);
+  // Конструктор (TASK-30): перенос и удаление занятий кликами
+  const [moveId, setMoveId] = useState(null);
+  const errorCount = useMemo(() => conflicts.filter(c => c.severity === 'error').length, [conflicts]);
+  const cellAtSlot = (dayKey, slotIndex) => cells.find(c => c.groupCode === adminGroupCode && c.dayKey === dayKey && c.slotIndex === slotIndex && c.parity === adminParity) || cells.find(c => c.groupCode === adminGroupCode && c.dayKey === dayKey && c.slotIndex === slotIndex);
+  const handleCellClick = (dayKey, slotIndex) => {
+    const here = cellAtSlot(dayKey, slotIndex);
+    if (moveId === null) {
+      if (here) setMoveId(here.id);
+      return;
+    }
+    if (here && here.id === moveId) {
+      setMoveId(null); // повторный клик — снять выбор
+      return;
+    }
+    if (here) {
+      setMoveId(here.id); // выбрать другое занятие
+      return;
+    }
+    setCells(cells.map(c => c.id === moveId ? {
+      ...c,
+      dayKey,
+      slotIndex
+    } : c));
+    setMoveId(null);
+    setIsPublished(false);
+  };
+  const handleDeleteSelected = () => {
+    if (!moveId) return;
+    setCells(cells.filter(c => c.id !== moveId));
+    setMoveId(null);
+    setIsPublished(false);
+  };
   const weekSchedule = useMemo(() => {
     return buildGroupSchedule(cells, adminGroupCode);
   }, [cells, adminGroupCode]);
@@ -1712,6 +1757,8 @@ function AdminView({
     setIsGenerating(true);
     setGenProgress([]);
     setGenResult(null);
+    setIsPublished(false);
+    setMoveId(null);
     const progress = [];
     const addStep = msg => {
       progress.push(msg);
@@ -1750,8 +1797,8 @@ function AdminView({
     const newCell = {
       id: `manual-${Date.now()}`,
       groupCode: adminGroupCode,
-      dayKey: adminDayKey,
-      slotIndex: 0,
+      dayKey: addForm.dayKey,
+      slotIndex: Number(addForm.slotIndex),
       parity: adminParity,
       subjectId: addForm.subjectId,
       teacherId: addForm.teacherId,
@@ -1759,11 +1806,14 @@ function AdminView({
       combined: false
     };
     setCells([...cells, newCell]);
+    setIsPublished(false);
     setShowAddModal(false);
     setAddForm({
       subjectId: '',
       teacherId: '',
-      roomId: ''
+      roomId: '',
+      dayKey: adminDayKey,
+      slotIndex: 0
     });
   };
   const getDisplayPair = (dayKey, slotIndex) => {
@@ -1854,7 +1904,14 @@ function AdminView({
     onClick: () => setShowAddModal(true)
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-plus"
-  }), " Добавить занятие"), showcase && /*#__PURE__*/React.createElement("button", {
+  }), " Добавить занятие"), !showcase && /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-sm",
+    onClick: () => setIsPublished(true),
+    disabled: isPublished || errorCount > 0,
+    title: errorCount > 0 ? "Сначала устраните конфликты" : undefined
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${isPublished ? "fa-circle-check" : "fa-paper-plane"}`
+  }), isPublished ? " Опубликовано" : " Опубликовать"), showcase && /*#__PURE__*/React.createElement("button", {
     className: "btn btn-sm",
     onClick: () => {
       setActiveTab("autogen");
@@ -1863,7 +1920,36 @@ function AdminView({
     disabled: isGenerating
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-wand-magic-sparkles"
-  }), " Автогенерация")), /*#__PURE__*/React.createElement("div", {
+  }), " Автогенерация")), !showcase && moveId && /*#__PURE__*/React.createElement("div", {
+    className: "guided-banner guided-banner-ok",
+    style: {
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-arrows-up-down-left-right"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 10,
+      flexWrap: 'wrap',
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "Занятие выбрано — кликните свободную ячейку, чтобы перенести."), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-sm",
+    onClick: handleDeleteSelected
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-trash-can"
+  }), " Удалить"), /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-sm",
+    onClick: () => setMoveId(null)
+  }, "Отмена"))), !showcase && isPublished && /*#__PURE__*/React.createElement("div", {
+    className: "guided-banner guided-banner-ok",
+    style: {
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-circle-check"
+  }), /*#__PURE__*/React.createElement("span", null, "Опубликовано! Студенты и преподаватели уже видят актуальную версию.")), /*#__PURE__*/React.createElement("div", {
     className: "card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "schedule-wrapper"
@@ -1887,10 +1973,9 @@ function AdminView({
     className: "label"
   }, slot.label)), DEMO_DAYS.map(d => {
     const pair = getDisplayPair(d.key, slot.index);
-    return /*#__PURE__*/React.createElement("div", {
-      key: d.key,
-      className: "day-cell"
-    }, pair ? /*#__PURE__*/React.createElement(PairCardCompact, {
+    const cellObj = cellAtSlot(d.key, slot.index);
+    const selected = !showcase && cellObj && moveId === cellObj.id;
+    const inner = pair ? /*#__PURE__*/React.createElement(PairCardCompact, {
       pair: pair,
       currentParity: adminParity
     }) : /*#__PURE__*/React.createElement("div", {
@@ -1900,7 +1985,16 @@ function AdminView({
     }, [0, 1, 2].map(i => /*#__PURE__*/React.createElement("div", {
       key: i,
       className: "empty-dot"
-    })))));
+    }))));
+    return /*#__PURE__*/React.createElement("div", {
+      key: d.key,
+      className: "day-cell"
+    }, showcase ? inner : /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      className: "guided-cell" + (selected ? " guided-cell-selected" : ""),
+      onClick: () => handleCellClick(d.key, slot.index),
+      "aria-label": d.full + ", " + slot.label + (pair ? " — " + pair.subject.name : " — свободный слот")
+    }, inner));
   })))))), showAddModal && /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'fixed',
@@ -1932,7 +2026,38 @@ function AdminView({
       flexDirection: 'column',
       gap: 12
     }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8
+    }
   }, /*#__PURE__*/React.createElement("select", {
+    className: "teacher-select",
+    style: {
+      flex: 1
+    },
+    value: addForm.dayKey,
+    onChange: e => setAddForm({
+      ...addForm,
+      dayKey: e.target.value
+    })
+  }, DEMO_DAYS.map(d => /*#__PURE__*/React.createElement("option", {
+    key: d.key,
+    value: d.key
+  }, d.full))), /*#__PURE__*/React.createElement("select", {
+    className: "teacher-select",
+    style: {
+      flex: 1
+    },
+    value: addForm.slotIndex,
+    onChange: e => setAddForm({
+      ...addForm,
+      slotIndex: e.target.value
+    })
+  }, DEMO_SLOTS.map(s => /*#__PURE__*/React.createElement("option", {
+    key: s.index,
+    value: s.index
+  }, s.label, " (", s.start, ")")))), /*#__PURE__*/React.createElement("select", {
     className: "teacher-select",
     value: addForm.subjectId,
     onChange: e => setAddForm({
@@ -2510,6 +2635,10 @@ const GUIDED_STEPS = [{
   placement: "top"
 }];
 
+// Сценарий остаётся компактным (Пн+Ср × 2 пары) — независимо от расширенного окна демо
+const GUIDED_DAYS = DAYS.filter(d => d.key === "mon" || d.key === "wed");
+const GUIDED_SLOTS = TIME_SLOTS.slice(0, 2);
+
 function prefersReducedMotion() {
   return typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
@@ -2523,7 +2652,8 @@ function useGuidedScenario(steps, storageKey, onReset) {
       return false;
     }
   });
-  const [mode, setMode] = useState(wasCompleted ? "replay" : "running");
+  // Сценарий — второстепенный этап демо: не автостартует, ждёт кнопку «Начать»
+  const [mode, setMode] = useState(wasCompleted ? "replay" : "idle");
   const step = mode === "running" ? steps[stepIndex] : null;
   const complete = stepId => {
     if (mode !== "running" || !step || step.id !== stepId) return;
@@ -2800,15 +2930,18 @@ function EducationGuidedStage({
   }, gEl("div", {
     className: "schedule-wrapper"
   }, gEl("div", {
-    className: "schedule-grid"
+    className: "schedule-grid",
+    style: {
+      "--grid-days": GUIDED_DAYS.length
+    }
   }, gEl("div", {
     className: "grid-header"
   }, gEl("div", {
     className: "grid-header-cell"
-  }, "Время"), DEMO_DAYS.map(d => gEl("div", {
+  }, "Время"), GUIDED_DAYS.map(d => gEl("div", {
     key: d.key,
     className: "grid-header-cell"
-  }, d.full))), DEMO_SLOTS.map(slot => gEl("div", {
+  }, d.full))), GUIDED_SLOTS.map(slot => gEl("div", {
     key: slot.index,
     className: "grid-row"
   }, gEl("div", {
@@ -2817,7 +2950,7 @@ function EducationGuidedStage({
     className: "time"
   }, slot.start, "–", slot.end), gEl("span", {
     className: "label"
-  }, slot.label)), DEMO_DAYS.map(d => {
+  }, slot.label)), GUIDED_DAYS.map(d => {
     const cell = cellAt(d.key, slot.index);
     const pair = pairFor(cell);
     const guideId = "cell-" + d.key + "-" + slot.index;
@@ -2904,47 +3037,51 @@ function EducationGuidedStage({
 function GuidedScenarioSection() {
   const [runId, setRunId] = useState(0);
   const engine = useGuidedScenario(GUIDED_STEPS, GUIDED_STORAGE_KEY, () => setRunId(r => r + 1));
+  const collapsed = engine.mode === "idle" || engine.mode === "replay";
   return gEl("section", {
     className: "guided-section",
+    id: "scenario",
     "aria-label": "Интерактивный сценарий"
-  }, gEl("span", {
+  }, gEl("div", {
+    className: "guided-divider"
+  }, "Второй этап демо"), gEl("span", {
     className: "guided-kicker"
   }, gEl("i", {
     className: "fas fa-hand-pointer"
-  }), "Попробуйте сами · 4 клика"), gEl("h2", {
+  }), "Сценарий · 4 клика"), gEl("h2", {
     className: "guided-title"
   }, "Сценарий: преподаватель заболел"), gEl("p", {
     className: "guided-sub"
-  }, "Перенесите занятие, поймайте скрытый конфликт и опубликуйте замену — ровно так это делает учебная часть в Планово."), engine.mode === "replay" ? gEl("div", {
+  }, "Дополнение к конструктору: пройдите типовую замену от клика до публикации — перенесите занятие, поймайте скрытый конфликт и опубликуйте."), collapsed ? gEl("div", {
     className: "guided-replay-banner"
-  }, gEl("span", null, "Вы уже проходили этот сценарий."), gEl("div", {
+  }, gEl("span", null, engine.mode === "replay" ? "Вы уже проходили этот сценарий." : "Займёт меньше минуты — система сама подскажет каждый шаг."), gEl("div", {
     className: "guided-replay-actions"
   }, gEl("button", {
     type: "button",
     className: "guided-primary-btn",
     onClick: engine.restart
-  }, "Пройти ещё раз"), gEl("button", {
+  }, engine.mode === "replay" ? "Пройти ещё раз" : "Начать сценарий"), gEl("button", {
     type: "button",
     className: "guided-secondary-btn",
     onClick: engine.explore
   }, "Смотреть свободно"))) : gEl(GuidedProgress, {
     engine
-  }), engine.mode !== "replay" && gEl(EducationGuidedStage, {
+  }), !collapsed && gEl(EducationGuidedStage, {
     key: runId,
     engine
-  }), gEl("div", {
-    className: "guided-divider"
-  }, "Ниже — витрина по ролям"));
+  }));
 }
 
 // ═══════════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════════
 function App() {
-  const [role, setRole] = useState("student");
+  const [role, setRole] = useState("admin"); // упор на конструктор учебной части
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cells, setCells] = useState(() => generateSchedule());
   const [availabilities, setAvailabilities] = useState(() => generateAvailability());
+  const [selectedGroupCode, setSelectedGroupCode] = useState("ОЭ-11");
+  const [selectedTeacherId, setSelectedTeacherId] = useState("t1");
   const setAvailability = (teacherId, avail) => {
     setAvailabilities(prev => ({
       ...prev,
@@ -2952,26 +3089,26 @@ function App() {
     }));
   };
   const roles = [{
-    key: "student",
-    label: "Ученик",
-    icon: "fa-graduation-cap",
-    desc: "Расписание с телефона"
+    key: "admin",
+    label: "Учебная часть",
+    icon: "fa-table-cells-large",
+    desc: "Конструктор расписания"
   }, {
     key: "teacher",
     label: "Преподаватель",
     icon: "fa-book-open",
     desc: "Мои пары и доступность"
   }, {
-    key: "admin",
-    label: "Учебная часть",
-    icon: "fa-shield-alt",
-    desc: "Desktop-конструктор"
+    key: "student",
+    label: "Студент",
+    icon: "fa-graduation-cap",
+    desc: "Расписание с телефона"
   }];
   const activeRole = roles.find(r => r.key === role) || roles[0];
   const introByRole = {
-    student: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "Ученик"), " открывает ссылку с телефона и сразу видит актуальные пары, аудитории и преподавателей."),
-    teacher: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "Преподаватель"), " смотрит своё расписание и отправляет доступность учебной части без переписок."),
-    admin: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "Учебная часть"), " работает в desktop-кабинете: собирает сетку, запускает черновик, проверяет конфликты и публикует.")
+    student: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "Студент"), " открывает ссылку с телефона и сразу видит актуальные пары, аудитории и преподавателей — выберите группу и полистайте дни."),
+    teacher: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "Преподаватель"), " смотрит свою нагрузку и отправляет доступность учебной части без переписок — переключите вкладки внутри."),
+    admin: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("strong", null, "Учебная часть"), " работает в конструкторе: кликните занятие, чтобы перенести или удалить; добавьте пару, запустите автогенерацию, проверьте конфликты и опубликуйте.")
   };
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3001,7 +3138,7 @@ function App() {
     className: "logo-text"
   }, "Планово"), /*#__PURE__*/React.createElement("div", {
     className: "logo-sub"
-  }, "Визуальный пример · Учебные заведения"))), /*#__PURE__*/React.createElement("div", {
+  }, "Демо · Конструктор расписаний"))), /*#__PURE__*/React.createElement("div", {
     className: "role-tabs-desktop role-tabs"
   }, roles.map(r => /*#__PURE__*/React.createElement("button", {
     key: r.key,
@@ -3059,18 +3196,18 @@ function App() {
   }, "Интерактивная демоверсия"), /*#__PURE__*/React.createElement("h1", {
     className: "demo-title",
     id: "demo-title"
-  }, "Планово для ", /*#__PURE__*/React.createElement("span", null, "учебного учреждения")), /*#__PURE__*/React.createElement("p", {
+  }, "Конструктор расписаний ", /*#__PURE__*/React.createElement("span", null, "для учебного заведения")), /*#__PURE__*/React.createElement("p", {
     className: "demo-lead"
-  }, "Начните с интерактивного сценария — 4 клика, полминуты. Ниже витрина: ученик видит расписание, преподаватель отдаёт доступность, учебная часть собирает и публикует сетку."), /*#__PURE__*/React.createElement("div", {
+  }, "Главный экран — живой конструктор учебной части: перенесите занятие, добавьте пару, запустите автогенерацию, поймайте конфликты и опубликуйте. Ниже — второй этап: сценарий «Преподаватель заболел»."), /*#__PURE__*/React.createElement("div", {
     className: "demo-hero-actions",
     "aria-label": "Ключевые сценарии"
   }, /*#__PURE__*/React.createElement("span", {
     className: "demo-chip"
-  }, "сценарий за 30 секунд"), /*#__PURE__*/React.createElement("span", {
+  }, "конструктор сетки"), /*#__PURE__*/React.createElement("span", {
     className: "demo-chip"
-  }, "мобильный преподаватель"), /*#__PURE__*/React.createElement("span", {
+  }, "автогенерация и конфликты"), /*#__PURE__*/React.createElement("span", {
     className: "demo-chip"
-  }, "desktop учебной части"))), /*#__PURE__*/React.createElement("div", {
+  }, "сценарий замены — 4 клика"))), /*#__PURE__*/React.createElement("div", {
     className: "demo-hero-panel"
   }, /*#__PURE__*/React.createElement("div", {
     className: "demo-panel-title"
@@ -3092,19 +3229,26 @@ function App() {
     style: {
       alignSelf: "flex-start"
     }
-  }, "Сейчас: ", activeRole.label))), /*#__PURE__*/React.createElement(GuidedScenarioSection, null), /*#__PURE__*/React.createElement("p", {
+  }, "Сейчас: ", activeRole.label))), /*#__PURE__*/React.createElement("p", {
     className: "demo-role-context"
-  }, introByRole[role]), role === "student" && /*#__PURE__*/React.createElement(EducationShowcase, {
-    cells: cells
-  }), role === "teacher" && /*#__PURE__*/React.createElement(TeacherShowcase, {
-    cells: cells,
-    availabilities: availabilities,
-    setAvailability: setAvailability
-  }), role === "admin" && /*#__PURE__*/React.createElement(AdminShowcase, {
+  }, introByRole[role]), role === "admin" && /*#__PURE__*/React.createElement(AdminView, {
     cells: cells,
     setCells: setCells,
+    currentParity: "even",
     availabilities: availabilities
-  }))), /*#__PURE__*/React.createElement(Footer, null));
+  }), role === "teacher" && /*#__PURE__*/React.createElement(TeacherView, {
+    cells: cells,
+    currentParity: "even",
+    selectedTeacherId: selectedTeacherId,
+    setSelectedTeacherId: setSelectedTeacherId,
+    availabilities: availabilities,
+    setAvailability: setAvailability
+  }), role === "student" && /*#__PURE__*/React.createElement(StudentView, {
+    cells: cells,
+    currentParity: "even",
+    selectedGroupCode: selectedGroupCode,
+    setSelectedGroupCode: setSelectedGroupCode
+  }), /*#__PURE__*/React.createElement(GuidedScenarioSection, null))), /*#__PURE__*/React.createElement(Footer, null));
 }
 
 // ═══════════════════════════════════════════════
