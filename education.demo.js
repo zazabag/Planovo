@@ -766,6 +766,18 @@ function buildTeacherSchedule(cells, teacherId) {
   }
   return week;
 }
+// Человекочитаемые описания для конфликтов (TASK-30)
+function describeSlotKey(dayKey, slotIndex, parity) {
+  const day = DAYS.find(d => d.key === dayKey);
+  const slot = TIME_SLOTS[Number(slotIndex)];
+  const par = parity === "even" ? "чётная неделя" : "нечётная неделя";
+  return `${day ? day.short : dayKey}, ${slot ? `${slot.label} (${slot.start})` : `пара №${Number(slotIndex) + 1}`}, ${par}`;
+}
+function describeCellFull(c) {
+  const s = subjectMap.get(c.subjectId);
+  const r = roomMap.get(c.roomId);
+  return `${s ? s.name : c.subjectId} (${c.groupCode}, ауд. ${r ? r.name : c.roomId})`;
+}
 function getConflicts(cells, availabilities) {
   const conflicts = [];
   const slotMap = {};
@@ -775,6 +787,8 @@ function getConflicts(cells, availabilities) {
     slotMap[key].push(cell);
   }
   for (const [slotKey, slotCells] of Object.entries(slotMap)) {
+    const [dkPart, siPart, parPart] = slotKey.split(":");
+    const when = describeSlotKey(dkPart, siPart, parPart);
     // Group conflicts
     const byGroup = {};
     for (const c of slotCells) {
@@ -786,7 +800,11 @@ function getConflicts(cells, availabilities) {
         const nonCombined = gcCells.filter(c => !c.combinedKey);
         if (nonCombined.length > 1) conflicts.push({
           severity: "error",
-          msg: `Группа ${gc}: конфликт — ${gcCells.length} занятий в ${slotKey}`
+          msg: `Группа ${gc}: ${nonCombined.length} занятия одновременно — ${when}: ${nonCombined.map(c => {
+            const s = subjectMap.get(c.subjectId);
+            const r = roomMap.get(c.roomId);
+            return `${s ? s.name : c.subjectId} (ауд. ${r ? r.name : c.roomId})`;
+          }).join(" и ")}`
         });
       }
     }
@@ -801,7 +819,7 @@ function getConflicts(cells, availabilities) {
       const nonCombined = tcCells.filter(c => !c.combinedKey);
       if (nonCombined.length > 1) conflicts.push({
         severity: "error",
-        msg: `${teacher?.full || tid}: конфликт в ${slotKey}`
+        msg: `${teacher?.full || tid}: ${nonCombined.length} пары одновременно — ${when}: ${nonCombined.map(describeCellFull).join(" и ")}`
       });
     }
     // Room conflicts (по образцу demo/education/src/store/schedule-store.ts)
@@ -816,7 +834,10 @@ function getConflicts(cells, availabilities) {
         const room = roomMap.get(rid);
         conflicts.push({
           severity: "error",
-          msg: `Аудитория ${room?.name || rid}: двойное бронирование в ${slotKey}`
+          msg: `Аудитория ${room?.name || rid}: двойное бронирование — ${when}: ${nonCombined.map(c => {
+            const s = subjectMap.get(c.subjectId);
+            return `${s ? s.name : c.subjectId} (${c.groupCode})`;
+          }).join(" и ")}`
         });
       }
     }
@@ -830,7 +851,7 @@ function getConflicts(cells, availabilities) {
         const teacher = teacherMap.get(cell.teacherId);
         conflicts.push({
           severity: "warning",
-          msg: `${teacher?.full || cell.teacherId}: занятие вне доступного времени`
+          msg: `${teacher?.full || cell.teacherId}: занятие вне доступного времени — ${describeSlotKey(cell.dayKey, cell.slotIndex, cell.parity)}: ${describeCellFull(cell)}`
         });
       }
     }
@@ -1781,7 +1802,7 @@ function AdminView({
                 const newConflicts = getConflicts(newCells, availabilities);
                 addStep(newConflicts.length === 0 ? "Конфликтов не обнаружено ✓" : `Обнаружено ${newConflicts.length} конфликтов`);
                 setGenResult({
-                  success: newConflicts.filter(c => c.severity === 'error').length === 0,
+                  success: newConflicts.length === 0,
                   conflicts: newConflicts
                 });
                 setIsGenerating(false);
@@ -2034,7 +2055,9 @@ function AdminView({
   }, /*#__PURE__*/React.createElement("select", {
     className: "teacher-select",
     style: {
-      flex: 1
+      flex: 1,
+      minWidth: 0,
+      width: '100%'
     },
     value: addForm.dayKey,
     onChange: e => setAddForm({
@@ -2047,7 +2070,9 @@ function AdminView({
   }, d.full))), /*#__PURE__*/React.createElement("select", {
     className: "teacher-select",
     style: {
-      flex: 1
+      flex: 1,
+      minWidth: 0,
+      width: '100%'
     },
     value: addForm.slotIndex,
     onChange: e => setAddForm({
@@ -2160,13 +2185,25 @@ function AdminView({
       color: genResult.success ? '#059669' : '#dc2626',
       fontSize: 14
     }
-  }, genResult.success ? '✓ Расписание успешно сгенерировано' : '⚠ Расписание сгенерировано с ошибками'), /*#__PURE__*/React.createElement("p", {
+  }, genResult.success ? '✓ Расписание сгенерировано — конфликтов нет' : `⚠ Расписание сгенерировано с конфликтами (${genResult.conflicts.length})`), genResult.conflicts.length > 0 && /*#__PURE__*/React.createElement("ul", {
     style: {
       fontSize: 12,
-      color: 'var(--gray-600)',
-      marginTop: 4
+      color: '#b91c1c',
+      marginTop: 8,
+      paddingLeft: 18,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 4
     }
-  }, "Конфликтов: ", genResult.conflicts.length)), /*#__PURE__*/React.createElement("div", {
+  }, genResult.conflicts.slice(0, 8).map((c, i) => /*#__PURE__*/React.createElement("li", {
+    key: i
+  }, c.msg)), genResult.conflicts.length > 8 && /*#__PURE__*/React.createElement("li", {
+    key: "more",
+    style: {
+      listStyle: 'none',
+      color: 'var(--gray-500)'
+    }
+  }, "… и ещё ", genResult.conflicts.length - 8, " — полный список во вкладке «Конфликты»"))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 20,
       borderTop: '1px solid var(--gray-200)',
