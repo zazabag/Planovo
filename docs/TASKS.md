@@ -35,6 +35,7 @@
 | TASK-27 | Убрать переходные файлы (`landing-review-preview.js`, чанк `4c37fd759bda90ef.js`) | — | — | todo | — | после инвалидации кэша, через 1–2 недели после деплоя TASK-26 |
 | TASK-28 | Guided-демо v2: интерактивные сценарии в 3 демо + витрина ниже | Owl-14 | `feature/Owl-14/guided-demo-v2` | done | [#27](https://github.com/zazabag/Planovo/pull/27) | движок шагов в `*.demo.js`, `assets/demo-guided.css`; задеплоено на planovo.pro 10.07 |
 | TASK-29 | Лендинг: посекционная подача — один экран = одна секция | Owl-14 | `feature/Owl-14/landing-fullscreen-sections` | done | [#28](https://github.com/zazabag/Planovo/pull/28) | фикс `min-height:1px`, секции 100svh + snap; задеплоено 10.07 |
+| TASK-30 | Education-фокус: лендинг и демо только про учебные заведения; конструктор — главный экран | Owl-14 | `feature/Owl-14/education-focus` | review | — | удалены sports/clubs; AdminView-конструктор (перенос/удаление/публикация, автоген room-aware), детальные конфликты, сценарий — второстепенный |
 
 ## Как добавить задачу
 

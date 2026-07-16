@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  var DEMO_KEYS = ["education", "sports", "clubs"];
-  var DEMO_FILES = ["education.html", "sports.html", "clubs.html"];
+  var DEMO_KEYS = ["education"];
+  var DEMO_FILES = ["education.html"];
 
   function getBase() {
     var path = location.pathname.replace(/\/?index\.html$/, "");
