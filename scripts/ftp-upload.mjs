@@ -48,19 +48,8 @@ async function main() {
     }
   }
 
-  const listing = await client.list();
-  for (const item of listing) {
-    if (item.name.startsWith(".")) continue;
-    try {
-      if (item.isDirectory) await client.removeDir(item.name);
-      else await client.remove(item.name);
-      console.log("Removed:", item.name);
-    } catch (e) {
-      console.warn("Skip remove:", item.name, e.message);
-    }
-  }
-
   console.log("Uploading", DEPLOY_DIR);
+  console.log("Safety: existing remote files are not deleted by this legacy FTP helper.");
   await client.uploadFromDir(DEPLOY_DIR);
   client.close();
   console.log("Done.");
