@@ -229,6 +229,8 @@ mkdir -p '${siteDir}' '${runtimeDir}'
 
   run("rsync", [
     "-az",
+    "-e",
+    `ssh -i ${args.identityFile} -o IdentitiesOnly=yes -o BatchMode=yes`,
     "--delete",
     "--checksum",
     "--itemize-changes",
