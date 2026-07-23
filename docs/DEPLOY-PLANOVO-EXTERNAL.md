@@ -6,10 +6,10 @@
 
 ## Что принадлежит Planovo
 
-- `/opt/planovo-pro/releases/<git-sha>/site` — неизменяемый релиз статики.
-- `/opt/planovo-pro/current` — symlink на активный релиз.
-- `/etc/nginx/sites-available/planovo-pro.conf` — публичный nginx virtual host.
-- `/etc/nginx/sites-enabled/planovo-pro.conf` — symlink для включения сайта.
+- `/home/deploy/planovo-pro/releases/<git-sha>/site` — неизменяемый релиз статики.
+- `/home/deploy/planovo-pro/current` — symlink на активный релиз.
+- `/home/deploy/planovo-pro/runtime` — Caddyfile, compose, активная копия сайта и ACME-хранилище.
+- Docker compose project `planovo-pro-edge`, контейнер `planovo-pro-edge`.
 
 ## Что нельзя трогать
 
@@ -28,27 +28,27 @@ node scripts/deploy-planovo-external.mjs --user <ssh-user>
 
 - собирает `dist/planovo-pro`;
 - создаёт manifest с SHA-256 каждого файла;
-- генерирует nginx-конфиг в `dist/planovo-external/`;
-- по SSH читает состояние nginx, портов, сертификатов, KEMS health и каталогов в `/opt`.
+- создаёт manifest с SHA-256 каждого файла;
+- по SSH читает состояние портов, docker, KEMS health и каталогов в `/opt`.
 
-Если SSH недоступен или нет сертификата
-`/etc/letsencrypt/live/planovo.pro/fullchain.pem`, реальный deploy не запускать.
+Если SSH недоступен, 80/443 заняты неизвестным процессом или KEMS health не отвечает,
+реальный deploy не запускать.
 
 ## Публикация
 
 ```bash
-node scripts/deploy-planovo-external.mjs --user <ssh-user> --apply
+node scripts/deploy-planovo-external.mjs --apply
 ```
 
 Скрипт с `--apply`:
 
-1. Проверяет, что remote root находится только внутри `/opt/planovo-pro`.
-2. Проверяет наличие сертификатов `planovo.pro`.
-3. Проверяет KEMS через `http://127.0.0.1:18080/api/v1/public/health`.
-4. Создаёт новый релиз `/opt/planovo-pro/releases/<sha>/site`.
+1. Проверяет, что remote root находится только внутри `/home/deploy/planovo-pro`.
+2. Проверяет KEMS через `http://127.0.0.1:18080/api/v1/public/health`.
+3. Проверяет доступ из host-network контейнера к этому же KEMS upstream.
+4. Создаёт новый релиз `/home/deploy/planovo-pro/releases/<sha>/site`.
 5. Делает `rsync --delete` только внутрь нового каталога релиза.
-6. Устанавливает отдельный nginx-конфиг Planovo.
-7. Выполняет `nginx -t`, затем `systemctl reload nginx`.
+6. Кладёт отдельный `Caddyfile` и `docker-compose.yml` в runtime-каталог Planovo.
+7. Запускает `docker compose -p planovo-pro-edge ... up -d`.
 8. Запускает внешний smoke.
 
 `--delete` безопасен, потому что применяется только к новому release-каталогу Planovo,
@@ -78,4 +78,4 @@ node scripts/smoke-planovo-external.mjs
 - сертификаты отсутствуют или относятся не к `planovo.pro`;
 - актуальный лендинг найден только в старом серверном каталоге и отличается от репозитория;
 - KEMS health на `127.0.0.1:18080` не отвечает;
-- требуется удалить или перезаписать каталог вне `/opt/planovo-pro`.
+- требуется удалить или перезаписать каталог вне `/home/deploy/planovo-pro`.
