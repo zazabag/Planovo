@@ -9,6 +9,7 @@
 - Старые FTP-хелперы Reg.ru больше не удаляют удалённую папку целиком перед загрузкой
 - Опубликовано на `dev.schedule` отдельным контейнером `planovo-pro-edge`; Caddy выпустил Let's Encrypt сертификаты для `planovo.pro` и `www.planovo.pro`
 - Внешний smoke зелёный: корень, `www`, `/kems/student/`, `/kems/teacher/`, `/kems/admin/`, `/api/v1/public/health`, HTTP→HTTPS
+- Hotfix: Caddy-правила завернуты в `route`, чтобы `/api` и `/kems/*` проксировались до статического `try_files`; smoke теперь проверяет содержимое страниц и JSON health, а не только HTTP-статус
 
 ## Обновление от 16 июля 2026 (education-фокус, TASK-30)
 

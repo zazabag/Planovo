@@ -18,25 +18,29 @@ planovo.pro, www.planovo.pro {
 	import security_headers
 	encode zstd gzip
 
-	@api path /api /api/*
-	handle @api {
-		reverse_proxy 127.0.0.1:18080 {
-			header_up X-Forwarded-Proto https
+	route {
+		@api path /api /api/*
+		handle @api {
+			reverse_proxy 127.0.0.1:18080 {
+				header_up X-Forwarded-Proto https
+			}
+		}
+
+		handle /kems {
+			redir /kems/ 308
+		}
+
+		@kems path /kems/*
+		handle @kems {
+			reverse_proxy 127.0.0.1:18080 {
+				header_up X-Forwarded-Proto https
+			}
+		}
+
+		handle {
+			root * /srv/site
+			try_files {path} {path}/ /404.html
+			file_server
 		}
 	}
-
-	handle /kems {
-		redir /kems/ 308
-	}
-
-	@kems path /kems/*
-	handle @kems {
-		reverse_proxy 127.0.0.1:18080 {
-			header_up X-Forwarded-Proto https
-		}
-	}
-
-	root * /srv/site
-	try_files {path} {path}/ /404.html
-	file_server
 }
