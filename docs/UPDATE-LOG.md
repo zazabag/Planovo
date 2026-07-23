@@ -1,5 +1,14 @@
 # Журнал обновлений — Планово
 
+## Обновление от 23 июля 2026 (PLN-170: внешний контур planovo.pro)
+
+- Подготовлен отдельный публичный Docker/Caddy-контур Planovo: `planovo.pro` и `www.planovo.pro` обслуживают статику из `/home/deploy/planovo-pro/runtime/site`, а только `/kems/*` и `/api/*` проксируются в KEMS на `http://127.0.0.1:18080`
+- Добавлен безопасный deploy-скрипт `scripts/deploy-planovo-external.mjs`: по умолчанию только диагностика, реальное изменение сервера только с `--apply`
+- Deploy пишет только в `/home/deploy/planovo-pro/releases/<sha>/site`; `rsync --delete` ограничен новым release-каталогом и не может попасть в `/opt/schedulekems`, старый `deploy/planovo-site`, `/var/www` или корень сервера
+- Добавлен runbook `docs/DEPLOY-PLANOVO-EXTERNAL.md` и smoke `scripts/smoke-planovo-external.mjs`
+- Старые FTP-хелперы Reg.ru больше не удаляют удалённую папку целиком перед загрузкой
+- Реальная публикация остановлена до восстановления SSH-доступа и серверной read-only диагностики: текущий внешний smoke показывает сломанный TLS/HTTP на публичном домене
+
 ## Обновление от 16 июля 2026 (education-фокус, TASK-30)
 
 - **Полный разворот на учебные заведения**: все тексты лендинга переписаны под колледжи/школы/вузы; убраны все упоминания спортивных секций и клубов

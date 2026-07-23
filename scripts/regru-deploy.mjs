@@ -145,20 +145,8 @@ async function uploadViaFtp(creds, remoteDir) {
     cwd = "/";
   }
 
-  // Clear placeholder files
-  const listing = await client.list();
-  for (const item of listing) {
-    if (item.name.startsWith(".")) continue;
-    try {
-      if (item.isDirectory) await client.removeDir(item.name);
-      else await client.remove(item.name);
-      console.log("Removed:", item.name);
-    } catch (e) {
-      console.warn("Remove skip:", item.name, e.message);
-    }
-  }
-
   console.log("Uploading from", DEPLOY_DIR, "…");
+  console.log("Safety: existing remote files are not deleted by this legacy Reg.ru helper.");
   await client.uploadFromDir(DEPLOY_DIR);
   console.log("Upload complete to", cwd);
   client.close();
