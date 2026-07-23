@@ -7,7 +7,8 @@
 - Deploy пишет только в `/home/deploy/planovo-pro/releases/<sha>/site`; `rsync --delete` ограничен новым release-каталогом и не может попасть в `/opt/schedulekems`, старый `deploy/planovo-site`, `/var/www` или корень сервера
 - Добавлен runbook `docs/DEPLOY-PLANOVO-EXTERNAL.md` и smoke `scripts/smoke-planovo-external.mjs`
 - Старые FTP-хелперы Reg.ru больше не удаляют удалённую папку целиком перед загрузкой
-- Реальная публикация остановлена до восстановления SSH-доступа и серверной read-only диагностики: текущий внешний smoke показывает сломанный TLS/HTTP на публичном домене
+- Опубликовано на `dev.schedule` отдельным контейнером `planovo-pro-edge`; Caddy выпустил Let's Encrypt сертификаты для `planovo.pro` и `www.planovo.pro`
+- Внешний smoke зелёный: корень, `www`, `/kems/student/`, `/kems/teacher/`, `/kems/admin/`, `/api/v1/public/health`, HTTP→HTTPS
 
 ## Обновление от 16 июля 2026 (education-фокус, TASK-30)
 

@@ -260,7 +260,19 @@ docker compose -p planovo-pro-edge -f '${runtimeDir}/docker-compose.yml' up -d
 }
 
 function smokePublic() {
-  run("node", ["scripts/smoke-planovo-external.mjs"]);
+  let lastError = null;
+  for (let attempt = 1; attempt <= 6; attempt += 1) {
+    try {
+      run("node", ["scripts/smoke-planovo-external.mjs"]);
+      return;
+    } catch (error) {
+      lastError = error;
+      if (attempt === 6) break;
+      console.warn(`Smoke attempt ${attempt} failed; retrying in 10s.`);
+      run("sleep", ["10"]);
+    }
+  }
+  throw lastError;
 }
 
 function main() {
