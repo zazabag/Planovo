@@ -255,7 +255,7 @@ rm -rf '${runtimeDir}/site.prev'
 ln -sfn '${releaseDir}' '${args.remoteRoot}/current.next'
 mv -Tf '${args.remoteRoot}/current.next' '${args.remoteRoot}/current'
 docker compose -p planovo-pro-edge -f '${runtimeDir}/docker-compose.yml' config >/dev/null
-docker compose -p planovo-pro-edge -f '${runtimeDir}/docker-compose.yml' up -d
+docker compose -p planovo-pro-edge -f '${runtimeDir}/docker-compose.yml' up -d --force-recreate
 `);
 }
 
