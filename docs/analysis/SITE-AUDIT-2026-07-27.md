@@ -1,7 +1,7 @@
 # Аудит текущего сайта Planovo
 
-Дата: 27 июля 2026  
-Проверено: чистый `origin/main`, desktop 1440 px, mobile 390 × 844 px  
+Дата: 27 июля 2026
+Проверено: чистый `origin/main`, desktop 1440 px, mobile 390 × 844 px
 Production и KEMS не изменялись
 
 ## Вывод
