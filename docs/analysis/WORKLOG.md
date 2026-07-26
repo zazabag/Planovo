@@ -164,3 +164,25 @@ Work Log:
 Stage Summary:
 - Единый источник истины для responsive-вёрстки Planovo
 - PR: https://github.com/zazabag/Planovo/pull/5 (merged)
+
+---
+Task ID: TASK-32
+Agent: Codex
+Task: Безопасная изоляция, аудит и перепозиционирование Planovo
+
+Work Log:
+- Проверены локальные KEMS worktrees, второй старый clone, locks и процессы
+- Проверены remote main, PR, CI и ветки ScheduleKEMS без fetch/checkout
+- Создан отдельный clean worktree сайта `Planovo-redesign-v1`
+- Зафиксированы границы Planovo/KEMS и запрет несогласованного deploy
+- Проведён аудит KEMS на remote SHA `ade8eca`
+- Составлена матрица «готово / частично / roadmap»
+- Проведён desktop/mobile аудит текущего сайта
+- Проверены форма, доступность, производительность, SEO и mobile overflow
+- Проведён актуальный анализ рынка РФ/СНГ по официальным источникам
+- Зафиксировано новое schedule-first позиционирование и структура сайта
+
+Stage Summary:
+- KEMS и production не изменялись
+- План редизайна находится в draft PR #32
+- Следующий этап: дизайн-система и новый поддерживаемый frontend
