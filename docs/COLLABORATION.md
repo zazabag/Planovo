@@ -14,7 +14,10 @@
 
 ## Золотые правила
 
-1. **Сначала `git pull`** — перед любой новой веткой: `git checkout main && git pull origin main`.
+1. **Сначала проверь состояние** — перед новой задачей выполни `git status -sb`.
+   Не делай `pull`, `rebase`, `reset` или `clean` в грязном либо чужом
+   worktree. Новую ветку создавай в отдельном worktree от актуального
+   `origin/main`.
 2. **Одна задача = одна ветка = один PR** — не смешивать несвязанные правки.
 3. **Заявляй задачу** — запиши в [TASKS.md](./TASKS.md) до начала кода (статус `in-progress`).
 4. **Маленькие PR** — проще ревьюить другу и меньше конфликтов.
@@ -62,7 +65,8 @@
 ## Цикл работы (чеклист)
 
 ```
-[ ] git pull origin main
+[ ] git status -sb; текущая работа сохранена и отправлена
+[ ] git fetch origin; новая ветка/worktree создана от origin/main
 [ ] Задача заявлена в TASKS.md
 [ ] Создана ветка feature/<user>/...
 [ ] Код + документация
@@ -98,6 +102,7 @@
 | Файл | Назначение |
 |------|------------|
 | [TASKS.md](./TASKS.md) | Кто что делает сейчас |
+| [WORKSPACE-SAFETY.md](./WORKSPACE-SAFETY.md) | Границы Planovo/KEMS и безопасный deploy |
 | [UPDATE-LOG.md](./UPDATE-LOG.md) | Что изменилось для пользователей |
 | [analysis/WORKLOG.md](./analysis/WORKLOG.md) | Подробный журнал работы агентов |
 | `.cursor/rules/git-workflow.mdc` | Обязательный workflow для Cursor |
