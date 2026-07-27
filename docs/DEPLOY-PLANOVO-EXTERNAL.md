@@ -4,6 +4,13 @@
 Статика Planovo живёт отдельно от KEMS, а KEMS получает только маршруты `/kems/*`
 и `/api/*` через локальный upstream `http://127.0.0.1:18080`.
 
+> **TASK-32 release block.** Новый frontend находится в `site/` и собирается
+> через Vinext. Текущий `scripts/build-deploy.mjs` продолжает упаковывать
+> старые root HTML-файлы и не выпускает новый frontend. До отдельной
+> инфраструктурной задачи команду публикации ниже нельзя использовать для
+> редизайна. Прямой перенос DNS на Sites также запрещён: он обойдёт этот edge
+> и отрежет `/kems/*` и `/api/*`.
+
 ## Что принадлежит Planovo
 
 - `/home/deploy/planovo-pro/releases/<git-sha>/site` — неизменяемый релиз статики.
@@ -27,7 +34,6 @@ node scripts/deploy-planovo-external.mjs --user <ssh-user>
 Без `--apply` скрипт:
 
 - собирает `dist/planovo-pro`;
-- создаёт manifest с SHA-256 каждого файла;
 - создаёт manifest с SHA-256 каждого файла;
 - по SSH читает состояние портов, docker, KEMS health и каталогов в `/opt`.
 

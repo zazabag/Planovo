@@ -16,8 +16,13 @@ alwaysApply: true
 ## 0. Синхронизация (совместная работа)
 
 ```bash
-git checkout main && git pull origin main
+git status -sb
+git fetch origin
+git worktree add -b <ветка-задачи> <отдельный-каталог> origin/main
 ```
+
+Не выполнять `pull`, `rebase`, `reset` или `clean` в грязном либо чужом
+worktree. Перед работой также прочитать `docs/WORKSPACE-SAFETY.md`.
 
 - Ветка: `<тип>/<github-user>/<описание>` — см. COLLABORATION.md
 - Задача в `docs/TASKS.md`: статус `in-progress` → `review` → `done`
@@ -35,7 +40,7 @@ git checkout main && git pull origin main
 ## 2. Commit
 
 ```bash
-git checkout -b feature/<user>/описание
+# ветка уже создана вместе с отдельным worktree
 git add <файлы>   # без .env и секретов
 git commit -m "тип: описание [TASK-N]"
 ```
@@ -53,7 +58,7 @@ gh pr create --title "..." --body "..."
 
 ```bash
 gh pr merge --merge
-git checkout main && git pull
+# после merge старую ветку не переиспользовать
 ```
 
 Обновить `docs/TASKS.md` → `done` + ссылка на PR.
