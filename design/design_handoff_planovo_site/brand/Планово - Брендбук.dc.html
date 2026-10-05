@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E9E5DE;font-family:'Onest',sans-serif;color:#221E1A}
+a{color:#221E1A}a:hover{color:#8A3B64}
+*{box-sizing:border-box}
+</style>
+</helmet>
+<div style="display:flex;flex-direction:column;gap:32px;padding:48px;align-items:center">
+
+<!-- 01 Обложка -->
+<div data-screen-label="01 Обложка" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <sc-if value="{{ rules }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent 0 47px,#E2DACD 47px 48px)"></div></sc-if>
+  <div style="position:relative;display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #221E1A;padding-bottom:14px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <svg width="36" height="36" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#221E1A" stroke-width="2.2"></path><rect x="11" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="25" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect><rect x="10" y="23" width="8" height="8" rx="1" fill="none" stroke="#221E1A" stroke-width="1.5"></rect></svg>
+      <span style="font:600 22px 'Playfair Display',serif">Планово</span>
+    </div>
+    <span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Брендбук · редакция первая · 2026</span>
+  </div>
+  <div style="position:relative;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:end">
+    <div>
+      <div style="font:400 104px/1.02 'Playfair Display',serif;letter-spacing:-.02em">Порядок <em style="color:#8A3B64">в</em><br>расписании</div>
+      <div style="margin-top:28px;font-size:19px;line-height:1.5;color:#6B615A;max-width:480px">В расписании одна правда, и она у всех одинаковая: у учебной части, у преподавателя, у студента.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;border-top:1.5px solid #221E1A">
+      <div style="display:grid;grid-template-columns:90px 1fr 1fr;border-bottom:1px solid #C9BFB0;height:48px;align-items:center;font-size:14px;color:#6B615A"><span>Вторник</span><span style="font-weight:500;color:#221E1A">Учебная часть</span><span style="text-align:right">Преподаватель · Студент</span></div>
+      <div style="display:grid;grid-template-columns:90px 1fr;border-bottom:1px solid #C9BFB0;height:48px;align-items:center;font-size:15px"><span style="color:#6B615A">1 · 8:30</span><span>Математика · Иванова · ауд. 204</span></div>
+      <div style="display:grid;grid-template-columns:90px 1fr;border-bottom:1px solid #C9BFB0;height:48px;align-items:center;font-size:15px;background:#FAE9B9;margin:0 -12px;padding:0 12px"><span style="color:#6B615A">2 · 10:10</span><span>История · Петренко · ауд. 118 <span style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200;margin-left:8px">замена</span></span></div>
+      <div style="display:grid;grid-template-columns:90px 1fr;border-bottom:1px solid #C9BFB0;height:48px;align-items:center;font-size:15px"><span style="color:#6B615A">3 · 12:00</span><span>Физика · Громов · ауд. 302</span></div>
+      <div style="display:grid;grid-template-columns:90px 1fr;border-bottom:1.5px solid #221E1A;height:48px;align-items:center;font-size:15px"><span style="color:#6B615A">4 · 13:50</span><span style="color:#45875A">Всё сходится</span></div>
+    </div>
+  </div>
+  <div style="position:relative;display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">1</span></div>
+</div>
+
+<!-- 02 Идея -->
+<div data-screen-label="02 Идея, манифест, характер" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div style="display:flex;flex-direction:column;flex:1;min-height:0">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Идея, манифест, характер</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 2</span></div>
+    <div style="margin-top:32px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;flex:1">
+      <div style="display:flex;flex-direction:column;justify-content:space-between">
+        <div style="font:400 27px/1.42 'Playfair Display',serif;text-wrap:pretty">«В каждом колледже есть человек, который держит расписание в голове. Он помнит, кто заболел, какой кабинет занят и какую группу нельзя ставить на первую пару. Когда он ошибается, сорок человек стоят у закрытой двери. Мы считаем, что порядок не должен держаться на чьей-то памяти. Расписание должно сходиться само. Планово — помощник, который это берёт на себя. Порядок в расписании — это когда утром все знают, куда идти.»</div>
+        <div style="display:flex;gap:28px;border-top:1px solid #C9BFB0;padding-top:18px">
+          <div style="flex:1"><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Слоган</div><div style="margin-top:6px;font:400 22px 'Playfair Display',serif">Порядок в расписании</div></div>
+          <div style="flex:1"><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Метафора</div><div style="margin-top:6px;font:400 22px 'Playfair Display',serif">Всё сходится</div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div>
+          <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Враг — хаос в четырёх лицах</div>
+          <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid #C9BFB0">
+            <div style="padding:12px 14px 12px 0;border-bottom:1px solid #C9BFB0;border-right:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Бумажный</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Простыни на стенде, таблицы, память сотрудников</div></div>
+            <div style="padding:12px 0 12px 14px;border-bottom:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Накладочный</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Преподаватель в двух местах сразу</div></div>
+            <div style="padding:12px 14px 12px 0;border-bottom:1px solid #C9BFB0;border-right:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Казённый</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Мёртвые программы, которые купили и не пользуются</div></div>
+            <div style="padding:12px 0 12px 14px;border-bottom:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Утренний</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Студент узнаёт о замене у двери аудитории</div></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Характер — заботливый помощник</div>
+          <div style="margin-top:10px;display:flex;flex-direction:column;border-top:1px solid #C9BFB0">
+            <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid #C9BFB0;font-size:15px"><span style="color:#8A3B64;font-family:'Playfair Display',serif">1</span><span>Заметит, напомнит, подстрахует</span></div>
+            <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid #C9BFB0;font-size:15px"><span style="color:#8A3B64;font-family:'Playfair Display',serif">2</span><span>Не командует и не умничает. Ко всем на «вы», включая студентов</span></div>
+            <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid #C9BFB0;font-size:15px"><span style="color:#8A3B64;font-family:'Playfair Display',serif">3</span><span>Предупреждает до ошибки, а не ругает после</span></div>
+            <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid #C9BFB0;font-size:15px"><span style="color:#8A3B64;font-family:'Playfair Display',serif">4</span><span>Сообщает сам, не ждёт вопроса. Не суетится: без восклицательных знаков</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Герои — трое поровну</div>
+          <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:12px"><div style="font-weight:500;font-size:15px">Учебная часть</div><div style="font-size:14px;color:#6B615A">составляет</div></div>
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:12px"><div style="font-weight:500;font-size:15px">Преподаватель</div><div style="font-size:14px;color:#6B615A">ведёт</div></div>
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:12px"><div style="font-weight:500;font-size:15px">Студент</div><div style="font-size:14px;color:#6B615A">приходит</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A;padding-top:20px"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">2</span></div>
+</div>
+
+<!-- 03 Логотип -->
+<div data-screen-label="03 Логотип и правила" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Логотип и правила</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 3</span></div>
+    <div style="margin-top:32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+      <div style="padding:0 28px 0 0;border-right:1px solid #C9BFB0;display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Исходный знак</span>
+        <div style="height:150px;display:flex;align-items:center;justify-content:center"><img src="uploads/planovo-logo.png" style="height:140px" alt=""></div>
+        <span style="font-size:15px;line-height:1.5">Контурный, живой, с наклоном. Сохраняем контур и кольца, выпрямляем, убираем градиент.</span>
+      </div>
+      <div style="padding:0 28px;border-right:1px solid #C9BFB0;display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Строгий знак</span>
+        <div style="height:150px;display:flex;align-items:center;justify-content:center;gap:16px">
+          <svg width="88" height="88" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#221E1A" stroke-width="2.2"></path><rect x="11" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="25" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect><rect x="10" y="23" width="8" height="8" rx="1" fill="none" stroke="#221E1A" stroke-width="1.5"></rect></svg>
+          <span style="font:600 40px 'Playfair Display',serif">Планово</span>
+        </div>
+        <span style="font-size:15px;line-height:1.5">Контур в одну толщину. Жёлтая клетка — единственная заливка: пара, которая встала на место.</span>
+      </div>
+      <div style="padding:0 0 0 28px;display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Варианты</span>
+        <div style="height:150px;display:flex;align-items:center;justify-content:space-around">
+          <svg width="56" height="56" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#8A3B64" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#8A3B64" stroke-width="2.2"></path><rect x="11" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#8A3B64" stroke-width="2.2"></rect><rect x="25" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#8A3B64" stroke-width="2.2"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg>
+          <div style="background:#221E1A;padding:14px;border-radius:6px"><svg width="40" height="40" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#F3EFE8" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#F3EFE8" stroke-width="2.2"></path><rect x="11" y="3" width="4" height="9" rx="2" fill="#221E1A" stroke="#F3EFE8" stroke-width="2.2"></rect><rect x="25" y="3" width="4" height="9" rx="2" fill="#221E1A" stroke="#F3EFE8" stroke-width="2.2"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg></div>
+          <svg width="28" height="28" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="3"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg>
+        </div>
+        <span style="font-size:15px;line-height:1.5">Сливовый — для сайта и обложек. Инверсия — на тёмной теме. Малый — без колец, от 16 px.</span>
+      </div>
+    </div>
+    <div style="margin-top:32px;border-top:1.5px solid #221E1A;padding-top:24px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:28px">
+      <div><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Охранное поле</div><div style="margin-top:12px;height:120px;display:flex;align-items:center;justify-content:center"><div style="border:1px dashed #8A3B64;padding:22px"><svg width="44" height="44" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#221E1A" stroke-width="2.2"></path><rect x="11" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="25" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg></div></div><div style="margin-top:8px;font-size:14px;line-height:1.45;color:#6B615A">Со всех сторон — высота кольца. Ничего внутри поля.</div></div>
+      <div><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Минимальный размер</div><div style="margin-top:12px;height:120px;display:flex;align-items:flex-end;justify-content:center;gap:24px;padding-bottom:16px"><div style="text-align:center"><svg width="32" height="32" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#221E1A" stroke-width="2.2"></path><rect x="11" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="25" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg><div style="font-size:12px;color:#6B615A;margin-top:6px">32 px</div></div><div style="text-align:center"><svg width="16" height="16" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="3"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg><div style="font-size:12px;color:#6B615A;margin-top:6px">16 px</div></div></div><div style="margin-top:8px;font-size:14px;line-height:1.45;color:#6B615A">Полный знак от 32 px, малый — от 16 px.</div></div>
+      <div><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Строй</div><div style="margin-top:12px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px"><div style="display:flex;align-items:center;gap:8px"><svg width="26" height="26" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#221E1A" stroke-width="2.2"></path><rect x="11" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="25" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg><span style="font:600 18px 'Playfair Display',serif">Планово</span></div><div style="display:flex;flex-direction:column;align-items:center;gap:4px"><svg width="30" height="30" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#221E1A" stroke-width="2.2"></path><rect x="11" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="25" y="3" width="4" height="9" rx="2" fill="#F3EFE8" stroke="#221E1A" stroke-width="2.2"></rect><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg><span style="font:600 14px 'Playfair Display',serif">Планово</span></div></div><div style="margin-top:8px;font-size:14px;line-height:1.45;color:#6B615A">Горизонтальный — основной. Вертикальный — для квадратных мест.</div></div>
+      <div><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Нельзя</div><div style="margin-top:12px;height:120px;display:flex;align-items:center;justify-content:space-around"><svg width="44" height="44" viewBox="0 0 40 40" style="transform:rotate(-14deg)"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#C44B3B" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#C44B3B" stroke-width="2.2"></path><rect x="22" y="23" width="8" height="8" rx="1" fill="#C44B3B"></rect></svg><svg width="64" height="44" viewBox="0 0 40 40" preserveAspectRatio="none"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#C44B3B" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#C44B3B" stroke-width="2.2"></path><rect x="22" y="23" width="8" height="8" rx="1" fill="#C44B3B"></rect></svg><svg width="44" height="44" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="#E3B021" stroke="#C44B3B" stroke-width="2.2"></rect><path d="M4 16 H36" stroke="#C44B3B" stroke-width="2.2"></path></svg></div><div style="margin-top:8px;font-size:14px;line-height:1.45;color:#6B615A">Не наклонять, не растягивать, не заливать корпус, не красить в градиент.</div></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">3</span></div>
+</div>
+
+<!-- 04 Маскот -->
+<div data-screen-label="04 Маскот" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Маскот</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 4</span></div>
+    <div style="margin-top:28px;display:grid;grid-template-columns:320px 1fr;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="font:400 24px/1.3 'Playfair Display',serif">Живой календарик без имени. Лицо заботы.</div>
+        <div style="font-size:15px;line-height:1.5;color:#6B615A">Нарисован тем же контуром, что и знак, но ожил: наклоняется, моргает, приносит клетку с заменой. Никогда не паникует и не кричит. Эмоции тихие: внимание, радость, спокойствие.</div>
+        <div style="border-top:1px solid #C9BFB0;padding-top:14px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Как рисовать</div>
+          <div style="font-size:14px;line-height:1.5">Контур 5 px при высоте 120 px. Глаза — точки, брови — короткие штрихи. Руки не рисуем: предметы «приносит» клетка рядом с корпусом. Тело всегда прямое, наклон — не больше 8°.</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:10px"><svg width="96" height="104" viewBox="0 0 120 130"><rect x="32" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="74" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="12" y="24" width="96" height="98" rx="12" fill="#FFFDF9" stroke="#221E1A" stroke-width="5"></rect><path d="M12 50 H108" stroke="#221E1A" stroke-width="5"></path><circle cx="45" cy="78" r="5" fill="#221E1A"></circle><circle cx="75" cy="78" r="5" fill="#221E1A"></circle><path d="M50 94 Q60 103 70 94" stroke="#221E1A" stroke-width="4" fill="none" stroke-linecap="round"></path><rect x="82" y="100" width="14" height="14" rx="2" fill="#E3B021"></rect></svg><span style="font-size:13px;text-align:center"><b style="font-weight:500">Встречает</b><br><span style="color:#6B615A">первый вход, онбординг</span></span></div>
+        <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:10px"><svg width="96" height="104" viewBox="0 0 120 130" style="transform:rotate(-7deg)"><rect x="32" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="74" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="12" y="24" width="96" height="98" rx="12" fill="#FFFDF9" stroke="#221E1A" stroke-width="5"></rect><path d="M12 50 H108" stroke="#221E1A" stroke-width="5"></path><path d="M38 80 Q45 73 52 80" stroke="#221E1A" stroke-width="4" fill="none" stroke-linecap="round"></path><path d="M68 80 Q75 73 82 80" stroke="#221E1A" stroke-width="4" fill="none" stroke-linecap="round"></path><path d="M50 94 Q60 106 70 94" stroke="#221E1A" stroke-width="4" fill="none" stroke-linecap="round"></path><rect x="90" y="68" width="24" height="24" rx="3" fill="#E3B021" stroke="#221E1A" stroke-width="4"></rect></svg><span style="font-size:13px;text-align:center"><b style="font-weight:500">Принёс замену</b><br><span style="color:#6B615A">уведомление студенту</span></span></div>
+        <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:10px"><svg width="96" height="104" viewBox="0 0 120 130"><rect x="32" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="74" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="12" y="24" width="96" height="98" rx="12" fill="#FFFDF9" stroke="#221E1A" stroke-width="5"></rect><path d="M12 50 H108" stroke="#221E1A" stroke-width="5"></path><circle cx="45" cy="80" r="5" fill="#221E1A"></circle><circle cx="75" cy="80" r="5" fill="#221E1A"></circle><path d="M52 97 L68 97" stroke="#221E1A" stroke-width="4" stroke-linecap="round"></path><path d="M32 66 L52 63" stroke="#221E1A" stroke-width="4" stroke-linecap="round"></path><path d="M68 63 L88 66" stroke="#221E1A" stroke-width="4" stroke-linecap="round"></path><rect x="84" y="100" width="14" height="14" rx="2" fill="none" stroke="#8A3B64" stroke-width="3"></rect></svg><span style="font-size:13px;text-align:center"><b style="font-weight:500">Заметил накладку</b><br><span style="color:#6B615A">подсказка учебной части</span></span></div>
+        <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:10px"><svg width="96" height="104" viewBox="0 0 120 130"><rect x="32" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="74" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="12" y="24" width="96" height="98" rx="12" fill="#FFFDF9" stroke="#221E1A" stroke-width="5"></rect><path d="M12 50 H108" stroke="#221E1A" stroke-width="5"></path><path d="M38 80 L52 80" stroke="#221E1A" stroke-width="4" stroke-linecap="round"></path><path d="M68 80 L82 80" stroke="#221E1A" stroke-width="4" stroke-linecap="round"></path><path d="M52 97 Q60 101 68 97" stroke="#221E1A" stroke-width="4" fill="none" stroke-linecap="round"></path></svg><span style="font-size:13px;text-align:center"><b style="font-weight:500">Пар сегодня нет</b><br><span style="color:#6B615A">пустой экран</span></span></div>
+        <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:10px"><svg width="96" height="104" viewBox="0 0 120 130"><rect x="32" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="74" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="12" y="24" width="96" height="98" rx="12" fill="#FFFDF9" stroke="#221E1A" stroke-width="5"></rect><path d="M12 50 H108" stroke="#221E1A" stroke-width="5"></path><circle cx="45" cy="78" r="5" fill="#221E1A"></circle><circle cx="75" cy="78" r="5" fill="#221E1A"></circle><path d="M50 94 Q60 103 70 94" stroke="#221E1A" stroke-width="4" fill="none" stroke-linecap="round"></path><rect x="24" y="60" width="14" height="14" rx="2" fill="#E3B021"></rect><rect x="42" y="60" width="14" height="14" rx="2" fill="#E3B021"></rect><rect x="60" y="60" width="14" height="14" rx="2" fill="#E3B021"></rect><rect x="78" y="60" width="14" height="14" rx="2" fill="#45875A"></rect></svg><span style="font-size:13px;text-align:center"><b style="font-weight:500">Всё сошлось</b><br><span style="color:#6B615A">неделя собрана без накладок</span></span></div>
+        <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:10px"><svg width="96" height="104" viewBox="0 0 120 130" style="transform:rotate(5deg)"><rect x="32" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="74" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="12" y="24" width="96" height="98" rx="12" fill="#FFFDF9" stroke="#221E1A" stroke-width="5"></rect><path d="M12 50 H108" stroke="#221E1A" stroke-width="5"></path><circle cx="45" cy="78" r="5" fill="#221E1A"></circle><circle cx="78" cy="76" r="5" fill="#221E1A"></circle><circle cx="60" cy="96" r="4" fill="none" stroke="#221E1A" stroke-width="4"></circle></svg><span style="font-size:13px;text-align:center"><b style="font-weight:500">Ждёт ответа</b><br><span style="color:#6B615A">подтверждение действия</span></span></div>
+        <div style="grid-column:span 2;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:16px 18px;display:flex;gap:18px;align-items:center"><svg width="60" height="66" viewBox="0 0 120 130"><rect x="32" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="74" y="6" width="14" height="30" rx="7" fill="#F3EFE8" stroke="#221E1A" stroke-width="5"></rect><rect x="12" y="24" width="96" height="98" rx="12" fill="#FFFDF9" stroke="#221E1A" stroke-width="5"></rect><path d="M12 50 H108" stroke="#221E1A" stroke-width="5"></path><path d="M38 80 Q45 73 52 80" stroke="#221E1A" stroke-width="4" fill="none" stroke-linecap="round"></path><path d="M68 80 Q75 73 82 80" stroke="#221E1A" stroke-width="4" fill="none" stroke-linecap="round"></path><path d="M50 94 Q60 103 70 94" stroke="#221E1A" stroke-width="4" fill="none" stroke-linecap="round"></path></svg><div style="flex:1;background:#F3EFE8;border-radius:6px;padding:12px 14px"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Уведомление · 7:40</div><div style="margin-top:4px;font-size:14px;line-height:1.45">Сегодня вторая пара — История вместо Физики. Петренко, ауд. 118.</div></div></div>
+      </div>
+    </div>
+    <div style="margin-top:24px;border-top:1.5px solid #221E1A;padding-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#45875A">Где живёт</div><div style="margin-top:8px;font-size:15px;line-height:1.55">Уведомления и пуши · пустые экраны · первые шаги и подсказки · страница 404 · соцсети и мерч для студентов · внутренние письма команды</div></div>
+      <div><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#C44B3B">Где запрещён</div><div style="margin-top:8px;font-size:15px;line-height:1.55">Договоры и счета · письма директорам и в министерство · коммерческие предложения · официальные презентации · визитки · рядом со знаком в шапке</div></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">4</span></div>
+</div>
+
+<!-- 05 Цвет -->
+<div data-screen-label="05 Цвет" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Цвет</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 5</span></div>
+    <div style="margin-top:28px;display:grid;grid-template-columns:repeat(6,1fr);gap:12px">
+      <div><div style="height:92px;border-radius:6px;background:#F3EFE8;border:1px solid #C9BFB0"></div><div style="margin-top:8px;font-weight:500;font-size:14px">Бумага</div><div style="font-size:13px;color:#6B615A">#F3EFE8 · фон</div></div>
+      <div><div style="height:92px;border-radius:6px;background:#FFFDF9;border:1px solid #C9BFB0"></div><div style="margin-top:8px;font-weight:500;font-size:14px">Лист</div><div style="font-size:13px;color:#6B615A">#FFFDF9 · карточки</div></div>
+      <div><div style="height:92px;border-radius:6px;background:#221E1A"></div><div style="margin-top:8px;font-weight:500;font-size:14px">Чернила</div><div style="font-size:13px;color:#6B615A">#221E1A · текст, контур</div></div>
+      <div><div style="height:92px;border-radius:6px;background:#E3B021"></div><div style="margin-top:8px;font-weight:500;font-size:14px">Жёлтая клетка</div><div style="font-size:13px;color:#6B615A">#E3B021 · акцент, замена</div></div>
+      <div><div style="height:92px;border-radius:6px;background:#8A3B64"></div><div style="margin-top:8px;font-weight:500;font-size:14px">Слива</div><div style="font-size:13px;color:#6B615A">#8A3B64 · ссылки, бренд</div></div>
+      <div><div style="height:92px;border-radius:6px;background:#C9BFB0"></div><div style="margin-top:8px;font-weight:500;font-size:14px">Линейка</div><div style="font-size:13px;color:#6B615A">#C9BFB0 · линии, рамки</div></div>
+    </div>
+    <div style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div style="display:flex;gap:12px;align-items:center;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:12px 14px"><div style="width:44px;height:44px;border-radius:6px;background:#45875A;flex:none"></div><div style="width:44px;height:44px;border-radius:6px;background:#D9E6D8;flex:none"></div><div><div style="font-weight:500;font-size:15px">Хорошо · сходится</div><div style="font-size:13px;color:#6B615A">#45875A · #D9E6D8</div></div></div>
+      <div style="display:flex;gap:12px;align-items:center;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:12px 14px"><div style="width:44px;height:44px;border-radius:6px;background:#E3B021;flex:none"></div><div style="width:44px;height:44px;border-radius:6px;background:#FAE9B9;flex:none"></div><div><div style="font-weight:500;font-size:15px">Внимание · замена</div><div style="font-size:13px;color:#6B615A">#E3B021 · #FAE9B9</div></div></div>
+      <div style="display:flex;gap:12px;align-items:center;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:12px 14px"><div style="width:44px;height:44px;border-radius:6px;background:#C44B3B;flex:none"></div><div style="width:44px;height:44px;border-radius:6px;background:#F2D9D4;flex:none"></div><div><div style="font-weight:500;font-size:15px">Ошибка · накладка</div><div style="font-size:13px;color:#6B615A">#C44B3B · #F2D9D4</div></div></div>
+    </div>
+    <div style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Светлая тема · основная</span><span style="color:#6B615A">Вторник · ИС-21</span></div>
+        <div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:8px;font-size:13px">
+          <div style="color:#6B615A;padding-top:8px">8:30</div><div style="background:#F3EFE8;border-radius:4px;padding:8px 10px"><div style="font-weight:500">Математика</div><div style="color:#6B615A">Иванова · 204</div></div><div style="background:#F3EFE8;border-radius:4px;padding:8px 10px"><div style="font-weight:500">Физика</div><div style="color:#6B615A">Громов · 302</div></div>
+          <div style="color:#6B615A;padding-top:8px">10:10</div><div style="background:#FAE9B9;border-radius:4px;padding:8px 10px"><div style="font-weight:500">История</div><div style="color:#6B5200">Замена · Петренко</div></div><div style="background:#F2D9D4;border-radius:4px;padding:8px 10px;box-shadow:inset 0 0 0 1.5px #C44B3B"><div style="font-weight:500">Физика</div><div style="color:#C44B3B">Громов занят в 302</div></div>
+        </div>
+        <div style="font-size:13px;color:#45875A">Остальные пары сходятся</div>
+      </div>
+      <div style="background:#221E1A;border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px;color:#F3EFE8">
+        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="letter-spacing:.08em;text-transform:uppercase;color:#B8AFA3">Тёмная тема · по выбору</span><span style="color:#B8AFA3">Вторник · ИС-21</span></div>
+        <div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:8px;font-size:13px">
+          <div style="color:#B8AFA3;padding-top:8px">8:30</div><div style="background:#2E2A25;border-radius:4px;padding:8px 10px"><div style="font-weight:500">Математика</div><div style="color:#B8AFA3">Иванова · 204</div></div><div style="background:#2E2A25;border-radius:4px;padding:8px 10px"><div style="font-weight:500">Физика</div><div style="color:#B8AFA3">Громов · 302</div></div>
+          <div style="color:#B8AFA3;padding-top:8px">10:10</div><div style="background:#4A3D14;border-radius:4px;padding:8px 10px"><div style="font-weight:500">История</div><div style="color:#F2CF6B">Замена · Петренко</div></div><div style="background:#4A2621;border-radius:4px;padding:8px 10px;box-shadow:inset 0 0 0 1.5px #E07A6B"><div style="font-weight:500">Физика</div><div style="color:#F0A79B">Громов занят в 302</div></div>
+        </div>
+        <div style="font-size:13px;color:#8FC49E">Остальные пары сходятся. Тёмная тема — только в продукте, не в бренд-материалах</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">5</span></div>
+</div>
+
+<!-- 06 Типографика -->
+<div data-screen-label="06 Типографика" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Типографика</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 6</span></div>
+    <div style="margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:48px">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #C9BFB0;padding-bottom:8px"><span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Заголовки · Playfair Display</span><span style="font-size:13px;color:#6B615A">Regular, Italic, SemiBold</span></div>
+        <div style="margin-top:16px;font:400 76px/1 'Playfair Display',serif;letter-spacing:-.02em">Аа Бб Вв</div>
+        <div style="margin-top:12px;font:400 30px/1.2 'Playfair Display',serif">Утро перед первой парой</div>
+        <div style="margin-top:8px;font:italic 400 24px/1.3 'Playfair Display',serif;color:#8A3B64">Громов уже занят в 302</div>
+        <div style="margin-top:16px;font-size:14px;line-height:1.5;color:#6B615A">Антиква для крупного: обложки, заголовки разделов, цитаты, номера пар. Не ниже 20 px. Курсив — для одной мысли на странице, не для абзацев.</div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #C9BFB0;padding-bottom:8px"><span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Текст и интерфейс · Onest</span><span style="font-size:13px;color:#6B615A">Regular, Medium, SemiBold</span></div>
+        <div style="margin-top:16px;font:400 76px/1 'Onest',sans-serif;letter-spacing:-.03em">Аа Бб Вв</div>
+        <div style="margin-top:12px;font-size:17px;line-height:1.55;text-wrap:pretty">Расписание на вторник собрано. Третья пара у группы ИС-21 перенесена в аудиторию 204, преподаватели и студенты уже получили уведомление.</div>
+        <div style="margin-top:16px;font-size:14px;line-height:1.5;color:#6B615A">Гротеск для всего остального: интерфейс, тексты, подписи, таблицы. Табличные цифры включены. Не ниже 13 px в продукте и 12 pt в печати.</div>
+      </div>
+    </div>
+    <div style="margin-top:28px;border-top:1.5px solid #221E1A;padding-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:48px">
+      <div style="display:flex;flex-direction:column">
+        <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A;padding-bottom:8px">Шкала</div>
+        <div style="display:grid;grid-template-columns:150px 1fr 70px;align-items:baseline;border-top:1px solid #C9BFB0;padding:8px 0;font-size:14px;color:#6B615A"><span>Заголовок книги</span><span style="font:400 40px/1 'Playfair Display',serif;color:#221E1A">Логотип</span><span style="text-align:right">40 / 48</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 70px;align-items:baseline;border-top:1px solid #C9BFB0;padding:8px 0;font-size:14px;color:#6B615A"><span>Заголовок экрана</span><span style="font:400 24px/1 'Playfair Display',serif;color:#221E1A">Расписание на неделю</span><span style="text-align:right">24 / 30</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 70px;align-items:baseline;border-top:1px solid #C9BFB0;padding:8px 0;font-size:14px;color:#6B615A"><span>Текст</span><span style="font-size:15px;color:#221E1A">Математика · Иванова · ауд. 204</span><span style="text-align:right">15 / 22</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 70px;align-items:baseline;border-top:1px solid #C9BFB0;border-bottom:1px solid #C9BFB0;padding:8px 0;font-size:14px;color:#6B615A"><span>Подпись</span><span style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Замена · ИС-21</span><span style="text-align:right">13 / 18</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A;padding-bottom:8px">Правила набора</div>
+        <div style="display:flex;flex-direction:column;border-top:1px solid #C9BFB0;font-size:15px;line-height:1.5">
+          <div style="padding:8px 0;border-bottom:1px solid #C9BFB0">Кавычки «ёлочки», тире длинное, точка-разделитель между предметом, преподавателем и аудиторией: «Математика · Иванова · ауд. 204».</div>
+          <div style="padding:8px 0;border-bottom:1px solid #C9BFB0">Без восклицательных знаков. Без КАПСА в заголовках, капитель только в подписях.</div>
+          <div style="padding:8px 0;border-bottom:1px solid #C9BFB0">Группы пишем как в журнале: ИС-21, ПКС-32. Аудитория — «ауд. 204», время — «8:30».</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">6</span></div>
+</div>
+
+<!-- 07 Приёмы -->
+<div data-screen-label="07 Графические приёмы" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Приёмы: всё сходится</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 7</span></div>
+    <div style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 22px 'Playfair Display',serif">1 · Линейка журнала</span><span style="font-size:13px;color:#6B615A">фоны, обложки, разделители</span></div>
+        <div style="height:130px;background-image:repeating-linear-gradient(0deg,transparent 0 29px,#E2DACD 29px 30px);border-top:1.5px solid #221E1A;position:relative"><div style="position:absolute;left:0;right:0;top:30px;height:30px;background:#FAE9B9;display:flex;align-items:center;padding:0 10px;font-size:14px">История · Петренко · ауд. 118</div><div style="position:absolute;left:0;right:0;top:90px;height:30px;display:flex;align-items:center;padding:0 10px;font-size:14px;color:#6B615A">Физика · Громов · ауд. 302</div></div>
+        <div style="font-size:14px;line-height:1.5;color:#6B615A">Горизонтальные линии шагом 48 px (24 в компонентах). Одна строка может быть выделена жёлтым — это и есть «клетка на месте». Вертикальные линии только в таблицах.</div>
+      </div>
+      <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 22px 'Playfair Display',serif">2 · Клетка встаёт на место</span><span style="font-size:13px;color:#6B615A">иллюстрации, пустые экраны, движение</span></div>
+        <div style="height:130px;display:flex;align-items:center;justify-content:center;gap:28px">
+          <div style="display:grid;grid-template-columns:repeat(3,36px);gap:6px"><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px dashed #C9BFB0;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div></div>
+          <div style="width:36px;height:36px;background:#E3B021;border-radius:3px;transform:translate(-62px,-54px) rotate(-10deg);box-shadow:0 6px 12px rgba(34,30,26,.15)"></div>
+          <div style="display:grid;grid-template-columns:repeat(3,36px);gap:6px"><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;background:#E3B021;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div><div style="height:36px;border:1.5px solid #221E1A;border-radius:3px"></div></div>
+        </div>
+        <div style="font-size:14px;line-height:1.5;color:#6B615A">Контурная сетка с одним пустым местом и жёлтая клетка, которая в него ложится. Пустое место рисуем пунктиром. Клеток в полёте — не больше одной.</div>
+      </div>
+      <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 22px 'Playfair Display',serif">3 · Три окна</span><span style="font-size:13px;color:#6B615A">сайт, презентации, реклама</span></div>
+        <div style="height:130px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+          <div style="border:1px solid #C9BFB0;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:12px"><span style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Учебная часть</span><div style="height:1px;background:#C9BFB0"></div><div style="color:#6B615A">ИС-21 · вторник</div><div style="background:#FAE9B9;border-radius:3px;padding:5px 7px;margin-top:auto">История · 118</div></div>
+          <div style="border:1px solid #C9BFB0;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:12px"><span style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Преподаватель</span><div style="height:1px;background:#C9BFB0"></div><div style="color:#6B615A">Петренко · вторник</div><div style="background:#FAE9B9;border-radius:3px;padding:5px 7px;margin-top:auto">История · 118</div></div>
+          <div style="border:1px solid #C9BFB0;border-radius:4px;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:12px"><span style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Студент</span><div style="height:1px;background:#C9BFB0"></div><div style="color:#6B615A">Сегодня · 10:10</div><div style="background:#FAE9B9;border-radius:3px;padding:5px 7px;margin-top:auto">История · 118</div></div>
+        </div>
+        <div style="font-size:14px;line-height:1.5;color:#6B615A">Одна и та же пара в трёх окнах на одной высоте. Окна одинаковой ширины, никто не главнее. Жёлтая строка совпадает по горизонтали.</div>
+      </div>
+      <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 22px 'Playfair Display',serif">4 · Контур и одна заливка</span><span style="font-size:13px;color:#6B615A">иконки, пиктограммы, схемы</span></div>
+        <div style="height:130px;display:flex;align-items:center;justify-content:space-around">
+          <svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="22" fill="none" stroke="#221E1A" stroke-width="2.2"></circle><path d="M28 14 V28 L38 34" stroke="#221E1A" stroke-width="2.2" fill="none" stroke-linecap="round"></path><circle cx="28" cy="28" r="3" fill="#E3B021"></circle></svg>
+          <svg width="56" height="56" viewBox="0 0 56 56"><rect x="8" y="12" width="40" height="32" rx="3" fill="none" stroke="#221E1A" stroke-width="2.2"></rect><path d="M8 22 H48" stroke="#221E1A" stroke-width="2.2"></path><rect x="30" y="28" width="10" height="8" rx="1" fill="#E3B021"></rect></svg>
+          <svg width="56" height="56" viewBox="0 0 56 56"><path d="M10 44 L10 20 L28 10 L46 20 L46 44 Z" fill="none" stroke="#221E1A" stroke-width="2.2" stroke-linejoin="round"></path><rect x="23" y="30" width="10" height="14" fill="#E3B021"></rect></svg>
+          <svg width="56" height="56" viewBox="0 0 56 56"><path d="M12 40 Q28 8 44 40 Z" fill="none" stroke="#221E1A" stroke-width="2.2" stroke-linejoin="round"></path><circle cx="28" cy="46" r="3" fill="#E3B021"></circle></svg>
+          <svg width="56" height="56" viewBox="0 0 56 56"><circle cx="20" cy="22" r="7" fill="none" stroke="#221E1A" stroke-width="2.2"></circle><circle cx="38" cy="22" r="7" fill="none" stroke="#221E1A" stroke-width="2.2"></circle><path d="M8 44 Q20 32 29 40 Q38 32 50 44" fill="none" stroke="#221E1A" stroke-width="2.2"></path><rect x="25" y="40" width="8" height="8" rx="1" fill="#E3B021"></rect></svg>
+        </div>
+        <div style="font-size:14px;line-height:1.5;color:#6B615A">Контур 2 px на сетке 56, скругление 3. Внутри — ровно одна жёлтая деталь. Без градиентов, теней и второго цвета.</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">7</span></div>
+</div>
+
+<!-- 08 Компоненты -->
+<div data-screen-label="08 Компоненты" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Компоненты</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 8</span></div>
+    <div style="margin-top:32px;display:grid;grid-template-columns:360px 1fr;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:26px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Кнопки</span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <span style="background:#221E1A;color:#F3EFE8;font-size:15px;font-weight:500;padding:11px 18px;border-radius:6px">Сохранить расписание</span>
+            <span style="border:1.5px solid #221E1A;color:#221E1A;font-size:15px;font-weight:500;padding:10px 18px;border-radius:6px">Отменить</span>
+            <span style="color:#8A3B64;font-size:15px;font-weight:500;padding:11px 4px;text-decoration:underline;text-underline-offset:4px">Показать окна</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Чипы</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span style="background:#FAE9B9;color:#6B5200;font-size:13px;font-weight:500;padding:6px 12px;border-radius:4px">Замена</span>
+            <span style="background:#E8E1D6;color:#221E1A;font-size:13px;font-weight:500;padding:6px 12px;border-radius:4px">Окно</span>
+            <span style="background:#F2D9D4;color:#7E2E25;font-size:13px;font-weight:500;padding:6px 12px;border-radius:4px">Накладка</span>
+            <span style="background:#D9E6D8;color:#2A5C3A;font-size:13px;font-weight:500;padding:6px 12px;border-radius:4px">Сходится</span>
+            <span style="border:1px solid #221E1A;color:#221E1A;font-size:13px;font-weight:500;padding:5px 12px;border-radius:4px">ИС-21</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Вкладки — три окна</span>
+          <div style="display:flex;border-bottom:1.5px solid #C9BFB0;gap:24px">
+            <span style="padding:8px 0;font-size:15px;font-weight:500;border-bottom:2px solid #221E1A;margin-bottom:-1.5px">Учебная часть</span>
+            <span style="padding:8px 0;font-size:15px;color:#6B615A">Преподаватель</span>
+            <span style="padding:8px 0;font-size:15px;color:#6B615A">Студент</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Предупреждение о накладке</span>
+          <div style="background:#FFFDF9;border:1.5px solid #C44B3B;border-radius:6px;padding:18px">
+            <div style="font:400 20px 'Playfair Display',serif">Громов уже занят в 302</div>
+            <div style="margin-top:6px;font-size:14px;line-height:1.5;color:#6B615A">Вторник, 3-я пара, группа ИС-21. Свободны Иванова и Петренко.</div>
+            <div style="margin-top:14px;display:flex;gap:18px;font-size:14px;font-weight:500"><span style="text-decoration:underline;text-underline-offset:4px">Поставить Иванову</span><span style="color:#6B615A">Оставить окно</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Клетка расписания и карточка пары</span>
+        <div style="background:#FFFDF9;border:1.5px solid #221E1A;border-radius:6px;overflow:hidden">
+          <div style="display:grid;grid-template-columns:84px repeat(3,1fr);border-bottom:1.5px solid #221E1A;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A"><div style="padding:10px 14px"></div><div style="padding:10px 14px;border-left:1px solid #C9BFB0">Пн</div><div style="padding:10px 14px;border-left:1px solid #C9BFB0;color:#221E1A">Вт</div><div style="padding:10px 14px;border-left:1px solid #C9BFB0">Ср</div></div>
+          <div style="display:grid;grid-template-columns:84px repeat(3,1fr);border-bottom:1px solid #C9BFB0"><div style="padding:14px;font-size:13px;color:#6B615A">1 · 8:30</div><div style="padding:14px;border-left:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Математика</div><div style="font-size:13px;color:#6B615A">Иванова · ауд. 204</div></div><div style="padding:14px;border-left:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Физика</div><div style="font-size:13px;color:#6B615A">Громов · ауд. 302</div></div><div style="padding:14px;border-left:1px solid #C9BFB0;font-size:13px;color:#6B615A;font-style:italic">Окно</div></div>
+          <div style="display:grid;grid-template-columns:84px repeat(3,1fr);border-bottom:1px solid #C9BFB0"><div style="padding:14px;font-size:13px;color:#6B615A">2 · 10:10</div><div style="padding:14px;border-left:1px solid #C9BFB0;background:#FAE9B9"><div style="display:flex;justify-content:space-between"><span style="font-weight:500;font-size:15px">История</span><span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200">Замена</span></div><div style="font-size:13px;color:#6B615A">Петренко · ауд. 118</div></div><div style="padding:14px;border-left:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Информатика</div><div style="font-size:13px;color:#6B615A">Соколова · ауд. 410</div></div><div style="padding:14px;border-left:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Английский</div><div style="font-size:13px;color:#6B615A">Белова · ауд. 215</div></div></div>
+          <div style="display:grid;grid-template-columns:84px repeat(3,1fr)"><div style="padding:14px;font-size:13px;color:#6B615A">3 · 12:00</div><div style="padding:14px;border-left:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Физкультура</div><div style="font-size:13px;color:#6B615A">Ким · спортзал</div></div><div style="padding:14px;border-left:1px solid #C9BFB0;box-shadow:inset 0 0 0 2px #C44B3B"><div style="font-weight:500;font-size:15px">Физика</div><div style="font-size:13px;color:#C44B3B">Громов уже занят в 302</div></div><div style="padding:14px;border-left:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Математика</div><div style="font-size:13px;color:#6B615A">Иванова · ауд. 204</div></div></div>
+        </div>
+        <div style="margin-top:14px;background:#FFFDF9;border:1.5px solid #C9BFB0;border-radius:6px;padding:18px 20px;display:flex;gap:18px;align-items:center">
+          <div style="font:400 34px 'Playfair Display',serif;width:40px;color:#8A3B64">2</div>
+          <div style="flex:1"><div style="font-weight:500;font-size:16px">История · Петренко · ауд. 118</div><div style="font-size:14px;color:#6B615A">10:10 – 11:40 · ИС-21 · Замена вместо Громова</div></div>
+          <span style="font-size:14px;font-weight:500;text-decoration:underline;text-underline-offset:4px">Сообщить группе</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">8</span></div>
+</div>
+
+<!-- 09 Экраны -->
+<div data-screen-label="09 Как показывать экраны" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Как показывать экраны продукта</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 9</span></div>
+    <div style="margin-top:28px;display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:start">
+      <div style="background:#FFFDF9;border:1.5px solid #221E1A;border-radius:8px;overflow:hidden;box-shadow:0 18px 40px rgba(34,30,26,.08)">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #C9BFB0;background:#F3EFE8"><div style="display:flex;gap:5px"><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span></div><span style="flex:1;text-align:center;font-size:12px;color:#6B615A">planovo.ru · Учебная часть · ИС-21</span></div>
+        <div style="display:grid;grid-template-columns:170px 1fr;min-height:420px">
+          <div style="border-right:1px solid #C9BFB0;padding:16px 14px;display:flex;flex-direction:column;gap:6px;font-size:13px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><svg width="22" height="22" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="2.6"></rect><path d="M4 16 H36" stroke="#221E1A" stroke-width="2.6"></path><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg><span style="font:600 15px 'Playfair Display',serif">Планово</span></div>
+            <div style="padding:6px 8px;background:#F3EFE8;border-radius:4px;font-weight:500">Расписание</div>
+            <div style="padding:6px 8px;color:#6B615A">Замены</div>
+            <div style="padding:6px 8px;color:#6B615A">Преподаватели</div>
+            <div style="padding:6px 8px;color:#6B615A">Аудитории</div>
+            <div style="padding:6px 8px;color:#6B615A">Группы</div>
+            <div style="margin-top:auto;padding:10px;border:1px solid #C9BFB0;border-radius:4px;font-size:12px;line-height:1.4;color:#6B615A"><span style="color:#45875A;font-weight:500">Всё сходится.</span> На неделе нет накладок.</div>
+          </div>
+          <div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 20px 'Playfair Display',serif">ИС-21 · неделя 14–19 апреля</span><div style="display:flex;gap:6px"><span style="border:1px solid #221E1A;border-radius:4px;padding:4px 9px;font-size:12px;font-weight:500">Опубликовать</span></div></div>
+            <div style="display:grid;grid-template-columns:52px repeat(5,1fr);gap:6px;font-size:11px">
+              <div></div><div style="text-align:center;color:#6B615A">Пн</div><div style="text-align:center;font-weight:500">Вт</div><div style="text-align:center;color:#6B615A">Ср</div><div style="text-align:center;color:#6B615A">Чт</div><div style="text-align:center;color:#6B615A">Пт</div>
+              <div style="color:#6B615A;padding-top:6px">8:30</div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Математика</div><div style="color:#6B615A">204</div></div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Физика</div><div style="color:#6B615A">302</div></div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Англ. яз.</div><div style="color:#6B615A">215</div></div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Информатика</div><div style="color:#6B615A">410</div></div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">История</div><div style="color:#6B615A">118</div></div>
+              <div style="color:#6B615A;padding-top:6px">10:10</div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Литература</div><div style="color:#6B615A">207</div></div><div style="background:#FAE9B9;border-radius:3px;padding:6px"><div style="font-weight:500">История</div><div style="color:#6B5200">Замена · 118</div></div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Математика</div><div style="color:#6B615A">204</div></div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Физкультура</div><div style="color:#6B615A">зал</div></div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Физика</div><div style="color:#6B615A">302</div></div>
+              <div style="color:#6B615A;padding-top:6px">12:00</div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Информатика</div><div style="color:#6B615A">410</div></div><div style="background:#F2D9D4;border-radius:3px;padding:6px;box-shadow:inset 0 0 0 1.5px #C44B3B"><div style="font-weight:500">Физика</div><div style="color:#C44B3B">Громов занят</div></div><div style="border:1px dashed #C9BFB0;border-radius:3px;padding:6px;color:#6B615A">Окно</div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Англ. яз.</div><div style="color:#6B615A">215</div></div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Литература</div><div style="color:#6B615A">207</div></div>
+              <div style="color:#6B615A;padding-top:6px">13:50</div><div style="border:1px dashed #C9BFB0;border-radius:3px;padding:6px;color:#6B615A">Окно</div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Математика</div><div style="color:#6B615A">204</div></div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">История</div><div style="color:#6B615A">118</div></div><div style="border:1px dashed #C9BFB0;border-radius:3px;padding:6px;color:#6B615A">Окно</div><div style="background:#F3EFE8;border-radius:3px;padding:6px"><div style="font-weight:500">Физкультура</div><div style="color:#6B615A">зал</div></div>
+            </div>
+            <div style="border:1.5px solid #C44B3B;border-radius:4px;padding:10px 12px;font-size:12px;display:flex;justify-content:space-between;align-items:center"><span><b style="font-weight:500">Громов уже занят в 302.</b> <span style="color:#6B615A">Свободны Иванова и Петренко.</span></span><span style="text-decoration:underline;text-underline-offset:3px;font-weight:500">Поставить Иванову</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;border-top:1.5px solid #221E1A">
+        <div style="padding:14px 0;border-bottom:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Настоящие данные</div><div style="font-size:14px;line-height:1.45;color:#6B615A">Реальные предметы, фамилии, аудитории, группы. Никакого Lorem ipsum и «Предмет 1».</div></div>
+        <div style="padding:14px 0;border-bottom:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Сценарий, а не экран</div><div style="font-size:14px;line-height:1.45;color:#6B615A">На экране что-то происходит: накладка найдена, замена поставлена, группа уведомлена.</div></div>
+        <div style="padding:14px 0;border-bottom:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Рамка браузера в одну линию</div><div style="font-size:14px;line-height:1.45;color:#6B615A">Контур чернилами, лёгкая тень. Без перспективы, наклона и устройств.</div></div>
+        <div style="padding:14px 0;border-bottom:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Светлая тема</div><div style="font-size:14px;line-height:1.45;color:#6B615A">В бренд-материалах показываем только светлую. Тёмная — внутри продукта.</div></div>
+        <div style="padding:14px 0;border-bottom:1px solid #C9BFB0"><div style="font-weight:500;font-size:15px">Подпись под экраном</div><div style="font-size:14px;line-height:1.45;color:#6B615A">Одна строка: кто смотрит и что видит. «Учебная часть видит накладку до публикации».</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">9</span></div>
+</div>
+
+<!-- 10 Движение -->
+<div data-screen-label="10 Движение" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Движение</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 10</span></div>
+    <div style="margin-top:28px;display:grid;grid-template-columns:300px 1fr;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font:400 24px/1.3 'Playfair Display',serif">Клетка ложится. Ничего не прыгает.</div>
+        <div style="font-size:15px;line-height:1.5;color:#6B615A">Движение рассказывает одно: элемент встал на место. Короткие траектории, мягкое торможение, без отскоков и вращений. Если движение заметили — оно слишком большое.</div>
+        <div style="border-top:1px solid #C9BFB0;display:flex;flex-direction:column;font-size:14px">
+          <div style="display:grid;grid-template-columns:1fr auto;padding:9px 0;border-bottom:1px solid #C9BFB0"><span>Появление клетки</span><span style="color:#6B615A">240 мс · ease-out</span></div>
+          <div style="display:grid;grid-template-columns:1fr auto;padding:9px 0;border-bottom:1px solid #C9BFB0"><span>Перестановка пары</span><span style="color:#6B615A">320 мс · ease-in-out</span></div>
+          <div style="display:grid;grid-template-columns:1fr auto;padding:9px 0;border-bottom:1px solid #C9BFB0"><span>Подсветка накладки</span><span style="color:#6B615A">1 раз · 400 мс, без мигания</span></div>
+          <div style="display:grid;grid-template-columns:1fr auto;padding:9px 0;border-bottom:1px solid #C9BFB0"><span>Смена вкладки-окна</span><span style="color:#6B615A">180 мс · сдвиг 8 px</span></div>
+          <div style="display:grid;grid-template-columns:1fr auto;padding:9px 0;border-bottom:1px solid #C9BFB0"><span>Маскот</span><span style="color:#6B615A">моргание раз в 4–6 с</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раскадровка · клетка встаёт на место</span>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;height:150px;position:relative;overflow:hidden"><div style="position:absolute;left:24px;top:36px;display:grid;grid-template-columns:repeat(3,26px);gap:5px"><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px dashed #C9BFB0;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div></div><div style="position:absolute;right:14px;top:10px;width:26px;height:26px;background:#E3B021;border-radius:2px;transform:rotate(-12deg);opacity:.5"></div><span style="position:absolute;left:10px;bottom:8px;font-size:12px;color:#6B615A">0 мс</span></div>
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;height:150px;position:relative;overflow:hidden"><div style="position:absolute;left:24px;top:36px;display:grid;grid-template-columns:repeat(3,26px);gap:5px"><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px dashed #C9BFB0;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div></div><div style="position:absolute;left:100px;top:22px;width:26px;height:26px;background:#E3B021;border-radius:2px;transform:rotate(-6deg);box-shadow:0 4px 8px rgba(34,30,26,.15)"></div><span style="position:absolute;left:10px;bottom:8px;font-size:12px;color:#6B615A">120 мс</span></div>
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;height:150px;position:relative;overflow:hidden"><div style="position:absolute;left:24px;top:36px;display:grid;grid-template-columns:repeat(3,26px);gap:5px"><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px dashed #C9BFB0;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div></div><div style="position:absolute;left:88px;top:34px;width:26px;height:26px;background:#E3B021;border-radius:2px;transform:rotate(-1deg);box-shadow:0 1px 2px rgba(34,30,26,.15)"></div><span style="position:absolute;left:10px;bottom:8px;font-size:12px;color:#6B615A">200 мс</span></div>
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;height:150px;position:relative;overflow:hidden"><div style="position:absolute;left:24px;top:36px;display:grid;grid-template-columns:repeat(3,26px);gap:5px"><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;background:#E3B021;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div><div style="height:26px;border:1.5px solid #221E1A;border-radius:2px"></div></div><span style="position:absolute;right:12px;top:12px;font-size:12px;color:#45875A">Сошлось</span><span style="position:absolute;left:10px;bottom:8px;font-size:12px;color:#6B615A">240 мс</span></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раскадровка · расписание совпадает в трёх окнах</span>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;height:130px;padding:12px;display:flex;flex-direction:column;gap:5px;font-size:12px"><span style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Учебная часть</span><div style="height:16px;background:#F3EFE8;border-radius:2px"></div><div style="height:16px;background:#FAE9B9;border-radius:2px;display:flex;align-items:center;padding:0 6px;font-size:11px">История · 118</div><div style="height:16px;background:#F3EFE8;border-radius:2px"></div><span style="margin-top:auto;color:#6B615A">0 мс · замена поставлена</span></div>
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;height:130px;padding:12px;display:flex;flex-direction:column;gap:5px;font-size:12px"><span style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Преподаватель</span><div style="height:16px;background:#F3EFE8;border-radius:2px"></div><div style="height:16px;background:#FAE9B9;border-radius:2px;display:flex;align-items:center;padding:0 6px;font-size:11px;opacity:.6">История · 118</div><div style="height:16px;background:#F3EFE8;border-radius:2px"></div><span style="margin-top:auto;color:#6B615A">+120 мс · строка проявляется</span></div>
+            <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:6px;height:130px;padding:12px;display:flex;flex-direction:column;gap:5px;font-size:12px"><span style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Студент</span><div style="height:16px;background:#F3EFE8;border-radius:2px"></div><div style="height:16px;background:#FAE9B9;border-radius:2px;display:flex;align-items:center;padding:0 6px;font-size:11px;opacity:.3">История · 118</div><div style="height:16px;background:#F3EFE8;border-radius:2px"></div><span style="margin-top:auto;color:#6B615A">+240 мс · та же строка, та же высота</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">10</span></div>
+</div>
+
+<!-- 11 Голос -->
+<div data-screen-label="11 Голос и тон" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Голос и тон</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 11</span></div>
+    <div style="margin-top:28px;display:grid;grid-template-columns:300px 1fr;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font:400 24px/1.3 'Playfair Display',serif">Спокойно, по делу, на «вы».</div>
+        <div style="font-size:15px;line-height:1.5;color:#6B615A">Планово говорит как опытный сотрудник учебной части, у которого всё под контролем. Сначала факт, потом что делать. Сообщает сам, не ждёт вопроса. Не хвалит себя и не извиняется лишний раз.</div>
+        <div style="border-top:1px solid #C9BFB0;display:flex;flex-direction:column;font-size:14px;line-height:1.45">
+          <div style="padding:9px 0;border-bottom:1px solid #C9BFB0">Без восклицательных знаков, без «ура» и «упс»</div>
+          <div style="padding:9px 0;border-bottom:1px solid #C9BFB0">Без «революции», «инноваций», «искусственного интеллекта»</div>
+          <div style="padding:9px 0;border-bottom:1px solid #C9BFB0">Предупреждаем до ошибки, не ругаем после</div>
+          <div style="padding:9px 0;border-bottom:1px solid #C9BFB0">Слова колледжа: пара, окно, замена, группа, аудитория</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;border-top:1.5px solid #221E1A">
+        <div style="display:grid;grid-template-columns:150px 1fr 1fr;gap:20px;padding:8px 0;border-bottom:1px solid #C9BFB0;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A"><span>Ситуация</span><span style="color:#45875A">Так</span><span style="color:#C44B3B">Не так</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 1fr;gap:20px;padding:14px 0;border-bottom:1px solid #C9BFB0;font-size:15px;line-height:1.45"><span style="color:#6B615A;font-size:14px">Накладка найдена</span><span>Громов уже занят в 302. Свободны Иванова и Петренко.</span><span style="color:#6B615A">Ошибка! Невозможно назначить преподавателя.</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 1fr;gap:20px;padding:14px 0;border-bottom:1px solid #C9BFB0;font-size:15px;line-height:1.45"><span style="color:#6B615A;font-size:14px">Замена для студента</span><span>Сегодня вторая пара — История вместо Физики. Петренко, ауд. 118.</span><span style="color:#6B615A">Внимание!!! Изменения в расписании, срочно проверь.</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 1fr;gap:20px;padding:14px 0;border-bottom:1px solid #C9BFB0;font-size:15px;line-height:1.45"><span style="color:#6B615A;font-size:14px">Пустой экран</span><span>Пар сегодня нет. Следующая — завтра в 8:30, Математика.</span><span style="color:#6B615A">Ура, выходной! Отдыхай 🎉</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 1fr;gap:20px;padding:14px 0;border-bottom:1px solid #C9BFB0;font-size:15px;line-height:1.45"><span style="color:#6B615A;font-size:14px">Неделя собрана</span><span>Расписание на неделю сходится. Можно публиковать.</span><span style="color:#6B615A">Поздравляем! Вы великолепно справились с составлением расписания.</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 1fr;gap:20px;padding:14px 0;border-bottom:1px solid #C9BFB0;font-size:15px;line-height:1.45"><span style="color:#6B615A;font-size:14px">Первый вход</span><span>Начнём с групп. Добавьте одну — остальное подскажем по ходу.</span><span style="color:#6B615A">Добро пожаловать в революционную платформу управления расписанием.</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 1fr;gap:20px;padding:14px 0;border-bottom:1px solid #C9BFB0;font-size:15px;line-height:1.45"><span style="color:#6B615A;font-size:14px">Сбой</span><span>Не удалось сохранить. Изменения на месте, попробуем ещё раз через минуту.</span><span style="color:#6B615A">Упс, что-то пошло не так :(</span></div>
+        <div style="display:grid;grid-template-columns:150px 1fr 1fr;gap:20px;padding:14px 0;border-bottom:1px solid #C9BFB0;font-size:15px;line-height:1.45"><span style="color:#6B615A;font-size:14px">О продукте</span><span>Планово следит, чтобы расписание сходилось у всех троих.</span><span style="color:#6B615A">Умный ИИ-алгоритм нового поколения оптимизирует ваш учебный процесс.</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">11</span></div>
+</div>
+
+<!-- 12 Сайт -->
+<div data-screen-label="12 Сайт" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Сайт: из каких секций собирается</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 12</span></div>
+    <div style="margin-top:28px;display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start">
+      <div style="background:#FFFDF9;border:1.5px solid #221E1A;border-radius:8px;overflow:hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid #C9BFB0;font-size:12px"><div style="display:flex;align-items:center;gap:7px"><svg width="18" height="18" viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="4" fill="none" stroke="#221E1A" stroke-width="2.6"></rect><path d="M4 16 H36" stroke="#221E1A" stroke-width="2.6"></path><rect x="22" y="23" width="8" height="8" rx="1" fill="#E3B021"></rect></svg><span style="font:600 14px 'Playfair Display',serif">Планово</span></div><div style="display:flex;gap:14px;color:#6B615A"><span>Как работает</span><span>Для кого</span><span>Цены</span><span style="border:1px solid #221E1A;border-radius:3px;padding:3px 8px;color:#221E1A;font-weight:500">Попробовать</span></div></div>
+        <div style="padding:26px 20px 20px;border-bottom:1px solid #C9BFB0;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center"><div><div style="font:400 28px/1.1 'Playfair Display',serif">Порядок<br>в расписании</div><div style="margin-top:8px;font-size:12px;line-height:1.45;color:#6B615A">Одно расписание у учебной части, преподавателя и студента.</div></div><div style="border:1px solid #C9BFB0;border-radius:4px;height:88px;background-image:repeating-linear-gradient(0deg,transparent 0 21px,#E2DACD 21px 22px);position:relative"><div style="position:absolute;left:0;right:0;top:22px;height:22px;background:#FAE9B9;font-size:10px;display:flex;align-items:center;padding:0 8px">История · Петренко · ауд. 118</div></div></div>
+        <div style="padding:16px 20px;border-bottom:1px solid #C9BFB0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:11px"><div style="border:1px solid #C9BFB0;border-radius:3px;padding:8px"><div style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A;font-size:10px">Учебная часть</div><div style="margin-top:4px;background:#FAE9B9;height:14px;border-radius:2px"></div></div><div style="border:1px solid #C9BFB0;border-radius:3px;padding:8px"><div style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A;font-size:10px">Преподаватель</div><div style="margin-top:4px;background:#FAE9B9;height:14px;border-radius:2px"></div></div><div style="border:1px solid #C9BFB0;border-radius:3px;padding:8px"><div style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A;font-size:10px">Студент</div><div style="margin-top:4px;background:#FAE9B9;height:14px;border-radius:2px"></div></div></div>
+        <div style="padding:16px 20px;border-bottom:1px solid #C9BFB0;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center"><div style="border:1.5px solid #C44B3B;border-radius:3px;padding:8px;font-size:11px"><b style="font-weight:500">Громов уже занят в 302</b><div style="color:#6B615A">Свободны Иванова и Петренко</div></div><div style="font-size:12px;line-height:1.45"><b style="font-weight:500">Накладку поставить нельзя</b><div style="color:#6B615A">Планово предупреждает до публикации.</div></div></div>
+        <div style="padding:14px 20px;display:flex;justify-content:space-between;font-size:10px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span>Контакты · Документы</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;border-top:1.5px solid #221E1A">
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid #C9BFB0"><span style="font-family:'Playfair Display',serif;color:#8A3B64;font-size:18px">1</span><div><div style="font-weight:500;font-size:15px">Шапка</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Знак, четыре ссылки, одна контурная кнопка. Без «Войти» крупно.</div></div></div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid #C9BFB0"><span style="font-family:'Playfair Display',serif;color:#8A3B64;font-size:18px">2</span><div><div style="font-weight:500;font-size:15px">Слоган и живой экран</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Антиква слева, настоящий кусок расписания справа. Жёлтая строка — замена.</div></div></div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid #C9BFB0"><span style="font-family:'Playfair Display',serif;color:#8A3B64;font-size:18px">3</span><div><div style="font-weight:500;font-size:15px">Три окна</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Одна пара у троих героев, на одной высоте.</div></div></div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid #C9BFB0"><span style="font-family:'Playfair Display',serif;color:#8A3B64;font-size:18px">4</span><div><div style="font-weight:500;font-size:15px">Накладка</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Один сценарий крупно: нашли, предложили, поставили.</div></div></div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid #C9BFB0"><span style="font-family:'Playfair Display',serif;color:#8A3B64;font-size:18px">5</span><div><div style="font-weight:500;font-size:15px">Как работает · Для кого · Цены</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Три короткие секции на линейках, без карточек с иконками.</div></div></div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid #C9BFB0"><span style="font-family:'Playfair Display',serif;color:#8A3B64;font-size:18px">6</span><div><div style="font-weight:500;font-size:15px">Подвал</div><div style="font-size:14px;color:#6B615A;line-height:1.4">«Планово — продукт команды Акеда», тихо, мелко.</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">12</span></div>
+</div>
+
+<!-- 13 Презентации -->
+<div data-screen-label="13 Презентации" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Презентации</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 13</span></div>
+    <div style="margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div style="height:224px;background:#F3EFE8;border:1.5px solid #221E1A;border-radius:6px;padding:26px;display:flex;flex-direction:column;justify-content:space-between;background-image:repeating-linear-gradient(0deg,transparent 0 29px,#E2DACD 29px 30px)"><div style="display:flex;justify-content:space-between;font-size:11px;color:#6B615A"><span style="font:600 14px 'Playfair Display',serif;color:#221E1A">Планово</span><span>Для Политехнического колледжа · апрель 2026</span></div><div style="font:400 44px/1.05 'Playfair Display',serif">Порядок<br>в расписании</div><div style="font-size:11px;color:#6B615A">Планово — продукт команды Акеда</div></div>
+      <div style="height:224px;background:#FFFDF9;border:1.5px solid #221E1A;border-radius:6px;padding:26px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #C9BFB0;padding-bottom:8px"><span style="font:400 22px 'Playfair Display',serif">Накладку поставить нельзя</span><span style="font-size:11px;color:#6B615A">2 / 9</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1"><div style="font-size:12px;line-height:1.5;color:#6B615A">Планово проверяет преподавателя, аудиторию и группу до публикации. Учебная часть видит конфликт сразу и получает варианты замены.</div><div style="border:1.5px solid #C44B3B;border-radius:4px;padding:10px;font-size:11px;align-self:start"><b style="font-weight:500">Громов уже занят в 302</b><div style="color:#6B615A;margin-top:2px">Свободны Иванова и Петренко</div></div></div></div>
+      <div style="height:224px;background:#FFFDF9;border:1.5px solid #221E1A;border-radius:6px;padding:26px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #C9BFB0;padding-bottom:8px"><span style="font:400 22px 'Playfair Display',serif">Одно расписание в трёх окнах</span><span style="font-size:11px;color:#6B615A">4 / 9</span></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1"><div style="border:1px solid #C9BFB0;border-radius:3px;padding:8px;font-size:10px;display:flex;flex-direction:column;gap:5px"><span style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Учебная часть</span><div style="height:12px;background:#F3EFE8;border-radius:2px"></div><div style="height:12px;background:#FAE9B9;border-radius:2px"></div><div style="height:12px;background:#F3EFE8;border-radius:2px"></div></div><div style="border:1px solid #C9BFB0;border-radius:3px;padding:8px;font-size:10px;display:flex;flex-direction:column;gap:5px"><span style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Преподаватель</span><div style="height:12px;background:#F3EFE8;border-radius:2px"></div><div style="height:12px;background:#FAE9B9;border-radius:2px"></div><div style="height:12px;background:#F3EFE8;border-radius:2px"></div></div><div style="border:1px solid #C9BFB0;border-radius:3px;padding:8px;font-size:10px;display:flex;flex-direction:column;gap:5px"><span style="letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Студент</span><div style="height:12px;background:#F3EFE8;border-radius:2px"></div><div style="height:12px;background:#FAE9B9;border-radius:2px"></div><div style="height:12px;background:#F3EFE8;border-radius:2px"></div></div></div></div>
+      <div style="height:224px;background:#221E1A;border-radius:6px;padding:26px;display:flex;flex-direction:column;justify-content:center;gap:12px;color:#F3EFE8"><div style="font:italic 400 30px/1.25 'Playfair Display',serif;text-wrap:pretty">«Порядок в расписании — это когда утром все знают, куда идти.»</div><div style="font-size:11px;color:#B8AFA3">Единственный тёмный слайд — цитата или финал. Не больше одного на презентацию.</div></div>
+    </div>
+    <div style="margin-top:24px;border-top:1.5px solid #221E1A;padding-top:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;font-size:14px;line-height:1.45">
+      <div><div style="font-weight:500">Титул на линейках</div><div style="color:#6B615A">Антиква крупно, адресат справа вверху, подпись внизу.</div></div>
+      <div><div style="font-weight:500">Один тезис на слайд</div><div style="color:#6B615A">Заголовок — предложение, не тема. Текст не меньше 24 px.</div></div>
+      <div><div style="font-weight:500">Экран вместо иконок</div><div style="color:#6B615A">Любой аргумент показываем куском настоящего расписания.</div></div>
+      <div><div style="font-weight:500">Без маскота</div><div style="color:#6B615A">В официальных презентациях только строгий знак.</div></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">13</span></div>
+</div>
+
+<!-- 14 Так нельзя -->
+<div data-screen-label="14 Так нельзя" style="width:1200px;height:848px;background:#F3EFE8;position:relative;overflow:hidden;padding:56px 64px;display:flex;flex-direction:column;justify-content:space-between">
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #221E1A;padding-bottom:14px"><span style="font:400 40px 'Playfair Display',serif">Так нельзя</span><span style="font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Раздел 14</span></div>
+    <div style="margin-top:28px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;border-radius:6px;background:#15121A;border:1.5px solid #C44B3B;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px"><div style="height:8px;width:70%;background:#3A3144;border-radius:2px"></div><div style="height:8px;width:50%;background:#3A3144;border-radius:2px"></div></div><div style="font-weight:500;font-size:15px">Тёмный фон как основа</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Тёмная тема живёт только внутри продукта, по выбору пользователя.</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;border-radius:6px;background:#1A1230;border:1.5px solid #C44B3B;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:34px;border-radius:17px;border:2px solid #7CF7E0;box-shadow:0 0 18px #7CF7E0,inset 0 0 10px #7CF7E0"></div></div><div style="font-weight:500;font-size:15px">Неон и свечения</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Никаких glow, blur и «технологичных» подсветок.</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;border-radius:6px;background:#FFFDF9;border:1.5px solid #C44B3B;position:relative;overflow:hidden"><div style="position:absolute;left:-20px;top:-10px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#FF9ED2,#7B6CF6);opacity:.8"></div><div style="position:absolute;right:-10px;bottom:-30px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#FFE28A,#FF7A59);opacity:.8"></div></div><div style="font-weight:500;font-size:15px">Градиентные пузыри</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Фон — бумага и линейки. Градиентов в бренде нет.</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;border-radius:6px;background:#fff;border:1.5px solid #C44B3B;padding:16px;display:flex;flex-direction:column;gap:8px;justify-content:center"><div style="height:10px;width:60%;background:#000"></div><div style="height:6px;width:80%;background:#000"></div><div style="height:6px;width:70%;background:#000"></div></div><div style="font-weight:500;font-size:15px">Чёрно-белый минимализм</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Планово тёплое: чернила на бумаге, жёлтая клетка, слива.</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;border-radius:6px;background:#FFFDF9;border:1.5px solid #C44B3B;display:flex;align-items:center;justify-content:center;padding:16px"><div style="width:100%;height:64px;border-radius:14px;background:#221E1A;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:20px">НАЧАТЬ СЕЙЧАС</div></div><div style="font-weight:500;font-size:15px">Гигантские кнопки</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Кнопка — 40 px высотой, текст обычным регистром.</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;border-radius:6px;background:#FFFDF9;border:1.5px solid #C44B3B;display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1.5;text-align:center;padding:16px">Ура!!! Расписание готово 🎉🔥<br>Ты — супер!</div><div style="font-weight:500;font-size:15px">Эмодзи и восклицания</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Эмоции передаёт маскот, а не знаки препинания.</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;border-radius:6px;background:repeating-linear-gradient(45deg,#E8E1D6 0 6px,#F3EFE8 6px 12px);border:1.5px solid #C44B3B;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:12px;color:#6B615A;text-align:center;padding:16px">стоковое фото<br>улыбающихся студентов</div><div style="font-weight:500;font-size:15px">Стоковые люди</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Вместо людей показываем экран и сценарий.</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;border-radius:6px;background:#FFFDF9;border:1.5px solid #C44B3B;display:flex;align-items:center;justify-content:center;font:400 20px/1.3 'Playfair Display',serif;text-align:center;padding:16px">Революция<br>в образовании<br>с помощью ИИ</div><div style="font-weight:500;font-size:15px">«Революция» и технологии</div><div style="font-size:14px;color:#6B615A;line-height:1.4">Обещаем порядок, а не переворот. О технологиях не хвастаемся.</div></div>
+    </div>
+    <div style="margin-top:24px;border-top:1.5px solid #221E1A;padding-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:40px;font-size:15px;line-height:1.5">
+      <div><span style="font-weight:500">Маскот</span> <span style="color:#6B615A">не заходит в документы, не стоит рядом со знаком, не кричит, не машет руками, не бывает красным.</span></div>
+      <div><span style="font-weight:500">Знак</span> <span style="color:#6B615A">не наклоняем, не растягиваем, не заливаем корпус, не красим в градиент, не ставим на пёстрый фон.</span></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:14px;color:#6B615A"><span>Планово — продукт команды Акеда</span><span style="font-family:'Playfair Display',serif">14</span></div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;rules&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Обложка&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return { rules: this.props.rules ?? true };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@container (max-width:1000px){[data-mob-hide]{display:none!important}[data-groups4]{grid-template-columns:44px repeat(2,minmax(0,1fr))!important}}
+@keyframes rsEnter{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+<div style="display:flex;justify-content:center;width:100%;font-family:'Onest',sans-serif;color:#221E1A">
+
+<sc-if value="{{ isUch }}" hint-placeholder-val="{{ true }}">
+<div style="width:100%;max-width:760px;background:#FFFDF9;border:1.5px solid #221E1A;border-radius:12px;overflow:hidden;box-shadow:0 30px 60px rgba(34,30,26,.14);font-size:12px;animation:rsEnter .6s cubic-bezier(.2,.7,.2,1) both">
+  <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #C9BFB0;background:#F3EFE8"><div style="display:flex;gap:5px"><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span></div><span style="flex:1;text-align:center;font-size:12px;color:#6B615A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Колледж «Пример» · Конструктор · все группы</span></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid #C9BFB0;flex-wrap:wrap">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span style="font:400 16px 'Playfair Display',serif">Вторник, 15 апреля</span><span style="border:1px solid #C9BFB0;border-radius:4px;padding:3px 8px;color:#6B615A">Нечётная неделя</span></div>
+    <div style="display:flex;gap:8px;align-items:center"><span style="border:1px solid #C9BFB0;border-radius:4px;padding:4px 10px 4px 8px;display:inline-flex;align-items:center;gap:6px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#E3B021"></span>Черновик</span><span style="background:#221E1A;color:#F3EFE8;border-radius:5px;padding:5px 11px;font-weight:500">Опубликовать</span></div>
+  </div>
+  <div data-groups4="1" style="padding:14px 16px;display:grid;grid-template-columns:56px repeat(4,minmax(0,1fr));gap:7px;font-size:11.5px">
+    <div></div><div style="text-align:center;color:#6B615A">ИС-21</div><div style="text-align:center;color:#6B615A">ИС-22</div><div data-mob-hide="1" style="text-align:center;color:#6B615A">ПКС-31</div><div data-mob-hide="1" style="text-align:center;color:#6B615A">ПКС-32</div>
+    <div style="color:#6B615A;padding-top:8px">8:30</div><div style="background:#F3EFE8;border-radius:5px;padding:8px;min-height:50px"><div style="font-weight:500">Математика</div><div style="color:#6B615A">Иванова · 204</div></div><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">История</div><div style="color:#6B615A">Петренко · 118</div></div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Физика</div><div style="color:#6B615A">Громов · 302</div></div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Англ. яз.</div><div style="color:#6B615A">Белова · 215</div></div>
+    <div style="color:#6B615A;padding-top:8px">10:10</div><div style="background:#FAE9B9;border-radius:5px;padding:8px;min-height:50px;box-shadow:inset 0 0 0 1.5px #E3B021"><div style="font-weight:500">История</div><div style="color:#6B5200">Петренко · 118 · замена</div></div><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Информатика</div><div style="color:#6B615A">Соколова · 410</div></div><div data-mob-hide="1" style="border:1.5px dashed #C9BFB0;border-radius:5px;padding:8px;color:#6B615A;font-style:italic">Окно</div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Литература</div><div style="color:#6B615A">Орлова · 207</div></div>
+    <div style="color:#6B615A;padding-top:8px">12:00</div><div style="background:#F3EFE8;border-radius:5px;padding:8px;min-height:50px"><div style="font-weight:500">Физкультура</div><div style="color:#6B615A">Ким · зал</div></div><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Математика</div><div style="color:#6B615A">Иванова · 204</div></div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">История</div><div style="color:#6B615A">Петренко · 118</div></div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Физика</div><div style="color:#6B615A">Громов · 302</div></div>
+    <div style="color:#6B615A;padding-top:8px">13:50</div><div style="border:1.5px dashed #C9BFB0;border-radius:5px;padding:8px;min-height:50px;color:#6B615A;font-style:italic">Окно</div><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Англ. яз.</div><div style="color:#6B615A">Белова · 215</div></div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Информатика</div><div style="color:#6B615A">Соколова · 410</div></div><div data-mob-hide="1" style="border:1.5px dashed #C9BFB0;border-radius:5px;padding:8px;color:#6B615A;font-style:italic">Окно</div>
+  </div>
+  <div style="margin:0 16px 14px;background:#F3EFE8;border-radius:6px;padding:9px 12px"><b style="font-weight:500">Изменение на 15 апреля:</b> <span style="color:#6B615A">ИС-21, 2-я пара — История вместо Физики. Постоянное расписание не меняется.</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPrep }}" hint-placeholder-val="{{ false }}">
+<div style="width:290px;height:630px;position:relative;animation:rsEnter .6s cubic-bezier(.2,.7,.2,1) both"><div style="transform:scale(.72);transform-origin:top left;width:402px;height:874px">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ devW }}" height="{{ devH }}" hint-size="402px,874px">
+  <div style="height:100%;background:#F3EFE8;padding:60px 0 0;display:flex;flex-direction:column;font-family:'Onest',sans-serif;color:#221E1A;overflow:hidden;position:relative">
+    <div style="padding:12px 22px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#6B615A"><span style="letter-spacing:.08em;text-transform:uppercase">Колледж «Пример»</span><span>Кабинет</span></div>
+    <div style="padding:8px 22px 0"><div style="font:400 30px/1.1 'Playfair Display',serif">Петренко О. В.</div><div style="margin-top:4px;font-size:15px;color:#6B615A">Неделя 14–19 апреля · нечётная</div></div>
+    <div style="margin:18px 22px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:12px;padding:14px"><div style="font:400 32px/1 'Playfair Display',serif">16</div><div style="margin-top:6px;font-size:13px;color:#6B615A">часов на этой неделе</div></div>
+      <div style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:12px;padding:14px"><div style="font:400 32px/1 'Playfair Display',serif">58</div><div style="margin-top:6px;font-size:13px;color:#6B615A">отработано в апреле</div></div>
+    </div>
+    <div style="margin:22px 22px 0;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Сегодня, вторник</div>
+    <div style="margin:8px 22px 0;display:flex;flex-direction:column;border-top:1.5px solid #221E1A">
+      <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid #C9BFB0"><span style="font-size:15px;color:#6B615A">8:30</span><div><div style="font-size:17px;font-weight:500">История · ИС-22</div><div style="font-size:14px;color:#6B615A">ауд. 118</div></div></div>
+      <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 10px;margin:0 -10px;border-bottom:1px solid #C9BFB0;background:#FAE9B9;border-radius:8px"><span style="font-size:15px;color:#6B615A">10:10</span><div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-size:17px;font-weight:500">История · ИС-21</span><span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200">Замена</span></div><div style="font-size:14px;color:#6B615A">ауд. 118 · вместо Громова</div></div></div>
+      <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid #C9BFB0"><span style="font-size:15px;color:#6B615A">12:00</span><div><div style="font-size:17px;font-weight:500">Обществознание · ПКС-32</div><div style="font-size:14px;color:#6B615A">ауд. 118</div></div></div>
+      <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid #C9BFB0"><span style="font-size:15px;color:#6B615A">13:50</span><div style="font-size:16px;color:#6B615A;font-style:italic">Окно</div></div>
+    </div>
+    <div style="margin:auto 22px 48px;border:1.5px solid #221E1A;border-radius:12px;padding:14px;text-align:center;font-size:16px;font-weight:500">Написать в учебную часть</div>
+  </div>
+</x-import>
+</div></div>
+</sc-if>
+
+<sc-if value="{{ isStud }}" hint-placeholder-val="{{ false }}">
+<div style="width:290px;height:630px;position:relative;animation:rsEnter .6s cubic-bezier(.2,.7,.2,1) both"><div style="transform:scale(.72);transform-origin:top left;width:402px;height:874px">
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ devW }}" height="{{ devH }}" hint-size="402px,874px">
+  <div style="height:100%;background:#F3EFE8;padding:60px 0 0;display:flex;flex-direction:column;font-family:'Onest',sans-serif;color:#221E1A;overflow:hidden;position:relative">
+    <div style="position:absolute;left:14px;right:14px;top:62px;background:rgba(255,253,249,.94);border:1px solid #C9BFB0;border-radius:18px;padding:12px 14px;display:flex;gap:12px;box-shadow:0 14px 30px rgba(34,30,26,.16)"><img src="uploads/planovo-logo.png" alt="" style="width:38px;height:38px;object-fit:contain;flex:none"><div style="min-width:0"><div style="display:flex;justify-content:space-between;font-size:12px;color:#6B615A"><span>Планово</span><span>7:40</span></div><div style="font-size:15px;font-weight:500;margin-top:2px">Сегодня вторая пара — История</div><div style="font-size:14px;color:#6B615A;line-height:1.35">Вместо Физики. Петренко, ауд. 118.</div></div></div>
+    <div style="padding:100px 22px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#6B615A"><span style="letter-spacing:.08em;text-transform:uppercase">Колледж «Пример»</span><span>ИС-21</span></div>
+    <div style="padding:8px 22px 0;font:400 30px/1.1 'Playfair Display',serif">Вторник, 15 апреля</div>
+    <div style="margin:16px 22px 0;display:grid;grid-template-columns:repeat(6,1fr);gap:6px;text-align:center;font-size:13px;color:#6B615A"><span style="padding:8px 0">Пн</span><span style="padding:8px 0;background:#221E1A;color:#F3EFE8;border-radius:8px;font-weight:500">Вт</span><span style="padding:8px 0">Ср</span><span style="padding:8px 0">Чт</span><span style="padding:8px 0">Пт</span><span style="padding:8px 0">Сб</span></div>
+    <div style="margin:16px 22px 0;display:flex;flex-direction:column;border-top:1.5px solid #221E1A">
+      <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid #C9BFB0"><span style="font-size:15px;color:#6B615A">8:30</span><div><div style="font-size:17px;font-weight:500">Математика</div><div style="font-size:14px;color:#6B615A">Иванова · 204</div></div></div>
+      <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 10px;margin:0 -10px;border-bottom:1px solid #C9BFB0;background:#FAE9B9;border-radius:8px"><span style="font-size:15px;color:#6B615A">10:10</span><div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-size:17px;font-weight:500">История</span><span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200">Замена</span></div><div style="font-size:14px;color:#6B615A">Петренко · 118</div></div></div>
+      <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid #C9BFB0"><span style="font-size:15px;color:#6B615A">12:00</span><div><div style="font-size:17px;font-weight:500">Англ. яз.</div><div style="font-size:14px;color:#6B615A">Белова · 215</div></div></div>
+      <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid #C9BFB0"><span style="font-size:15px;color:#6B615A">13:50</span><div style="font-size:16px;color:#6B615A;font-style:italic">Окно</div></div>
+    </div>
+    <div style="margin:14px 22px 0;color:#45875A;font-size:15px">Дальше свободно. Завтра первая пара в 8:30.</div>
+  </div>
+</x-import>
+</div></div>
+</sc-if>
+
+<sc-if value="{{ isRuk }}" hint-placeholder-val="{{ false }}">
+<div style="width:100%;max-width:760px;background:#FFFDF9;border:1.5px solid #221E1A;border-radius:12px;overflow:hidden;box-shadow:0 30px 60px rgba(34,30,26,.14);font-size:12.5px;animation:rsEnter .6s cubic-bezier(.2,.7,.2,1) both">
+  <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #C9BFB0;background:#F3EFE8"><div style="display:flex;gap:5px"><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span></div><span style="flex:1;text-align:center;font-size:12px;color:#6B615A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Колледж «Пример» · Сводка · апрель</span></div>
+  <div style="padding:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+    <div style="background:#F3EFE8;border-radius:8px;padding:12px"><div style="font:400 30px/1 'Playfair Display',serif">1 412</div><div style="margin-top:6px;color:#6B615A">занятий проведено</div></div>
+    <div style="background:#F3EFE8;border-radius:8px;padding:12px"><div style="font:400 30px/1 'Playfair Display',serif">37</div><div style="margin-top:6px;color:#6B615A">замен за месяц</div></div>
+    <div style="background:#F3EFE8;border-radius:8px;padding:12px"><div style="font:400 30px/1 'Playfair Display',serif;color:#45875A">0</div><div style="margin-top:6px;color:#6B615A">накладок</div></div>
+  </div>
+  <div style="padding:0 16px 16px;display:flex;flex-direction:column">
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 52px 52px 90px;gap:10px;padding:6px 0;border-bottom:1.5px solid #221E1A;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A"><span>Преподаватель</span><span style="text-align:right">План</span><span style="text-align:right">Факт</span><span style="text-align:right">Нагрузка</span></div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 52px 52px 90px;gap:10px;padding:9px 0;border-bottom:1px solid #C9BFB0;align-items:center"><span>Иванова Е. С.</span><span style="text-align:right;color:#6B615A">72</span><span style="text-align:right">70</span><span style="height:6px;background:#E8E1D6;border-radius:3px;overflow:hidden"><span style="display:block;height:100%;width:97%;background:#45875A"></span></span></div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 52px 52px 90px;gap:10px;padding:9px 0;border-bottom:1px solid #C9BFB0;align-items:center"><span>Петренко О. В.</span><span style="text-align:right;color:#6B615A">64</span><span style="text-align:right">68</span><span style="height:6px;background:#E8E1D6;border-radius:3px;overflow:hidden"><span style="display:block;height:100%;width:100%;background:#E3B021"></span></span></div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 52px 52px 90px;gap:10px;padding:9px 0;border-bottom:1px solid #C9BFB0;align-items:center"><span>Громов А. П.</span><span style="text-align:right;color:#6B615A">80</span><span style="text-align:right;color:#C44B3B">52</span><span style="height:6px;background:#E8E1D6;border-radius:3px;overflow:hidden"><span style="display:block;height:100%;width:65%;background:#C44B3B"></span></span></div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 52px 52px 90px;gap:10px;padding:9px 0;border-bottom:1px solid #C9BFB0;align-items:center"><span>Белова М. И.</span><span style="text-align:right;color:#6B615A">60</span><span style="text-align:right">60</span><span style="height:6px;background:#E8E1D6;border-radius:3px;overflow:hidden"><span style="display:block;height:100%;width:100%;background:#45875A"></span></span></div>
+    <div style="padding-top:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#6B615A"><span>Сейчас идёт 3-я пара · 14 аудиторий заняты</span><span>Свободны: 207, 215, 410</span></div>
+  </div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;760px&quot;,&quot;height&quot;:&quot;680px&quot;},&quot;role&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;uch&quot;,&quot;prep&quot;,&quot;stud&quot;,&quot;ruk&quot;],&quot;default&quot;:&quot;uch&quot;,&quot;tsType&quot;:&quot;'uch'|'prep'|'stud'|'ruk'&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const r = this.props.role ?? 'uch';
+    return { isUch: r === 'uch', isPrep: r === 'prep', isStud: r === 'stud', isRuk: r === 'ruk', devW: 402, devH: 874 };
+  }
+}
+</script>
+</body>
+</html>
