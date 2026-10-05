@@ -355,11 +355,7 @@ input[type=color]{-webkit-appearance:none;appearance:none}input[type=color]::-we
       <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:18px"><div style="font:400 clamp(52px,6cqw,80px)/1 'Playfair Display',serif">~{{ c3 }}</div><div style="margin-top:10px;font-size:16px;color:#6B615A">занятий в месяц</div></div>
       <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:18px"><div style="font:400 clamp(52px,6cqw,80px)/1 'Playfair Display',serif">{{ c4 }}</div><div style="margin-top:10px;font-size:16px;color:#6B615A">уведомлений студентам и преподавателям за сентябрь</div></div>
     </div>
-    <div data-reveal="1" style="margin-top:clamp(32px,4cqw,56px);border:1.5px solid #221E1A;border-radius:12px;overflow:hidden;background:#F3EFE8;box-shadow:0 30px 60px rgba(34,30,26,.10)">
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #C9BFB0"><div style="display:flex;gap:5px"><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span></div><span style="flex:1;text-align:center;font-size:12px;color:#6B615A">Планово в колледже КЭМС · настоящий экран</span></div>
-      <div style="width:100%;aspect-ratio:16/9;max-height:620px;position:relative"><image-slot id="kems-screen" shape="rect" fit="contain" placeholder="Сюда — скриншот расписания КЭМС (весенняя тема)"></image-slot></div>
-    </div>
-  </div>
+      </div>
 </section>
 
 <!-- 9. Как запускаем -->
@@ -381,10 +377,6 @@ input[type=color]{-webkit-appearance:none;appearance:none}input[type=color]::-we
   <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
     <div data-stack="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(24px,4cqw,72px);align-items:start">
       <div data-reveal="1"><h2 style="margin:0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Кто мы</h2>
-        <div style="margin-top:28px;display:flex;gap:20px;flex-wrap:wrap">
-          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:128px"><image-slot id="photo-andrey" shape="circle" style="width:112px;height:112px" placeholder="Фото"></image-slot><div style="font-size:15px;text-align:center;line-height:1.3">Андрей<br>Шпарага</div></div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:128px"><image-slot id="photo-savva" shape="circle" style="width:112px;height:112px" placeholder="Фото"></image-slot><div style="font-size:15px;text-align:center;line-height:1.3">Савва<br>Каретин</div></div>
-        </div>
       </div>
       <div data-reveal="1" style="font-size:clamp(17px,1.5cqw,20px);display:flex;flex-direction:column;gap:18px">
         <p style="margin:0;text-wrap:pretty">Планово делают Андрей Шпарага и Савва Каретин — основатели проекта. Мы сами прошли внедрение в колледже: сидели с учебной частью, разбирали каждую замену и переделывали то, что было неудобно.</p>
@@ -437,7 +429,7 @@ input[type=color]{-webkit-appearance:none;appearance:none}input[type=color]::-we
           <a href="mailto:an.shpar@mail.ru" style="display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid #C9BFB0;text-decoration:none;color:#221E1A" style-hover="color:#8A3B64"><span style="color:#6B615A;font-size:15px">Почта</span><span style="font-weight:500">an.shpar@mail.ru</span></a>
           <a href="tel:+79819408161" style="display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid #C9BFB0;text-decoration:none;color:#221E1A" style-hover="color:#8A3B64"><span style="color:#6B615A;font-size:15px">Телефон</span><span style="font-weight:500">+7 981 940-81-61</span></a>
         </div>
-        <a href="#" style="margin-top:28px;display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#221E1A;border:1.5px solid #221E1A;border-radius:6px;height:46px;padding:0 18px;font-size:15px;font-weight:500;background:#FFFDF9" style-hover="background:#E8E1D6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"></path></svg>Переслать руководителю — короткий PDF о Планово</a>
+        <a href="#" data-pdf-soon="1" style="display:none;margin-top:28px;align-items:center;gap:10px;text-decoration:none;color:#221E1A;border:1.5px solid #221E1A;border-radius:6px;height:46px;padding:0 18px;font-size:15px;font-weight:500;background:#FFFDF9" style-hover="background:#E8E1D6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"></path></svg>Скачать презентацию (PDF)</a>
       </div>
       <form data-reveal="1" style="background:#FFFDF9;border:1.5px solid #221E1A;border-radius:12px;padding:clamp(20px,3cqw,32px);display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 50px rgba(34,30,26,.10)" onSubmit="{{ preventSubmit }}">
         <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Имя<input type="text" placeholder="Как к вам обращаться" style="height:46px;border:1px solid #C9BFB0;border-radius:6px;background:#F3EFE8;padding:0 12px;font:400 16px 'Onest',sans-serif;color:#221E1A"></label>
