@@ -1,5 +1,5 @@
 (function () {
-  var TELEGRAM_URL = "https://t.me/planovoo";
+  var TELEGRAM_URL = "https://t.me/planovosells_bot?start=site";
   var form = document.getElementById("leadForm");
   var msg = document.getElementById("formMsg");
   if (!form || !msg) return;
