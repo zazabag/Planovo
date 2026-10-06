@@ -42,6 +42,12 @@ const checks = [
     contentType: "application/json",
     excludes: ["404: This page could not be found.", "<!DOCTYPE html>"],
   },
+  {
+    url: "https://planovo.pro/lead/health",
+    expect: [200],
+    json: { ok: true },
+    contentType: "application/json",
+  },
   { url: "http://planovo.pro/", expect: [301, 308], locationPrefix: "https://planovo.pro/" },
 ];
 
