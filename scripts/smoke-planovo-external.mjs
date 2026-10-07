@@ -8,32 +8,32 @@ const checks = [
   {
     url: "https://planovo.pro/",
     expect: [200],
-    includes: ["Планово держит", "Для колледжей, школ и вузов"],
+    includes: ["Расписание без ручной рутины", "Система расписания для колледжей, школ и вузов"],
     excludes: ["404: This page could not be found."],
   },
   {
     url: "https://www.planovo.pro/",
     expect: [200],
-    includes: ["Планово держит", "Для колледжей, школ и вузов"],
+    includes: ["Расписание без ручной рутины", "Система расписания для колледжей, школ и вузов"],
     excludes: ["404: This page could not be found."],
   },
   {
     url: "https://planovo.pro/kems/student/",
     expect: [200],
     includes: ["<title>КЭМС ученик", "apple-mobile-web-app-title\" content=\"КЭМС ученик"],
-    excludes: ["404: This page could not be found.", "Планово держит"],
+    excludes: ["404: This page could not be found.", "Расписание без ручной рутины"],
   },
   {
     url: "https://planovo.pro/kems/teacher/",
     expect: [200],
     includes: ["<title>КЭМС преподаватель", "apple-mobile-web-app-title\" content=\"КЭМС преподаватель"],
-    excludes: ["404: This page could not be found.", "Планово держит"],
+    excludes: ["404: This page could not be found.", "Расписание без ручной рутины"],
   },
   {
     url: "https://planovo.pro/kems/admin/",
     expect: [200],
     includes: ["<title>КЭМС учебная часть", "apple-mobile-web-app-title\" content=\"КЭМС учебная часть"],
-    excludes: ["404: This page could not be found.", "Планово держит"],
+    excludes: ["404: This page could not be found.", "Расписание без ручной рутины"],
   },
   {
     url: "https://planovo.pro/api/v1/public/health",

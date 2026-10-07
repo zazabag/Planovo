@@ -12,22 +12,21 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const OUT = path.join(ROOT, "dist", "planovo-pro");
 
-const COPY_PATHS = [
-  "index.html",
-  "404.html",
-  "education.html",
-  "education.demo.js",
+// Новый сайт (site/) кладётся в корень пакета как есть.
+const SITE_DIR = "site";
+
+// Юридические страницы остались от прежнего сайта и пока рисуются его оформлением.
+// Копируем только то, что им нужно, чтобы со старого сайта в пакет не попадало лишнего.
+const LEGAL_PATHS = [
   "privacy.html",
   "cookies.html",
   "consent-pdn.html",
   "logo.png",
-  "logo.svg",
-  "logo-icon.svg",
-  "favicon-32.png",
-  "favicon.ico",
-  "assets",
-  "_next",
-  "404",
+  "assets/site-legal.css",
+  "assets/site-legal.js",
+  "assets/site-mobile.css",
+  "_next/static/chunks",
+  "_next/static/media",
 ];
 
 const TEXT_EXT = new Set([
@@ -97,15 +96,24 @@ function main() {
   rmDir(OUT);
   fs.mkdirSync(OUT, { recursive: true });
 
-  for (const rel of COPY_PATHS) {
+  const siteSrc = path.join(ROOT, SITE_DIR);
+  if (!fs.existsSync(path.join(siteSrc, "index.html"))) {
+    throw new Error("Нет site/index.html — нечего собирать");
+  }
+  copyEntry(siteSrc, OUT);
+  console.log("  copied: site/ → корень");
+
+  for (const rel of LEGAL_PATHS) {
     const src = path.join(ROOT, rel);
     if (!fs.existsSync(src)) {
-      console.warn("  skip (missing):", rel);
-      continue;
+      throw new Error(`Не найден файл юридических страниц: ${rel}`);
     }
     copyEntry(src, path.join(OUT, rel));
     console.log("  copied:", rel);
   }
+
+  // Юридические страницы запрашивают значок с корня.
+  fs.copyFileSync(path.join(OUT, "assets", "favicon-32.png"), path.join(OUT, "favicon-32.png"));
 
   fs.writeFileSync(path.join(OUT, ".htaccess"), htaccess, "utf8");
   console.log("  wrote: .htaccess");
