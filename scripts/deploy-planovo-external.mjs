@@ -17,6 +17,7 @@ const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist", "planovo-pro");
 const CADDYFILE = path.join(ROOT, "deploy", "planovo-external", "Caddyfile");
 const COMPOSE_FILE = path.join(ROOT, "deploy", "planovo-external", "docker-compose.yml");
+const LEAD_SCRIPT = path.join(ROOT, "deploy", "planovo-external", "lead", "lead.py");
 
 const FORBIDDEN_REMOTE_PATTERNS = [
   "/opt/schedulekems",
@@ -34,6 +35,7 @@ function parseArgs(argv) {
     remoteRoot: process.env.PLANOVO_REMOTE_ROOT || "/home/deploy/planovo-pro",
     apply: false,
     skipBuild: false,
+    leadEnv: null,
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -44,6 +46,7 @@ function parseArgs(argv) {
     else if (arg === "--user") args.user = argv[++i];
     else if (arg === "--identity-file") args.identityFile = argv[++i];
     else if (arg === "--remote-root") args.remoteRoot = argv[++i];
+    else if (arg === "--lead-env") args.leadEnv = argv[++i];
     else if (arg === "--help" || arg === "-h") {
       printHelp();
       process.exit(0);
@@ -65,6 +68,9 @@ Environment:
   PLANOVO_DEPLOY_USER   SSH user, default deploy
   PLANOVO_DEPLOY_IDENTITY SSH key, default ~/.ssh/kims_github
   PLANOVO_REMOTE_ROOT   Remote root, default /home/deploy/planovo-pro
+
+Options:
+  --lead-env <file>     upload lead.env (bot token + group id) for the lead service; needed once
 
 Safety:
   Without --apply the script performs local build and remote read-only diagnostics.
@@ -224,7 +230,7 @@ function applyRemote(args, sha, files) {
 set -eu
 curl -fsS --max-time 5 http://127.0.0.1:18080/api/v1/public/health >/dev/null
 docker run --rm --network host curlimages/curl:8.10.1 -fsS --max-time 5 http://127.0.0.1:18080/api/v1/public/health >/dev/null
-mkdir -p '${siteDir}' '${runtimeDir}'
+mkdir -p '${siteDir}' '${runtimeDir}' '${runtimeDir}/lead' '${runtimeDir}/lead-state'
 `);
 
   run("rsync", [
@@ -242,6 +248,15 @@ mkdir -p '${siteDir}' '${runtimeDir}'
   scp(args, files.manifestPath, remoteManifest);
   scp(args, CADDYFILE, `${runtimeDir}/Caddyfile`);
   scp(args, COMPOSE_FILE, `${runtimeDir}/docker-compose.yml`);
+  scp(args, LEAD_SCRIPT, `${runtimeDir}/lead/lead.py`);
+  if (args.leadEnv) {
+    scp(args, args.leadEnv, `${runtimeDir}/lead.env`);
+  }
+  ssh(args, `
+set -eu
+test -s '${runtimeDir}/lead.env' || { echo "Нет ${runtimeDir}/lead.env: передайте --lead-env <файл с PLANOVO_LEAD_BOT_TOKEN и PLANOVO_LEAD_CHAT_ID>" >&2; exit 1; }
+chmod 600 '${runtimeDir}/lead.env'
+`);
 
   ssh(args, `
 set -eu
@@ -255,6 +270,7 @@ rm -rf '${runtimeDir}/site.prev'
 ln -sfn '${releaseDir}' '${args.remoteRoot}/current.next'
 mv -Tf '${args.remoteRoot}/current.next' '${args.remoteRoot}/current'
 docker compose -p planovo-pro-edge -f '${runtimeDir}/docker-compose.yml' config >/dev/null
+docker run --rm -v '${runtimeDir}/Caddyfile:/etc/caddy/Caddyfile:ro' caddy:2.8-alpine caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
 docker compose -p planovo-pro-edge -f '${runtimeDir}/docker-compose.yml' up -d --force-recreate
 `);
 }

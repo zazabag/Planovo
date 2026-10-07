@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#F3EFE8;font-family:'Onest',sans-serif;color:#221E1A;font-feature-settings:'tnum'}
+a{color:#8A3B64}a:hover{color:#221E1A}
+*{box-sizing:border-box}
+[data-pl-root]{container-type:inline-size}
+[data-g4]{grid-template-columns:repeat(4,minmax(0,1fr))}
+[data-g5]{grid-template-columns:repeat(5,minmax(0,1fr))}
+[data-g2]{grid-template-columns:repeat(2,minmax(0,1fr))}
+@container (max-width:1000px){[data-unstick]{position:static!important}[data-g4]{grid-template-columns:repeat(2,minmax(0,1fr))}[data-g5]{grid-template-columns:1fr}[data-desk-only]{display:none!important}[data-desk]{display:none!important}[data-roles]{display:block!important}[data-role-block]{min-height:0!important;padding:36px 0!important}[data-stack]{grid-template-columns:1fr!important}[data-days5]{grid-template-columns:40px repeat(3,minmax(0,1fr))!important}[data-mob-hide]{display:none!important}[data-track]{display:flex!important;flex-direction:column}[data-sticky]{order:-1;top:68px!important;z-index:2;background:#FFFDF9;padding:10px 0 14px}[data-cstep]{min-height:58vh!important}}
+@container (min-width:1001px){[data-mob-only]{display:none!important}}
+@container (max-width:760px){[data-g4]{grid-template-columns:1fr}[data-g2]{grid-template-columns:1fr}}
+[data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+[data-reveal="in"]{opacity:1;transform:none}
+details>summary{list-style:none;cursor:pointer}details>summary::-webkit-details-marker{display:none}
+details[open] [data-chev]{transform:rotate(180deg)}
+input[type=color]{-webkit-appearance:none;appearance:none}input[type=color]::-webkit-color-swatch-wrapper{padding:0}input[type=color]::-webkit-color-swatch{border:none;border-radius:50%}
+[data-tg-fab]{position:fixed;right:22px;bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:70;display:flex;align-items:center;gap:10px;padding:13px 20px 13px 15px;border-radius:999px;background:#221E1A;color:#F3EFE8;text-decoration:none;font:500 15px 'Onest',sans-serif;box-shadow:0 12px 32px rgba(34,30,26,.22);transition:transform .2s,background .2s,opacity .3s}
+[data-tg-fab]:hover{transform:translateY(-2px);background:#3A352F;color:#F3EFE8}
+[data-tg-fab] svg{flex:none}
+@media (max-width:760px){[data-tg-fab]{right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));padding:0;width:56px;height:56px;justify-content:center}[data-tg-fab] span{display:none}}
+@media (prefers-reduced-motion:reduce){[data-tg-fab]{transition:none}}
+@keyframes plEnter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes plShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+@keyframes plPulse{0%,100%{box-shadow:0 0 0 0 rgba(34,30,26,.35)}60%{box-shadow:0 0 0 10px rgba(34,30,26,0)}}
+@keyframes floatY{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(-4deg)}}
+@keyframes seqA{0%,5%{transform:scaleX(0)}20%,80%{transform:scaleX(1)}90%,100%{transform:scaleX(0)}}
+@keyframes seqB{0%,25%{transform:scaleX(0)}40%,80%{transform:scaleX(1)}90%,100%{transform:scaleX(0)}}
+@keyframes seqC{0%,45%{transform:scaleX(0)}60%,80%{transform:scaleX(1)}90%,100%{transform:scaleX(0)}}
+@keyframes bubA{0%,10%{opacity:0;transform:translateY(6px)}20%,85%{opacity:1;transform:none}92%,100%{opacity:0}}
+@keyframes bubB{0%,35%{opacity:0;transform:translateY(6px)}45%,85%{opacity:1;transform:none}92%,100%{opacity:0}}
+@keyframes bubC{0%,60%{opacity:0;transform:translateY(6px)}70%,85%{opacity:1;transform:none}92%,100%{opacity:0}}
+@keyframes stamp{0%,30%{opacity:0;transform:rotate(-8deg) scale(1.4)}38%,90%{opacity:1;transform:rotate(-8deg) scale(1)}96%,100%{opacity:0}}
+@keyframes qPulse{0%,100%{opacity:.35}50%{opacity:1}}
+</style>
+</helmet>
+<div data-pl-root="1" style="background:#F3EFE8;color:#221E1A;font-family:'Onest',sans-serif;line-height:1.5;font-size:17px;overflow-x:clip">
+
+<!-- Шапка -->
+<header style="position:sticky;top:0;z-index:30;background:rgba(243,239,232,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #C9BFB0">
+  <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4cqw,48px);height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="#top" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#221E1A"><img src="uploads/planovo-logo.png" alt="Планово" style="height:44px;width:44px;object-fit:contain;display:block"><span style="font:600 21px 'Playfair Display',serif">Планово</span></a>
+    <nav data-desk="1" style="display:flex;gap:28px;font-size:15px;white-space:nowrap"><a href="#kak" style="text-decoration:none;color:#6B615A" style-hover="color:#221E1A">Как это выглядит</a><a href="#konstruktor" style="text-decoration:none;color:#6B615A" style-hover="color:#221E1A">Конструктор</a><a href="#sistema" style="text-decoration:none;color:#6B615A" style-hover="color:#221E1A">Что в системе</a><a href="#gde" style="text-decoration:none;color:#6B615A" style-hover="color:#221E1A">Где работает</a><a href="#voprosy" style="text-decoration:none;color:#6B615A" style-hover="color:#221E1A">Вопросы</a></nav>
+    <a href="#svyaz" style="text-decoration:none;color:#F3EFE8;background:#221E1A;border-radius:6px;height:40px;padding:0 16px;display:inline-flex;align-items:center;font-size:14px;font-weight:500;white-space:nowrap" style-hover="background:#3A352F">Обсудить проект</a>
+  </div>
+</header>
+
+<!-- 1. Первый экран -->
+<section id="top" style="position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent 0 47px,#E6DED0 47px 48px);mask-image:linear-gradient(180deg,#000 0,#000 50%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 0,#000 50%,transparent 100%);pointer-events:none"></div>
+  <div style="position:relative;max-width:1240px;margin:0 auto;padding:clamp(44px,6cqw,88px) clamp(20px,4cqw,48px) clamp(48px,6cqw,80px)">
+    <div data-stack="1" style="display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:32px;align-items:center">
+      <div style="max-width:900px;animation:plEnter .9s cubic-bezier(.2,.7,.2,1) both">
+        <div style="display:inline-flex;align-items:center;gap:10px;border:1px solid #C9BFB0;border-radius:999px;padding:6px 14px 6px 8px;font-size:13px;color:#6B615A;background:#FFFDF9"><span style="width:18px;height:18px;border-radius:4px;background:#E3B021;display:inline-block"></span>Система расписания для колледжей, школ и вузов</div>
+        <h1 style="margin:22px 0 0;font:400 clamp(42px,6.4cqw,88px)/1.02 'Playfair Display',serif;letter-spacing:-.025em;text-wrap:balance">{{ headline }}</h1>
+        <p style="margin:28px 0 0;font-size:clamp(17px,1.6cqw,21px);line-height:1.5;max-width:760px;text-wrap:pretty">Учебная часть собирает и меняет расписание в одном окне, система не даёт поставить накладку, а преподаватели и студенты сразу видят актуальную версию в телефоне.</p>
+        <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <a href="#kak" style="text-decoration:none;background:#221E1A;color:#F3EFE8;border-radius:6px;height:50px;padding:0 24px;display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:500" style-hover="background:#3A352F">Посмотреть, как работает<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F3EFE8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg></a>
+          <a href="#svyaz" style="text-decoration:none;color:#221E1A;border:1.5px solid #221E1A;border-radius:6px;height:50px;padding:0 24px;display:inline-flex;align-items:center;font-size:16px;font-weight:500;background:#FFFDF9" style-hover="background:#E8E1D6">Обсудить ваш проект</a>
+        </div>
+        <p style="margin:18px 0 0;font-size:14px;color:#6B615A">Готовое ядро, которое мы подстраиваем под правила вашего учреждения. Работает в колледже КЭМС.</p>
+      </div>
+      <div data-desk="1" style="display:flex;justify-content:center;animation:plEnter 1s .2s cubic-bezier(.2,.7,.2,1) both"><img src="uploads/planovo-logo.png" alt="" style="width:240px;height:240px;object-fit:contain;animation:floatY 7s ease-in-out infinite;filter:drop-shadow(0 24px 30px rgba(34,30,26,.14))"></div>
+    </div>
+
+    <!-- Интерактив: поставьте замену сами -->
+    <div data-stack="1" style="margin-top:clamp(40px,5cqw,64px);display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:clamp(24px,3cqw,40px);align-items:start;animation:plEnter 1s .3s cubic-bezier(.2,.7,.2,1) both">
+      <div style="min-width:0">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px;color:#6B615A"><span style="width:8px;height:8px;border-radius:50%;background:#45875A;display:inline-block"></span>Попробуйте сами: поставьте замену так, как это делает учебная часть</div>
+        <div style="background:#FFFDF9;border:1.5px solid #221E1A;border-radius:12px;overflow:hidden;box-shadow:0 30px 60px rgba(34,30,26,.12);font-size:13px">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #C9BFB0;background:#F3EFE8"><div style="display:flex;gap:5px"><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span></div><span style="flex:1;text-align:center;font-size:12px;color:#6B615A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Колледж «Пример» · Конструктор · учебная часть</span></div>
+          <div style="padding:14px 18px 10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+            <span style="font:400 19px 'Playfair Display',serif">ИС-21 · неделя 14–19 сентября</span>
+            <div style="display:flex;gap:8px;align-items:center"><span style="border:1px solid #C9BFB0;font-size:12px;font-weight:500;padding:4px 10px 4px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:6px;background:#FFFDF9"><span style="{{ badgeDotStyle }}"></span>{{ badgeText }}</span><button onClick="{{ publish }}" style="{{ publishStyle }}">{{ publishText }}</button></div>
+          </div>
+          <div style="margin:0 18px;border:1.5px dashed #C9BFB0;border-radius:8px;padding:10px 12px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#F3EFE8">
+            <div style="flex:1 1 220px;min-width:0;font-size:12.5px;line-height:1.45"><b style="font-weight:500">Громов заболел.</b> <span style="color:#6B615A">{{ trayHint }}</span></div>
+            <sc-if value="{{ tileVisible }}" hint-placeholder-val="{{ true }}">
+              <div draggable="{{ true }}" onDragStart="{{ dragStart }}" onDragEnd="{{ dragEnd }}" onClick="{{ togglePick }}" style="{{ tileStyle }}"><svg width="10" height="16" viewBox="0 0 10 16" fill="#6B5200" style="flex:none"><circle cx="2.5" cy="2.5" r="1.5"></circle><circle cx="7.5" cy="2.5" r="1.5"></circle><circle cx="2.5" cy="8" r="1.5"></circle><circle cx="7.5" cy="8" r="1.5"></circle><circle cx="2.5" cy="13.5" r="1.5"></circle><circle cx="7.5" cy="13.5" r="1.5"></circle></svg><div style="font-size:12.5px;line-height:1.3"><div style="font-weight:500">История</div><div style="color:#6B5200">Петренко · ауд. 118</div></div></div>
+            </sc-if>
+            <sc-if value="{{ placedOk }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ reset }}" style="background:none;border:none;padding:6px 4px;cursor:pointer;font:500 13px 'Onest',sans-serif;color:#221E1A;text-decoration:underline;text-underline-offset:4px">Сбросить и попробовать ещё</button>
+            </sc-if>
+          </div>
+          <div data-days5="1" style="padding:14px 18px 4px;display:grid;grid-template-columns:52px repeat(5,minmax(0,1fr));gap:7px;font-size:11.5px">
+            <div></div>
+            <sc-for list="{{ dayHeads }}" as="dh" hint-placeholder-count="5"><div data-mob-hide="{{ dh.mobHide }}" style="{{ dh.style }}">{{ dh.name }}</div></sc-for>
+            <sc-for list="{{ rows }}" as="row" hint-placeholder-count="4">
+              <div style="color:#6B615A;padding-top:8px">{{ row.time }}</div>
+              <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="5">
+                <div data-mob-hide="{{ c.mobHide }}" onDragOver="{{ c.over }}" onDragLeave="{{ c.leave }}" onDrop="{{ c.drop }}" onClick="{{ c.click }}" style="{{ c.style }}"><div style="display:flex;justify-content:space-between;gap:4px;align-items:baseline"><span style="{{ c.titleStyle }}">{{ c.title }}</span><span style="{{ c.tagStyle }}">{{ c.tag }}</span></div><div style="{{ c.subStyle }}">{{ c.sub }}</div></div>
+              </sc-for>
+            </sc-for>
+          </div>
+          <div style="padding:8px 18px 16px;min-height:46px;display:flex;align-items:center;gap:10px;font-size:12.5px"><span style="{{ msgDotStyle }}"></span><span style="{{ msgStyle }}">{{ msgText }}</span></div>
+        </div>
+        <div style="{{ toastStyle }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8FC49E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M5 12l5 5L20 7"></path></svg>Опубликовано. Группа ИС-21 и Петренко получили уведомление — смотрите на телефон.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+        <div style="font-size:14px;color:#6B615A;align-self:stretch;text-align:center">Телефон студента ИС-21</div>
+        <div style="width:281px;height:612px;position:relative"><div style="transform:scale(.7);transform-origin:top left;width:402px;height:874px">
+          <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ devW }}" height="{{ devH }}" hint-size="402px,874px">
+            <div style="height:100%;background:#F3EFE8;padding:60px 0 0;display:flex;flex-direction:column;font-family:'Onest',sans-serif;color:#221E1A;overflow:hidden;position:relative">
+              <div style="{{ notifStyle }}"><img src="uploads/planovo-logo.png" alt="" style="width:38px;height:38px;object-fit:contain;flex:none"><div style="min-width:0"><div style="display:flex;justify-content:space-between;font-size:12px;color:#6B615A"><span>Планово</span><span>сейчас</span></div><div style="font-size:15px;font-weight:500;margin-top:2px">Сегодня вторая пара — История</div><div style="font-size:14px;color:#6B615A;line-height:1.35">Вместо Физики. Петренко, ауд. 118.</div></div></div>
+              <div style="padding:14px 22px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#6B615A"><span style="letter-spacing:.08em;text-transform:uppercase">Колледж «Пример»</span><span>ИС-21</span></div>
+              <div style="padding:8px 22px 0;font:400 30px/1.1 'Playfair Display',serif">Вторник, 15 сентября</div>
+              <div style="margin:16px 22px 0;display:grid;grid-template-columns:repeat(6,1fr);gap:6px;text-align:center;font-size:13px;color:#6B615A"><span style="padding:8px 0">Пн</span><span style="padding:8px 0;background:#221E1A;color:#F3EFE8;border-radius:8px;font-weight:500">Вт</span><span style="padding:8px 0">Ср</span><span style="padding:8px 0">Чт</span><span style="padding:8px 0">Пт</span><span style="padding:8px 0">Сб</span></div>
+              <div style="margin:16px 22px 0;display:flex;flex-direction:column;border-top:1.5px solid #221E1A">
+                <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid #C9BFB0"><span style="font-size:15px;color:#6B615A">8:30</span><div><div style="font-size:17px;font-weight:500">Математика</div><div style="font-size:14px;color:#6B615A">Иванова · 204</div></div></div>
+                <div style="{{ heroRowStyle }}"><span style="font-size:15px;color:#6B615A">10:10</span><div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-size:17px;font-weight:500">{{ heroRowTitle }}</span><span style="{{ heroRowTagStyle }}">Замена</span></div><div style="font-size:14px;color:#6B615A">{{ heroRowSub }}</div></div></div>
+                <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid #C9BFB0"><span style="font-size:15px;color:#6B615A">12:00</span><div><div style="font-size:17px;font-weight:500">Англ. яз.</div><div style="font-size:14px;color:#6B615A">Белова · 215</div></div></div>
+                <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid #C9BFB0"><span style="font-size:15px;color:#6B615A">13:50</span><div style="font-size:16px;color:#6B615A;font-style:italic">Окно</div></div>
+              </div>
+              <div style="margin:14px 22px 0;color:#45875A;font-size:15px">Дальше свободно.</div>
+              <div style="margin:22px 22px 0;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Завтра, среда</div>
+              <div style="margin:6px 22px 0;display:flex;flex-direction:column;border-top:1px solid #C9BFB0">
+                <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid #C9BFB0;font-size:14px"><span style="color:#6B615A">8:30</span><span>Физика · Громов · 302</span></div>
+                <div style="display:grid;grid-template-columns:58px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid #C9BFB0;font-size:14px"><span style="color:#6B615A">10:10</span><span>Математика · Иванова · 204</span></div>
+              </div>
+            </div>
+          </x-import>
+        </div></div>
+      </div>
+    </div>
+    <div style="margin-top:28px;font-size:13px;color:#6B615A">Экраны показаны на данных выдуманного колледжа «Пример».</div>
+  </div>
+</section>
+
+<!-- 2. Узнаёте? -->
+<section id="bol" style="border-top:1.5px solid #221E1A">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <div data-reveal="1" style="max-width:720px"><span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Узнаёте?</span><h2 style="margin:12px 0 0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Где сейчас уходит время</h2></div>
+    <div data-g4="1" style="margin-top:clamp(32px,4cqw,56px);display:grid;gap:18px">
+      <div data-reveal="1" style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)">
+        <div style="height:130px;background:#F3EFE8;border-bottom:1px solid #C9BFB0;padding:18px;display:flex;flex-direction:column;justify-content:center;gap:9px;font-size:11px;color:#6B615A">
+          <div style="display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center"><span>Таблица</span><div style="height:12px;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:3px;overflow:hidden"><div style="height:100%;width:70%;background:#FAE9B9;transform-origin:left;animation:seqA 6s ease-in-out infinite"></div></div></div>
+          <div style="display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center"><span>Чат</span><div style="height:12px;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:3px;overflow:hidden"><div style="height:100%;width:70%;background:#FAE9B9;transform-origin:left;animation:seqB 6s ease-in-out infinite"></div></div></div>
+          <div style="display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center"><span>Сайт</span><div style="height:12px;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:3px;overflow:hidden"><div style="height:100%;width:70%;background:#FAE9B9;transform-origin:left;animation:seqC 6s ease-in-out infinite"></div></div></div>
+        </div>
+        <div style="padding:20px 22px 24px"><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Учебная часть</div><p style="margin:10px 0 0;font-size:16px;text-wrap:pretty">Одну замену вносят в таблицу, потом в чат, потом на сайт. Накладку замечают, когда два преподавателя пришли в одну аудиторию. Часы преподавателей пересчитывают вручную в конце месяца.</p></div>
+      </div>
+      <div data-reveal="1" style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s,opacity .8s;transition-delay:0s,0s,.08s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)">
+        <div style="height:130px;background:#F3EFE8;border-bottom:1px solid #C9BFB0;padding:16px 18px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;font-size:11px">
+          <div style="align-self:flex-start;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px 10px 10px 2px;padding:5px 9px;animation:bubA 6s ease infinite">Ольга Викторовна, а пара будет? <span style="color:#6B615A">7:52</span></div>
+          <div style="align-self:flex-start;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px 10px 10px 2px;padding:5px 9px;animation:bubB 6s ease infinite">Говорят, Громова нет сегодня <span style="color:#6B615A">7:54</span></div>
+          <div style="align-self:flex-end;background:#221E1A;color:#F3EFE8;border-radius:10px 10px 2px 10px;padding:5px 9px;animation:bubC 6s ease infinite">Сейчас узнаю</div>
+        </div>
+        <div style="padding:20px 22px 24px"><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Преподаватель</div><p style="margin:10px 0 0;font-size:16px;text-wrap:pretty">О замене узнаёт утром от студентов. Сколько часов набрал за месяц — знает примерно. Чтобы попросить перенести пару, ищет завуча по коридорам.</p></div>
+      </div>
+      <div data-reveal="1" style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)">
+        <div style="height:130px;background:#F3EFE8;border-bottom:1px solid #C9BFB0;padding:14px 18px;position:relative;display:flex;align-items:center;justify-content:center">
+          <div style="width:150px;background:#FFFDF9;border:1px solid #C9BFB0;border-radius:4px;padding:8px;transform:rotate(-3deg);box-shadow:0 6px 14px rgba(34,30,26,.08);display:flex;flex-direction:column;gap:4px"><div style="height:5px;width:60%;background:#C9BFB0;border-radius:2px"></div><div style="height:5px;width:90%;background:#E8E1D6;border-radius:2px"></div><div style="height:5px;width:80%;background:#E8E1D6;border-radius:2px"></div><div style="height:5px;width:85%;background:#E8E1D6;border-radius:2px"></div><div style="height:5px;width:50%;background:#E8E1D6;border-radius:2px"></div></div>
+          <div style="position:absolute;right:22px;top:32px;border:2px solid #C44B3B;color:#C44B3B;border-radius:4px;padding:3px 8px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;animation:stamp 6s ease infinite">устарело</div>
+        </div>
+        <div style="padding:20px 22px 24px"><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Студент</div><p style="margin:10px 0 0;font-size:16px;text-wrap:pretty">Смотрит фото расписания в чате группы, которое устарело ещё вчера. Приходит к первой паре, которую перенесли.</p></div>
+      </div>
+      <div data-reveal="1" style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)">
+        <div style="height:130px;background:#F3EFE8;border-bottom:1px solid #C9BFB0;padding:16px 18px;display:flex;flex-direction:column;justify-content:center;font-size:11px">
+          <div style="display:grid;grid-template-columns:1fr 44px 44px;gap:8px;padding:4px 0;border-bottom:1px solid #C9BFB0;color:#6B615A"><span>Преподаватель</span><span style="text-align:right">План</span><span style="text-align:right">Факт</span></div>
+          <div style="display:grid;grid-template-columns:1fr 44px 44px;gap:8px;padding:5px 0;border-bottom:1px solid #E8E1D6"><span>Иванова</span><span style="text-align:right">72</span><span style="text-align:right;font-family:'Playfair Display',serif;animation:qPulse 2s ease-in-out infinite">?</span></div>
+          <div style="display:grid;grid-template-columns:1fr 44px 44px;gap:8px;padding:5px 0;border-bottom:1px solid #E8E1D6"><span>Громов</span><span style="text-align:right">80</span><span style="text-align:right;font-family:'Playfair Display',serif;animation:qPulse 2s .4s ease-in-out infinite">?</span></div>
+          <div style="display:grid;grid-template-columns:1fr 44px 44px;gap:8px;padding:5px 0"><span>Петренко</span><span style="text-align:right">64</span><span style="text-align:right;font-family:'Playfair Display',serif;animation:qPulse 2s .8s ease-in-out infinite">?</span></div>
+        </div>
+        <div style="padding:20px 22px 24px"><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Руководство</div><p style="margin:10px 0 0;font-size:16px;text-wrap:pretty">Не видно, сколько на самом деле проведено занятий и кто сколько отработал. Всё держится на памяти двух-трёх сотрудников.</p></div>
+      </div>
+    </div>
+    <div data-reveal="1" style="margin-top:clamp(40px,5cqw,64px);display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;max-width:900px"><div style="width:4px;background:#E3B021;border-radius:2px;align-self:stretch"></div><div style="font:400 clamp(22px,2.6cqw,32px)/1.35 'Playfair Display',serif;text-wrap:pretty">У расписания нет одного места, где оно живёт. Поэтому каждое изменение превращается в рассылку по пяти каналам.</div></div>
+  </div>
+</section>
+
+<!-- 3. Как это выглядит — тур по ролям -->
+<section id="kak" style="border-top:1.5px solid #221E1A;background:#FFFDF9">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px) clamp(32px,5cqw,64px)">
+    <div data-reveal="1" style="max-width:760px"><span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Одно расписание в четырёх окнах</span><h2 style="margin:12px 0 0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Как это выглядит с Планово</h2><p data-desk-only="1" style="margin:16px 0 0;font-size:15px;color:#6B615A">Листайте — экран справа меняется вместе с ролью.</p></div>
+    <div data-roles="1" style="margin-top:clamp(16px,3cqw,32px);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,5cqw,72px);align-items:start">
+      <div style="display:flex;flex-direction:column">
+        <div data-role-block="0" style="min-height:76vh;display:flex;flex-direction:column;justify-content:center;padding:24px 0;border-bottom:1px solid #C9BFB0">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">01 · Учебная часть</span>
+          <h3 style="margin:12px 0 0;font:400 clamp(26px,2.8cqw,36px)/1.15 'Playfair Display',serif">Учебная часть — всё в конструкторе</h3>
+          <p style="margin:16px 0 0;font-size:17px;text-wrap:pretty">Сетка всего колледжа на одном экране. Поменяли пару, нажали «Опубликовать» — у всех уже новая версия. Замену на один день ставите прямо на дату, постоянное расписание не трогается.</p>
+          <div data-mob-only="1" style="margin-top:28px"><dc-import name="planovo-role-screen" role="uch" hint-size="100%,420px"></dc-import></div>
+        </div>
+        <div data-role-block="1" style="min-height:76vh;display:flex;flex-direction:column;justify-content:center;padding:24px 0;border-bottom:1px solid #C9BFB0">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">02 · Преподаватель</span>
+          <h3 style="margin:12px 0 0;font:400 clamp(26px,2.8cqw,36px)/1.15 'Playfair Display',serif">Преподаватель — своё расписание и свои часы</h3>
+          <p style="margin:16px 0 0;font-size:17px;text-wrap:pretty">Личный кабинет: пары на неделю, замены, нагрузка и отработанные часы. Написать в учебную часть можно оттуда же.</p>
+          <div data-mob-only="1" style="margin-top:28px;display:flex;justify-content:center"><dc-import name="planovo-role-screen" role="prep" hint-size="290px,630px"></dc-import></div>
+        </div>
+        <div data-role-block="2" style="min-height:76vh;display:flex;flex-direction:column;justify-content:center;padding:24px 0;border-bottom:1px solid #C9BFB0">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">03 · Студент</span>
+          <h3 style="margin:12px 0 0;font:400 clamp(26px,2.8cqw,36px)/1.15 'Playfair Display',serif">Студент — расписание своей группы</h3>
+          <p style="margin:16px 0 0;font-size:17px;text-wrap:pretty">Открыл ссылку — видит свою группу на сегодня и неделю. Пару перенесли — пришло уведомление.</p>
+          <div data-mob-only="1" style="margin-top:28px;display:flex;justify-content:center"><dc-import name="planovo-role-screen" role="stud" hint-size="290px,630px"></dc-import></div>
+        </div>
+        <div data-role-block="3" style="min-height:76vh;display:flex;flex-direction:column;justify-content:center;padding:24px 0">
+          <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">04 · Руководство</span>
+          <h3 style="margin:12px 0 0;font:400 clamp(26px,2.8cqw,36px)/1.15 'Playfair Display',serif">Руководство — цифры, а не догадки</h3>
+          <p style="margin:16px 0 0;font-size:17px;text-wrap:pretty">Сколько занятий проведено и сорвано, сколько часов отработал каждый преподаватель — без запросов в учебную часть.</p>
+          <div data-mob-only="1" style="margin-top:28px"><dc-import name="planovo-role-screen" role="ruk" hint-size="100%,420px"></dc-import></div>
+        </div>
+      </div>
+      <div data-desk-only="1" style="position:sticky;top:92px;min-height:calc(100vh - 130px);display:flex;align-items:center;justify-content:center">
+        <dc-import name="planovo-role-screen" role="{{ roleKey }}" hint-size="100%,560px"></dc-import>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3а. Под ваш бренд -->
+<section id="brend" style="border-top:1.5px solid #221E1A">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <div data-stack="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5cqw,80px);align-items:center">
+      <div data-reveal="1">
+        <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Подстраиваем под вас</span>
+        <h2 style="margin:12px 0 0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em;text-wrap:balance">Ядро готовое, подключение — под вас</h2>
+        <p style="margin:24px 0 0;font-size:clamp(16px,1.4cqw,18px);text-wrap:pretty">Мы не ставим коробку «как есть». Сначала разбираемся, как устроено расписание у вас, и подстраиваем систему под ваш порядок. Готовое ядро экономит месяцы, доработка делает его вашим.</p>
+        <div style="margin-top:24px;display:flex;flex-direction:column;border-top:1.5px solid #221E1A">
+          <div style="display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid #C9BFB0;font-size:15.5px;line-height:1.45"><b style="font-weight:500">Ваши правила</b><span style="color:#6B615A">Звонки, чётные и нечётные недели, подгруппы, практика, каникулы.</span></div>
+          <div style="display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid #C9BFB0;font-size:15.5px;line-height:1.45"><b style="font-weight:500">Ваши данные</b><span style="color:#6B615A">Переносим расписание и справочники из Excel, 1С или с бумаги.</span></div>
+          <div style="display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid #C9BFB0;font-size:15.5px;line-height:1.45"><b style="font-weight:500">Ваши документы</b><span style="color:#6B615A">Печатные формы и отчёты в том виде, к которому привыкла учебная часть.</span></div>
+          <div style="display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid #C9BFB0;font-size:15.5px;line-height:1.45"><b style="font-weight:500">Ваши системы</b><span style="color:#6B615A">Если нужно, связываем с тем, что у вас уже работает.</span></div>
+          <div style="display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid #C9BFB0;font-size:15.5px;line-height:1.45"><b style="font-weight:500">Ваш вид</b><span style="color:#6B615A">Название, логотип и цвета учреждения. Переключите тему или выберите свой цвет — телефон перекрасится.</span></div>
+        </div>
+        <div style="margin-top:28px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <sc-for list="{{ themeBtns }}" as="tb" hint-placeholder-count="3"><button onClick="{{ tb.onClick }}" style="{{ tb.style }}"><span style="{{ tb.swStyle }}"></span>{{ tb.name }}</button></sc-for>
+          <label style="{{ customStyle }}"><input type="color" value="{{ custom }}" onChange="{{ setCustom }}" onInput="{{ setCustom }}" onClick="{{ pickCustom }}" style="width:28px;height:28px;border:none;padding:0;background:none;border-radius:50%;cursor:pointer">Свой цвет</label>
+        </div>
+        <p style="margin:18px 0 0;font-size:14px;color:#6B615A">Так выглядит экран студента в колледже «Пример». У вас здесь будут ваше название, логотип и цвета.</p>
+      </div>
+      <div data-reveal="1" style="display:flex;justify-content:center;transition-delay:.1s">
+        <div style="width:290px;height:630px;position:relative"><div style="transform:scale(.72);transform-origin:top left;width:402px;height:874px">
+          <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ devW }}" height="{{ devH }}" dark="{{ thDark }}" hint-size="402px,874px">
+            <div style="{{ thRoot }}">
+              <div style="padding:14px 22px 0;display:flex;justify-content:space-between;align-items:center"><div style="display:flex;align-items:center;gap:10px"><span style="{{ thLogo }}">П</span><span style="{{ thTopName }}">Колледж «Пример»</span></div><span style="{{ thMutedSm }}">ИС-21</span></div>
+              <div style="padding:14px 22px 0;font:400 30px/1.1 'Playfair Display',serif">Вторник, 15 сентября</div>
+              <div style="margin:16px 22px 0;display:grid;grid-template-columns:repeat(6,1fr);gap:6px;text-align:center;font-size:13px"><span style="{{ thDay }}">Пн</span><span style="{{ thDayActive }}">Вт</span><span style="{{ thDay }}">Ср</span><span style="{{ thDay }}">Чт</span><span style="{{ thDay }}">Пт</span><span style="{{ thDay }}">Сб</span></div>
+              <div style="{{ thList }}">
+                <div style="{{ thRow }}"><span style="{{ thTime }}">8:30</span><div><div style="font-size:17px;font-weight:500">Математика</div><div style="{{ thSub }}">Иванова · 204</div></div></div>
+                <div style="{{ thSubstRow }}"><span style="{{ thTime }}">10:10</span><div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-size:17px;font-weight:500">История</span><span style="{{ thTag }}">Замена</span></div><div style="{{ thSub }}">Петренко · 118</div></div></div>
+                <div style="{{ thRow }}"><span style="{{ thTime }}">12:00</span><div><div style="font-size:17px;font-weight:500">Англ. яз.</div><div style="{{ thSub }}">Белова · 215</div></div></div>
+                <div style="{{ thRow }}"><span style="{{ thTime }}">13:50</span><div style="{{ thWindow }}">Окно</div></div>
+              </div>
+              <div style="{{ thOk }}">Дальше свободно. Завтра первая пара в 8:30.</div>
+              <div style="{{ thTabs }}"><span style="{{ thTabActive }}">Сегодня</span><span>Неделя</span><span>Группа</span></div>
+            </div>
+          </x-import>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Конструктор — листается -->
+<section id="konstruktor" style="border-top:1.5px solid #221E1A;background:#FFFDF9">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px) clamp(24px,4cqw,48px)">
+    <div data-reveal="1" style="max-width:820px">
+      <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Конструктор — сердце системы</span>
+      <h2 style="margin:12px 0 0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Всё держится на конструкторе</h2>
+      <p style="margin:24px 0 0;font-size:clamp(16px,1.4cqw,18px);text-wrap:pretty">Группы, преподаватели, аудитории, предметы, звонки, учебный план — всё связано с конструктором. Поэтому он сразу видит, что преподаватель уже занят, аудитория занята, а у группы в это время другая пара, — и не даст сохранить такую ошибку. Ошибка, которая раньше всплывала у двери аудитории, теперь не доходит даже до публикации.</p>
+    </div>
+    <div id="konstruktor-track" data-track="1" style="margin-top:clamp(24px,3cqw,40px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5cqw,72px);align-items:start">
+      <div style="display:flex;flex-direction:column">
+        <div data-cstep="0" style="min-height:80vh;display:flex;flex-direction:column;justify-content:center;padding:24px 0"><div style="{{ step0Style }}"><span style="font:400 40px/1 'Playfair Display',serif;color:#8A3B64">1</span><div style="font-size:clamp(18px,1.6cqw,22px);line-height:1.4"><b style="font-weight:500">Черновик и публикация.</b> Правите сколько нужно — студенты и преподаватели видят только опубликованную версию. Нажали «Опубликовать» — у всех новая, без рассылок по чатам.</div></div></div>
+        <div data-cstep="1" style="min-height:80vh;display:flex;flex-direction:column;justify-content:center;padding:24px 0"><div style="{{ step1Style }}"><span style="font:400 40px/1 'Playfair Display',serif;color:#8A3B64">2</span><div style="font-size:clamp(18px,1.6cqw,22px);line-height:1.4"><b style="font-weight:500">Изменения на дату.</b> Заменить, перенести или отменить пару на конкретный день. Постоянное расписание не трогается, на следующей неделе всё снова по плану.</div></div></div>
+        <div data-cstep="2" style="min-height:80vh;display:flex;flex-direction:column;justify-content:center;padding:24px 0"><div style="{{ step2Style }}"><span style="font:400 40px/1 'Playfair Display',serif;color:#8A3B64">3</span><div style="font-size:clamp(18px,1.6cqw,22px);line-height:1.4"><b style="font-weight:500">Ваши правила внутри сетки.</b> Чётные и нечётные недели, подгруппы, каникулы и практика учтены в самом конструкторе — ничего не нужно держать в голове.</div></div></div>
+        <div data-cstep="3" style="min-height:80vh;display:flex;flex-direction:column;justify-content:center;padding:24px 0"><div style="{{ step3Style }}"><span style="font:400 40px/1 'Playfair Display',serif;color:#8A3B64">4</span><div style="font-size:clamp(18px,1.6cqw,22px);line-height:1.4"><b style="font-weight:500">История и откат.</b> Видно, кто и когда что поменял. Ошибочное действие можно отменить — ничего непоправимого в конструкторе сделать нельзя.</div></div></div>
+      </div>
+      <div data-sticky="1" style="position:sticky;top:92px">
+        <div style="background:#FFFDF9;border:1.5px solid #221E1A;border-radius:12px;overflow:hidden;box-shadow:0 30px 60px rgba(34,30,26,.12);font-size:12px;position:relative">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #C9BFB0;background:#F3EFE8"><div style="display:flex;gap:5px"><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span><span style="width:9px;height:9px;border-radius:50%;border:1px solid #221E1A"></span></div><span style="flex:1;text-align:center;font-size:12px;color:#6B615A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Колледж «Пример» · Конструктор · ИС-21</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid #C9BFB0;flex-wrap:wrap">
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span style="{{ dateChipStyle }}">Вт, 15 сентября</span><span style="{{ weekChipStyle }}">Нечётная неделя</span><span style="{{ practChipStyle }}">Практика с 21 сентября</span></div>
+            <div style="display:flex;gap:8px;align-items:center"><span style="border:1px solid #C9BFB0;border-radius:4px;padding:4px 10px 4px 8px;display:inline-flex;align-items:center;gap:6px;font-weight:500;background:#FFFDF9"><span style="width:6px;height:6px;border-radius:50%;background:#E3B021"></span>Черновик</span><span style="background:#221E1A;color:#F3EFE8;border-radius:5px;padding:5px 11px;font-weight:500">Опубликовать</span></div>
+          </div>
+          <div data-days5="1" style="padding:14px 16px 6px;display:grid;grid-template-columns:52px repeat(5,minmax(0,1fr));gap:7px;font-size:11.5px">
+            <div></div><div style="text-align:center;color:#6B615A;padding:3px 0">Пн</div><div style="text-align:center;font-weight:500;background:#221E1A;color:#F3EFE8;border-radius:4px;padding:3px 0">Вт 15</div><div style="text-align:center;color:#6B615A;padding:3px 0">Ср</div><div data-mob-hide="1" style="text-align:center;color:#6B615A;padding:3px 0">Чт</div><div data-mob-hide="1" style="text-align:center;color:#6B615A;padding:3px 0">Пт</div>
+            <div style="color:#6B615A;padding-top:8px">8:30</div><div style="background:#F3EFE8;border-radius:5px;padding:8px;min-height:52px"><div style="font-weight:500">Математика</div><div style="color:#6B615A">Иванова · 204</div></div><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Математика</div><div style="color:#6B615A">Иванова · 204</div></div><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Физика</div><div style="color:#6B615A">Громов · 302</div></div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Информ.</div><div style="color:#6B615A">Соколова · 410</div></div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">История</div><div style="color:#6B615A">Петренко · 118</div></div>
+            <div style="color:#6B615A;padding-top:8px">10:10</div><div style="background:#F3EFE8;border-radius:5px;padding:8px;min-height:52px"><div style="font-weight:500">Литература</div><div style="color:#6B615A">Орлова · 207</div></div><div style="{{ tueStyle }}"><div style="display:flex;justify-content:space-between;gap:4px;align-items:baseline"><span style="font-weight:500">{{ tueTitle }}</span><span style="{{ tueTagStyle }}">Замена</span></div><div style="{{ tueSubStyle }}">{{ tueSub }}</div></div><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Математика</div><div style="color:#6B615A">Иванова · 204</div></div><div data-mob-hide="1" style="border:1.5px dashed #C9BFB0;border-radius:5px;padding:8px;color:#6B615A;font-style:italic">Окно</div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Физика</div><div style="color:#6B615A">Громов · 302</div></div>
+            <div style="color:#6B615A;padding-top:8px">12:00</div><div style="background:#F3EFE8;border-radius:5px;padding:8px;min-height:52px"><div style="font-weight:500">Информ.</div><div style="color:#6B615A">Соколова · 410</div></div><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Англ. яз.</div><div style="color:#6B615A">Белова · 215</div></div>
+            <sc-if value="{{ csSplit }}" hint-placeholder-val="{{ false }}"><div style="background:#F3EFE8;border-radius:5px;padding:5px;display:flex;flex-direction:column;gap:4px;box-shadow:inset 0 0 0 1.5px #8A3B64"><div style="background:#FFFDF9;border-radius:3px;padding:3px 6px;font-size:10.5px"><b style="font-weight:500">1 п/г</b> · Англ. яз. · 215</div><div style="background:#FFFDF9;border-radius:3px;padding:3px 6px;font-size:10.5px"><b style="font-weight:500">2 п/г</b> · Информ. · 410</div></div></sc-if>
+            <sc-if value="{{ csNoSplit }}" hint-placeholder-val="{{ true }}"><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Англ. яз.</div><div style="color:#6B615A">Белова · 215</div></div></sc-if>
+            <div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Физкультура</div><div style="color:#6B615A">Ким · зал</div></div><div data-mob-hide="1" style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Англ. яз.</div><div style="color:#6B615A">Белова · 215</div></div>
+            <div style="color:#6B615A;padding-top:8px">13:50</div><div style="background:#F3EFE8;border-radius:5px;padding:8px;min-height:52px"><div style="font-weight:500">Физкультура</div><div style="color:#6B615A">Ким · зал</div></div><div style="border:1.5px dashed #C9BFB0;border-radius:5px;padding:8px;color:#6B615A;font-style:italic">Окно</div><div style="background:#F3EFE8;border-radius:5px;padding:8px"><div style="font-weight:500">Литература</div><div style="color:#6B615A">Орлова · 207</div></div><div data-mob-hide="1" style="border:1.5px dashed #C9BFB0;border-radius:5px;padding:8px;color:#6B615A;font-style:italic">Окно</div><div data-mob-hide="1" style="border:1.5px dashed #C9BFB0;border-radius:5px;padding:8px;color:#6B615A;font-style:italic">Окно</div>
+          </div>
+          <div style="margin:8px 16px 14px;background:#F3EFE8;border-radius:6px;padding:9px 12px;min-height:40px;font-size:12px;color:#221E1A;transition:background .3s">{{ cCaption }}</div>
+          <div style="{{ histStyle }}">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font:400 16px 'Playfair Display',serif">История изменений</span><span style="color:#6B615A">ИС-21</span></div>
+            <div style="display:grid;grid-template-columns:48px 1fr;gap:10px;padding:8px 0;border-top:1px solid #C9BFB0"><span style="color:#6B615A">14:12</span><span><b style="font-weight:500">О. Лебедева</b> поставила замену: История вместо Физики, 15 сен</span></div>
+            <div style="display:grid;grid-template-columns:48px 1fr;gap:10px;padding:8px 0;border-top:1px solid #C9BFB0"><span style="color:#6B615A">13:58</span><span><b style="font-weight:500">О. Лебедева</b> разделила Англ. яз. на подгруппы, среда</span></div>
+            <div style="display:grid;grid-template-columns:48px 1fr;gap:10px;padding:8px 0;border-top:1px solid #C9BFB0"><span style="color:#6B615A">вчера</span><span><b style="font-weight:500">О. Лебедева</b> перенесла Физкультуру на 13:50, понедельник</span></div>
+            <div style="display:grid;grid-template-columns:48px 1fr;gap:10px;padding:8px 0;border-top:1px solid #C9BFB0;border-bottom:1px solid #C9BFB0"><span style="color:#6B615A">11 сен</span><span>Опубликована неделя 14–19 сентября</span></div>
+            <div style="margin-top:10px;color:#6B615A">Ошибочное изменение можно отменить.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Что ещё есть -->
+<section id="sistema" style="border-top:1.5px solid #221E1A">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <h2 data-reveal="1" style="margin:0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Что ещё есть в системе</h2>
+    <div data-g4="1" style="margin-top:clamp(32px,4cqw,56px);display:grid;gap:18px">
+      <div data-reveal="1" style="border:1px solid #C9BFB0;border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20a2 2 0 0 0 4 0"></path><circle cx="17" cy="6" r="2.5" fill="#E3B021" stroke="none"></circle></svg><div style="font-weight:500;font-size:18px">Уведомления</div><p style="margin:0;font-size:15px;color:#6B615A">Студенты и преподаватели узнают о замене сразу, а не утром</p></div>
+      <div data-reveal="1" style="border:1px solid #C9BFB0;border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path><path d="M15 16l1.5 1.5L19 15" stroke="#45875A"></path></svg><div style="font-weight:500;font-size:18px">Проведённые занятия и посещаемость</div><p style="margin:0;font-size:15px;color:#6B615A">Журнал по каждой паре: состоялась ли, кто был</p></div>
+      <div data-reveal="1" style="border:1px solid #C9BFB0;border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path><circle cx="12" cy="12" r="1.5" fill="#E3B021" stroke="none"></circle></svg><div style="font-weight:500;font-size:18px">Нагрузка и часы</div><p style="margin:0;font-size:15px;color:#6B615A">Система сама считает отработанные часы преподавателя</p></div>
+      <div data-reveal="1" style="border:1px solid #C9BFB0;border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"></path><rect x="8" y="9" width="8" height="2" rx=".5" fill="#E3B021" stroke="none"></rect></svg><div style="font-weight:500;font-size:18px">Обращения в учебную часть</div><p style="margin:0;font-size:15px;color:#6B615A">Преподаватель пишет из кабинета, заявка не теряется в чатах</p></div>
+      <div data-reveal="1" style="border:1px solid #C9BFB0;border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M9 4v16M15 4v16"></path><rect x="9" y="10" width="6" height="5" fill="#E3B021" stroke="none"></rect></svg><div style="font-weight:500;font-size:18px">Импорт из Excel</div><p style="margin:0;font-size:15px;color:#6B615A">Переносим ваше нынешнее расписание, а не набираем заново</p></div>
+      <div data-reveal="1" style="border:1px solid #C9BFB0;border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V3h10v5M7 17H4v-7h16v7h-3"></path><rect x="7" y="14" width="10" height="7"></rect><rect x="9" y="17" width="6" height="1.5" fill="#E3B021" stroke="none"></rect></svg><div style="font-weight:500;font-size:18px">Печать</div><p style="margin:0;font-size:15px;color:#6B615A">Расписание на лист для стенда</p></div>
+      <div data-reveal="1" style="border:1px solid #C9BFB0;border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 3v3M12 18v3M3 12h3M18 12h3"></path><circle cx="12" cy="12" r="3" fill="#E3B021" stroke="none"></circle></svg><div style="font-weight:500;font-size:18px">Сводка дня</div><p style="margin:0;font-size:15px;color:#6B615A">Что идёт сейчас, следующая пара, свободные аудитории, проблемы в расписании</p></div>
+      <div data-reveal="1" style="border:1.5px dashed #C9BFB0;border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px"><div style="display:flex;align-items:center;gap:10px"><span style="font-weight:500;font-size:18px">Скоро</span><span style="background:#FAE9B9;color:#6B5200;font-size:12px;font-weight:500;padding:3px 9px;border-radius:4px">в планах</span></div><p style="margin:0;font-size:15px;color:#6B615A">Мобильное приложение для студентов и преподавателей</p><p style="margin:0;font-size:15px;color:#6B615A">Автоматическое составление расписания</p><p style="margin:0;font-size:15px;color:#6B615A">Не только расписание: личные кабинеты и вся система учебного заведения — вход по логину, оценки, оплата</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Почему не коробка -->
+<section id="sravnenie" style="border-top:1.5px solid #221E1A;background:#FFFDF9">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <h2 data-reveal="1" style="margin:0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em;max-width:760px;text-wrap:balance">Почему не коробка и не разработка с нуля</h2>
+    <div data-g4="1" style="margin-top:clamp(32px,4cqw,56px);display:grid;gap:16px">
+      <div data-reveal="1" style="background:#F3EFE8;border:1px solid #C9BFB0;border-radius:10px;overflow:hidden"><div style="padding:16px 20px;border-bottom:1.5px solid #221E1A;font:400 24px 'Playfair Display',serif">Сроки</div><div style="padding:14px 20px;border-bottom:1px solid #C9BFB0;font-size:15px"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Готовая коробка</div>Быстро</div><div style="padding:14px 20px;border-bottom:1px solid #C9BFB0;font-size:15px"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Разработка с нуля</div>Полгода и больше</div><div style="padding:14px 20px;font-size:15px;background:#FAE9B9"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200">Планово</div><b style="font-weight:500">Недели</b></div></div>
+      <div data-reveal="1" style="background:#F3EFE8;border:1px solid #C9BFB0;border-radius:10px;overflow:hidden"><div style="padding:16px 20px;border-bottom:1.5px solid #221E1A;font:400 24px 'Playfair Display',serif">Ваши правила</div><div style="padding:14px 20px;border-bottom:1px solid #C9BFB0;font-size:15px"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Готовая коробка</div>Подстраиваетесь вы</div><div style="padding:14px 20px;border-bottom:1px solid #C9BFB0;font-size:15px"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Разработка с нуля</div>Как угодно</div><div style="padding:14px 20px;font-size:15px;background:#FAE9B9"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200">Планово</div><b style="font-weight:500">Подстраиваем мы</b></div></div>
+      <div data-reveal="1" style="background:#F3EFE8;border:1px solid #C9BFB0;border-radius:10px;overflow:hidden"><div style="padding:16px 20px;border-bottom:1.5px solid #221E1A;font:400 24px 'Playfair Display',serif">Цена</div><div style="padding:14px 20px;border-bottom:1px solid #C9BFB0;font-size:15px"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Готовая коробка</div>Подписка за всё сразу</div><div style="padding:14px 20px;border-bottom:1px solid #C9BFB0;font-size:15px"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Разработка с нуля</div>Дорого</div><div style="padding:14px 20px;font-size:15px;background:#FAE9B9"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200">Планово</div><b style="font-weight:500">Платите за то, что нужно вам</b></div></div>
+      <div data-reveal="1" style="background:#F3EFE8;border:1px solid #C9BFB0;border-radius:10px;overflow:hidden"><div style="padding:16px 20px;border-bottom:1.5px solid #221E1A;font:400 24px 'Playfair Display',serif">Развитие</div><div style="padding:14px 20px;border-bottom:1px solid #C9BFB0;font-size:15px"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Готовая коробка</div>Как решит производитель</div><div style="padding:14px 20px;border-bottom:1px solid #C9BFB0;font-size:15px"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B615A">Разработка с нуля</div>Своя команда</div><div style="padding:14px 20px;font-size:15px;background:#FAE9B9"><div style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200">Планово</div><b style="font-weight:500">Дорабатываем вместе с вами</b></div></div>
+    </div>
+    <div data-reveal="1" style="margin-top:clamp(32px,4cqw,48px);display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;max-width:900px"><div style="width:4px;background:#E3B021;border-radius:2px;align-self:stretch"></div><div style="font:400 clamp(22px,2.6cqw,32px)/1.35 'Playfair Display',serif;text-wrap:pretty">Готовое ядро, которое уже работает в колледже, плюс доработка под ваши подгруппы, недели, звонки и порядки.</div></div>
+  </div>
+</section>
+
+<!-- 7. Где будет работать -->
+<section id="gde" style="border-top:1.5px solid #221E1A">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <div data-stack="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(24px,4cqw,72px);align-items:start">
+      <h2 data-reveal="1" style="margin:0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em;position:sticky;top:100px" data-unstick="1">Где будет работать — решаете вы</h2>
+      <div data-g2="1" style="display:grid;gap:16px">
+        <div data-reveal="1" style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px;padding:24px;display:flex;flex-direction:column;gap:14px;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="30" height="9" rx="2"></rect><rect x="5" y="23" width="30" height="9" rx="2"></rect><rect x="27" y="11.5" width="4" height="2" rx=".5" fill="#E3B021" stroke="none"></rect><rect x="27" y="26.5" width="4" height="2" rx=".5" fill="#E3B021" stroke="none"></rect></svg><div><div style="font-weight:500;font-size:18px">У нас</div><p style="margin:6px 0 0;font-size:15px;color:#6B615A">Мы держим сервер, делаем копии и обновления. Вам ничего настраивать не нужно.</p></div></div>
+        <div data-reveal="1" style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px;padding:24px;display:flex;flex-direction:column;gap:14px;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="6" width="30" height="9" rx="2"></rect><path d="M20 15v6"></path><ellipse cx="20" cy="24" rx="10" ry="3.5"></ellipse><path d="M10 24v6c0 1.9 4.5 3.5 10 3.5s10-1.6 10-3.5v-6"></path><rect x="27" y="9.5" width="4" height="2" rx=".5" fill="#E3B021" stroke="none"></rect></svg><div><div style="font-weight:500;font-size:18px">У нас, а данные у вас</div><p style="margin:6px 0 0;font-size:15px;color:#6B615A">Система работает на нашем сервере, а база хранится на вашем.</p></div></div>
+        <div data-reveal="1" style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px;padding:24px;display:flex;flex-direction:column;gap:14px;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34V15l14-9 14 9v19z"></path><path d="M6 34h28"></path><rect x="17" y="23" width="6" height="11" fill="#E3B021" stroke="none"></rect></svg><div><div style="font-weight:500;font-size:18px">Полностью у вас</div><p style="margin:6px 0 0;font-size:15px;color:#6B615A">Ставим на сервер учреждения, данные не покидают вашу сеть.</p></div></div>
+        <div data-reveal="1" style="background:#FFFDF9;border:1px solid #C9BFB0;border-radius:10px;padding:24px;display:flex;flex-direction:column;gap:14px;transition:transform .3s,box-shadow .3s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(34,30,26,.08)"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l14-7 14 7v14l-14 7-14-7z"></path><path d="M6 14l14 7 14-7M20 21v14"></path><rect x="17" y="18" width="6" height="6" rx=".5" fill="#E3B021" stroke="none"></rect></svg><div><div style="font-weight:500;font-size:18px">Передаём программу</div><p style="margin:6px 0 0;font-size:15px;color:#6B615A">Коробочная версия, которой вы владеете сами.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. КЭМС -->
+<section id="kems" style="border-top:1.5px solid #221E1A;background:#FFFDF9">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <div data-reveal="1" style="max-width:760px"><span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#6B615A">Уже внедрено</span><h2 style="margin:12px 0 0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Уже работает в колледже КЭМС</h2>
+    <p style="margin:16px 0 0;font-size:clamp(16px,1.4cqw,18px)">Планово каждый день используют учебная часть, преподаватели и студенты КЭМС — Колледжа экономических и международных связей.</p></div>
+    <div data-counters="1" data-g4="1" style="margin-top:clamp(32px,4cqw,56px);display:grid;gap:18px">
+      <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:18px"><div style="font:400 clamp(52px,6cqw,80px)/1 'Playfair Display',serif">{{ c1 }}</div><div style="margin-top:10px;font-size:16px;color:#6B615A">групп</div></div>
+      <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:18px"><div style="font:400 clamp(52px,6cqw,80px)/1 'Playfair Display',serif">{{ c2 }}</div><div style="margin-top:10px;font-size:16px;color:#6B615A">преподавателя</div></div>
+      <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:18px"><div style="font:400 clamp(52px,6cqw,80px)/1 'Playfair Display',serif">~{{ c3 }}</div><div style="margin-top:10px;font-size:16px;color:#6B615A">занятий в месяц</div></div>
+      <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:18px"><div style="font:400 clamp(52px,6cqw,80px)/1 'Playfair Display',serif">{{ c4 }}</div><div style="margin-top:10px;font-size:16px;color:#6B615A">уведомлений студентам и преподавателям за сентябрь</div></div>
+    </div>
+      </div>
+</section>
+
+<!-- 9. Как запускаем -->
+<section id="zapusk" style="border-top:1.5px solid #221E1A">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <h2 data-reveal="1" style="margin:0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Как запускаем</h2>
+    <div data-g5="1" style="margin-top:clamp(36px,5cqw,64px);display:grid;gap:24px">
+      <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:0"><div style="width:44px;height:44px;border-radius:50%;border:1.5px solid #221E1A;background:#F3EFE8;display:flex;align-items:center;justify-content:center;font:400 20px 'Playfair Display',serif;color:#8A3B64;margin-top:-23px">1</div><div style="margin-top:16px;font-weight:500;font-size:18px">Разбор — 30 минут, бесплатно</div><p style="margin:8px 0 0;font-size:15px;color:#6B615A">Рассказываете, как сейчас устроено расписание. Показываем, где теряется время.</p></div>
+      <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:0"><div style="width:44px;height:44px;border-radius:50%;border:1.5px solid #221E1A;background:#F3EFE8;display:flex;align-items:center;justify-content:center;font:400 20px 'Playfair Display',serif;color:#8A3B64;margin-top:-23px">2</div><div style="margin-top:16px;font-weight:500;font-size:18px">Показ на ваших данных</div><p style="margin:8px 0 0;font-size:15px;color:#6B615A">Загружаем ваше расписание и показываем его в Планово.</p></div>
+      <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:0"><div style="width:44px;height:44px;border-radius:50%;border:1.5px solid #221E1A;background:#F3EFE8;display:flex;align-items:center;justify-content:center;font:400 20px 'Playfair Display',serif;color:#8A3B64;margin-top:-23px">3</div><div style="margin-top:16px;font-weight:500;font-size:18px">Доработка под вас</div><p style="margin:8px 0 0;font-size:15px;color:#6B615A">Настраиваем ваши правила, роли, печатные формы.</p></div>
+      <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:0"><div style="width:44px;height:44px;border-radius:50%;border:1.5px solid #221E1A;background:#F3EFE8;display:flex;align-items:center;justify-content:center;font:400 20px 'Playfair Display',serif;color:#8A3B64;margin-top:-23px">4</div><div style="margin-top:16px;font-weight:500;font-size:18px">Запуск</div><p style="margin:8px 0 0;font-size:15px;color:#6B615A">Учим учебную часть, раздаём ссылки преподавателям и студентам.</p></div>
+      <div data-reveal="1" style="border-top:1.5px solid #221E1A;padding-top:0"><div style="width:44px;height:44px;border-radius:50%;border:1.5px solid #221E1A;background:#F3EFE8;display:flex;align-items:center;justify-content:center;font:400 20px 'Playfair Display',serif;color:#8A3B64;margin-top:-23px">5</div><div style="margin-top:16px;font-weight:500;font-size:18px">Сопровождение</div><p style="margin:8px 0 0;font-size:15px;color:#6B615A">Остаёмся на связи, дорабатываем по ходу.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. Кто мы -->
+<section id="komanda" style="border-top:1.5px solid #221E1A;background:#FFFDF9">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <div data-stack="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(24px,4cqw,72px);align-items:start">
+      <div data-reveal="1"><h2 style="margin:0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Кто мы</h2>
+      </div>
+      <div data-reveal="1" style="font-size:clamp(17px,1.5cqw,20px);display:flex;flex-direction:column;gap:18px">
+        <p style="margin:0;text-wrap:pretty">Планово делают Андрей Шпарага и Савва Каретин — основатели проекта. Мы сами прошли внедрение в колледже: сидели с учебной частью, разбирали каждую замену и переделывали то, что было неудобно.</p>
+        <p style="margin:0;text-wrap:pretty">За нами — IT-компания <a href="https://akeda.ru" style="color:#8A3B64;text-underline-offset:4px">Акеда</a>: разработчики, инфраструктура и опыт внедрения систем для бизнеса.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11. Не только колледжи -->
+<section id="ne-tolko" style="border-top:1.5px solid #221E1A">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <div data-stack="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(24px,4cqw,72px);align-items:center">
+      <h2 data-reveal="1" style="margin:0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Не только учебные заведения</h2>
+      <div data-reveal="1"><p style="margin:0;font-size:clamp(17px,1.5cqw,20px);text-wrap:pretty">То же ядро подходит всем, у кого есть люди, помещения и расписание: спортивным клубам, курсам, учебным центрам, секциям и кружкам.</p>
+        <div style="margin-top:22px;display:flex;gap:8px;flex-wrap:wrap"><span style="border:1px solid #221E1A;border-radius:999px;padding:8px 16px;font-size:15px;font-weight:500;background:#FFFDF9">Спортивные клубы</span><span style="border:1px solid #221E1A;border-radius:999px;padding:8px 16px;font-size:15px;font-weight:500;background:#FFFDF9">Курсы и учебные центры</span><span style="border:1px solid #221E1A;border-radius:999px;padding:8px 16px;font-size:15px;font-weight:500;background:#FFFDF9">Школы искусств</span><span style="border:1px solid #221E1A;border-radius:999px;padding:8px 16px;font-size:15px;font-weight:500;background:#FFFDF9">Секции и кружки</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12. Вопросы -->
+<section id="voprosy" style="border-top:1.5px solid #221E1A;background:#FFFDF9">
+  <div style="max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <div data-stack="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(24px,4cqw,72px);align-items:start">
+      <h2 data-reveal="1" style="margin:0;font:400 clamp(34px,4.4cqw,56px)/1.08 'Playfair Display',serif;letter-spacing:-.015em">Вопросы</h2>
+      <div data-reveal="1" style="display:flex;flex-direction:column;border-top:1.5px solid #221E1A">
+        <details name="faq" open style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">Сколько стоит?<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Зависит от того, что нужно доработать и где будет работать система. Назовём после разбора.</p></details>
+        <details name="faq" style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">Сколько занимает запуск?<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Зависит от объёма доработок. Ядро готово, поэтому считаем в неделях, а не в месяцах.</p></details>
+        <details name="faq" style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">Что будет с нашими таблицами?<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Перенесём расписание из Excel. Набирать заново не придётся.</p></details>
+        <details name="faq" style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">Мы ведём расписание в 1С или на бумаге<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Тоже подходит. Из 1С выгрузим таблицы и перенесём, с бумаги заведём вместе с вами на показе. Главное, чтобы расписание было — в каком виде, неважно.</p></details>
+        <details name="faq" style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">Можно посмотреть на наших данных до покупки?<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Да, это второй шаг запуска: загружаем ваше расписание и показываем его в Планово ещё до каких-либо обязательств.</p></details>
+        <details name="faq" style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">Что будет, если мы захотим уйти?<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Расписание и справочники отдадим в Excel. Если система стоит у вас или передана как коробка, она просто остаётся у вас.</p></details>
+        <details name="faq" style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">Нужно ли учить сотрудников?<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Учебной части покажем конструктор. Преподавателям и студентам достаточно ссылки.</p></details>
+        <details name="faq" style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">Где хранятся данные?<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Где решите вы: у нас, у вас или вперемешку.</p></details>
+        <details name="faq" style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">У нас нестандартное расписание<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Для этого мы и дорабатываем. Расскажите на разборе.</p></details>
+        <details name="faq" style="border-bottom:1px solid #C9BFB0"><summary style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-size:19px;font-weight:500">Нужно ли ставить приложение?<svg data-chev="1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .18s"><path d="M6 9l6 6 6-6"></path></svg></summary><p style="margin:0;padding:0 0 20px;font-size:16px;color:#6B615A;max-width:640px">Сейчас достаточно браузера: сайт можно добавить на главный экран телефона. Официальное приложение — скоро.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13. Связаться -->
+<section id="svyaz" style="border-top:1.5px solid #221E1A;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent 0 47px,#E6DED0 47px 48px);pointer-events:none"></div>
+  <div style="position:relative;max-width:1240px;margin:0 auto;padding:clamp(64px,9cqw,120px) clamp(20px,4cqw,48px)">
+    <div data-stack="1" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5cqw,80px);align-items:start">
+      <div data-reveal="1">
+        <h2 style="margin:0;font:400 clamp(34px,4.8cqw,64px)/1.06 'Playfair Display',serif;letter-spacing:-.02em;text-wrap:balance">Расскажите, как устроено ваше расписание</h2>
+        <p style="margin:22px 0 0;font-size:clamp(17px,1.5cqw,20px);max-width:540px;text-wrap:pretty">Покажем на разборе, что можно убрать из ручной работы уже в этом семестре.</p>
+        <div style="margin-top:36px;display:flex;flex-direction:column;border-top:1.5px solid #221E1A;font-size:18px">
+          <a href="https://t.me/planovosells_bot?start=site" target="_blank" rel="noopener" style="display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid #C9BFB0;text-decoration:none;color:#221E1A" style-hover="color:#8A3B64"><span style="color:#6B615A;font-size:15px">Telegram</span><span style="font-weight:500">Написать в Telegram</span></a>
+          <a href="mailto:an.shpar@mail.ru" style="display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid #C9BFB0;text-decoration:none;color:#221E1A" style-hover="color:#8A3B64"><span style="color:#6B615A;font-size:15px">Почта</span><span style="font-weight:500">an.shpar@mail.ru</span></a>
+          <a href="tel:+79819408161" style="display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid #C9BFB0;text-decoration:none;color:#221E1A" style-hover="color:#8A3B64"><span style="color:#6B615A;font-size:15px">Телефон</span><span style="font-weight:500">+7 981 940-81-61</span></a>
+        </div>
+        <a href="#" data-pdf-soon="1" style="display:none;margin-top:28px;align-items:center;gap:10px;text-decoration:none;color:#221E1A;border:1.5px solid #221E1A;border-radius:6px;height:46px;padding:0 18px;font-size:15px;font-weight:500;background:#FFFDF9" style-hover="background:#E8E1D6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#221E1A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"></path></svg>Скачать презентацию (PDF)</a>
+      </div>
+      <form data-reveal="1" style="background:#FFFDF9;border:1.5px solid #221E1A;border-radius:12px;padding:clamp(20px,3cqw,32px);display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 50px rgba(34,30,26,.10)" onSubmit="{{ preventSubmit }}">
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Имя<input type="text" placeholder="Как к вам обращаться" style="height:46px;border:1px solid #C9BFB0;border-radius:6px;background:#F3EFE8;padding:0 12px;font:400 16px 'Onest',sans-serif;color:#221E1A"></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Учреждение<input type="text" placeholder="Колледж, школа, вуз" style="height:46px;border:1px solid #C9BFB0;border-radius:6px;background:#F3EFE8;padding:0 12px;font:400 16px 'Onest',sans-serif;color:#221E1A"></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Телефон или почта<input type="text" placeholder="Куда ответить" style="height:46px;border:1px solid #C9BFB0;border-radius:6px;background:#F3EFE8;padding:0 12px;font:400 16px 'Onest',sans-serif;color:#221E1A"></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Комментарий<textarea placeholder="Как сейчас устроено расписание, что мешает" style="min-height:100px;border:1px solid #C9BFB0;border-radius:6px;background:#F3EFE8;padding:10px 12px;font:400 16px 'Onest',sans-serif;color:#221E1A;resize:vertical"></textarea></label>
+        <button type="submit" style="height:50px;border-radius:6px;background:#221E1A;color:#F3EFE8;font:500 16px 'Onest',sans-serif;border:none;cursor:pointer" style-hover="background:#3A352F">Отправить</button>
+        <p style="margin:0;font-size:13px;color:#6B615A;line-height:1.45">Отправляя форму, вы соглашаетесь на <a href="#" style="color:#6B615A">обработку персональных данных</a>. Если удобнее — напишите в Telegram или позвоните, ответим в тот же день.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Подвал -->
+<footer style="border-top:1.5px solid #221E1A;background:#FFFDF9">
+  <div style="max-width:1240px;margin:0 auto;padding:36px clamp(20px,4cqw,48px) 44px;display:flex;flex-direction:column;gap:22px;font-size:13px;color:#6B615A">
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;align-items:center;gap:12px"><img src="uploads/planovo-logo.png" alt="Планово" style="height:36px;width:36px;object-fit:contain"><span style="color:#221E1A;font-size:14px">Планово — продукт команды <a href="https://akeda.ru" style="color:#221E1A">Акеда</a></span></div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap"><a href="#" style="color:#6B615A">Политика обработки персональных данных</a><a href="#" style="color:#6B615A">Согласие на обработку персональных данных</a><a href="#" style="color:#6B615A">Cookie</a></div>
+    </div>
+    <div>ИП Шпарага Андрей Дмитриевич · ИНН 781457531980 · ОГРНИП 326784700129638</div>
+  </div>
+</footer>
+</div>
+<a data-tg-fab="1" href="https://t.me/planovosells_bot?start=site" target="_blank" rel="noopener" aria-label="Написать нам в Telegram" style="{{ fabStyle }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.1c.3-1.2-.9-2.2-2-1.7L2.7 9.5c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.3c.3 1.1 1.7 1.4 2.5.6l2.4-2.4 4.5 3.3c1 .7 2.3.2 2.6-1l3-15.2zm-4.6 3.4-7.6 6.9-.3 3-1.3-4.1 9.2-5.8z"></path></svg><span>Ответим в тот же день</span></a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;headline&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;А&quot;,&quot;Б&quot;,&quot;В&quot;],&quot;default&quot;:&quot;А&quot;,&quot;tsType&quot;:&quot;'А'|'Б'|'В'&quot;,&quot;section&quot;:&quot;Первый экран&quot;}}">
+const DAYS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'];
+const SLOTS = ['8:30', '10:10', '12:00', '13:50'];
+const L = (subj, teacher, room) => ({ kind: 'lesson', subj, teacher, room });
+const F = { kind: 'free' }, V = { kind: 'vacated' }, B = { kind: 'busy' };
+const CELLS = [
+  [L('Математика', 'Иванова', '204'), L('Литература', 'Орлова', '207'), L('Информ.', 'Соколова', '410'), L('Физкультура', 'Ким', 'зал')],
+  [L('Математика', 'Иванова', '204'), V, L('Англ. яз.', 'Белова', '215'), F],
+  [L('Физика', 'Громов', '302'), L('Математика', 'Иванова', '204'), B, L('Литература', 'Орлова', '207')],
+  [L('Информ.', 'Соколова', '410'), F, L('Физкультура', 'Ким', 'зал'), F],
+  [L('История', 'Петренко', '118'), L('Физика', 'Громов', '302'), L('Англ. яз.', 'Белова', '215'), F]
+];
+const THEMES = {
+  primer: { name: 'Пример', sw: '#8A3B64', bg: '#F3EFE8', surface: '#FFFDF9', text: '#221E1A', muted: '#6B615A', line: '#C9BFB0', accent: '#8A3B64', onAccent: '#FFFFFF', subst: '#FAE9B9', substText: '#6B5200', ok: '#45875A', dark: false },
+  vesna: { name: 'Весна', sw: '#2F7D4F', bg: '#EEF6EE', surface: '#FFFFFF', text: '#1E2A22', muted: '#5F7466', line: '#CFDDD2', accent: '#2F7D4F', onAccent: '#FFFFFF', subst: '#FCE4EC', substText: '#8A2F4A', ok: '#2F7D4F', dark: false },
+  noch: { name: 'Ночь', sw: '#15171C', bg: '#15171C', surface: '#1F2229', text: '#F2F2F2', muted: '#9AA0AB', line: '#2F333C', accent: '#8FB7FF', onAccent: '#0E1420', subst: '#3A3320', substText: '#F6D06F', ok: '#7FD39A', dark: true }
+};
+const HEADLINES = { 'А': 'Расписание без ручной рутины', 'Б': 'Расписание, которое не надо переписывать пять раз', 'В': 'Одно изменение — и всё расписание уже у всех' };
+
+class Component extends DCLogic {
+  state = { picked: false, hover: null, placed: null, conflict: null, msg: null, published: false, toast: false, role: 0, cstep: 0, theme: 'primer', custom: '#2F5BD8', c1: 0, c2: 0, c3: 0, c4: 0, counted: false, fabHidden: false };
+
+  componentDidMount() {
+    this.timers = [];
+    const root = document.querySelector('[data-pl-root]');
+    if (!root) return;
+    const narrow = (window.innerWidth || 1200) < 1000;
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.setAttribute('data-reveal', 'in'); this.io.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    root.querySelectorAll('[data-reveal]').forEach(el => this.io.observe(el));
+    const band = { rootMargin: narrow ? '-55% 0px -30% 0px' : '-45% 0px -45% 0px', threshold: 0 };
+    this.rio = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { const r = +e.target.getAttribute('data-role-block'); if (r !== this.state.role) this.setState({ role: r }); } });
+    }, band);
+    root.querySelectorAll('[data-role-block]').forEach(el => this.rio.observe(el));
+    this.sio = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { const s = +e.target.getAttribute('data-cstep'); if (s !== this.state.cstep) this.setState({ cstep: s }); } });
+    }, band);
+    root.querySelectorAll('[data-cstep]').forEach(el => this.sio.observe(el));
+    const counters = root.querySelector('[data-counters]');
+    if (counters) {
+      this.cio = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting) && !this.state.counted) { this.setState({ counted: true }); this.runCounters(); this.cio.disconnect(); }
+      }, { threshold: 0.3 });
+      this.cio.observe(counters);
+    }
+    const fabZone = [root.querySelector('#svyaz'), root.querySelector('footer')].filter(Boolean);
+    this.seen = new Set();
+    this.fio = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) this.seen.add(e.target); else this.seen.delete(e.target); });
+      const hide = this.seen.size > 0;
+      if (hide !== this.state.fabHidden) this.setState({ fabHidden: hide });
+    }, { threshold: 0.15 });
+    fabZone.forEach(el => this.fio.observe(el));
+    this.later(() => this.runDemo(), 3500);
+    this.faq = root.querySelectorAll('details[name="faq"]');
+    this.onFaq = (e) => { if (e.target.open) this.faq.forEach(d => { if (d !== e.target && d.open) d.open = false; }); };
+    this.faq.forEach(d => d.addEventListener('toggle', this.onFaq));
+  }
+  componentWillUnmount() { this.unmounted = true; this.clearTimers(); [this.io, this.rio, this.sio, this.cio, this.fio].forEach(o => o && o.disconnect()); }
+
+  later(fn, ms) { const t = setTimeout(() => { this.timers = this.timers.filter(x => x !== t); if (!this.unmounted) fn(); }, ms); this.timers.push(t); return t; }
+  clearTimers() { (this.timers || []).forEach(clearTimeout); this.timers = []; }
+  touch() { if (this.touched) return; this.touched = true; this.clearTimers(); }
+  runDemo() {
+    if (this.touched) return;
+    this.setState({ picked: true, msg: null });
+    this.later(() => this.setState({ hover: { d: 1, s: 1 } }), 1100);
+    this.later(() => this.place(1, 1), 2000);
+    this.later(() => this.publish(), 3400);
+    this.later(() => this.reset(), 8600);
+    this.later(() => this.runDemo(), 10400);
+  }
+  runCounters() {
+    const T = { c1: 60, c2: 64, c3: 2800, c4: 2600 }, t0 = performance.now(), dur = 1400, ease = x => 1 - Math.pow(1 - x, 3);
+    const step = (now) => {
+      const k = ease(Math.min(1, (now - t0) / dur));
+      this.setState({ c1: Math.round(T.c1 * k), c2: Math.round(T.c2 * k), c3: Math.round(T.c3 * k / 100) * 100, c4: Math.round(T.c4 * k / 100) * 100 });
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  place(d, s) {
+    if (!this.state.picked) return;
+    const c = CELLS[d][s];
+    if (c.kind === 'lesson') return this.conflict(d, s, `У ИС-21 в это время уже ${c.subj} (${c.teacher}). Две пары в одну клетку поставить нельзя.`);
+    if (c.kind === 'busy') return this.conflict(d, s, 'Петренко в это время ведёт у ПКС-32 в 118. Накладку поставить нельзя — конструктор не пропустил.');
+    this.setState({ placed: { d, s }, picked: false, hover: null, conflict: null, msg: { type: 'ok', text: `Петренко свободна, аудитория 118 свободна. Накладок нет — можно публиковать.` } });
+  }
+  conflict(d, s, text) {
+    this.setState({ conflict: { d, s }, hover: null, msg: { type: 'err', text } });
+    this.later(() => this.setState({ conflict: null }), 1500);
+  }
+  publish() {
+    if (!this.state.placed || this.state.published) return;
+    this.setState({ published: true, toast: true, msg: { type: 'ok', text: 'Опубликовано. ИС-21 и Петренко получили уведомление.' } });
+    this.later(() => this.setState({ toast: false }), 4200);
+  }
+  reset() { this.setState({ placed: null, published: false, picked: false, hover: null, conflict: null, msg: null, toast: false }); }
+
+  cellView(d, s) {
+    const st = this.state, c = CELLS[d][s];
+    const isPlaced = st.placed && st.placed.d === d && st.placed.s === s;
+    const isHover = st.picked && st.hover && st.hover.d === d && st.hover.s === s;
+    const isConf = st.conflict && st.conflict.d === d && st.conflict.s === s;
+    let style = 'border-radius:6px;padding:8px;min-height:52px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s,background .25s,border-color .25s;';
+    let title = '', sub = '', tag = '';
+    let titleStyle = 'font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0';
+    let subStyle = 'color:#6B615A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+    let tagStyle = 'display:none';
+    if (isPlaced) { style += 'background:#FAE9B9;box-shadow:inset 0 0 0 1.5px #E3B021;'; title = 'История'; sub = 'Петренко · 118'; tag = 'Замена'; tagStyle = 'font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200;flex:none'; subStyle = 'color:#6B5200;overflow:hidden;text-overflow:ellipsis;white-space:nowrap'; }
+    else if (c.kind === 'lesson') { style += 'background:#F3EFE8;'; title = c.subj; sub = `${c.teacher} · ${c.room}`; }
+    else if (c.kind === 'vacated') { style += 'background:#F2D9D4;box-shadow:inset 0 0 0 1.5px #C44B3B;'; title = 'Физика'; titleStyle += ';text-decoration:line-through;color:#8A2E26'; sub = 'Громов · 302'; subStyle = 'color:#8A2E26;overflow:hidden;text-overflow:ellipsis;white-space:nowrap'; tag = 'отменена'; tagStyle = 'font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#C44B3B;flex:none'; }
+    else { style += `border:1.5px dashed ${st.picked ? '#221E1A' : '#C9BFB0'};`; title = 'Окно'; titleStyle = 'color:#6B615A;font-style:italic;font-weight:400'; }
+    if (st.picked && c.kind !== 'lesson' && !isPlaced) style += 'cursor:copy;';
+    if (isHover) style += 'box-shadow:0 0 0 2px #221E1A;transform:translateY(-2px);background:#FFFDF9;';
+    if (isConf) style += 'background:#F2D9D4;box-shadow:0 0 0 2px #C44B3B;animation:plShake .5s;';
+    return {
+      mobHide: d >= 3 ? true : null, style, title, sub, tag, titleStyle, subStyle, tagStyle,
+      over: (e) => { e.preventDefault(); const h = this.state.hover; if (this.state.picked && !(h && h.d === d && h.s === s)) this.setState({ hover: { d, s } }); },
+      leave: () => { const h = this.state.hover; if (h && h.d === d && h.s === s) this.setState({ hover: null }); },
+      drop: (e) => { e.preventDefault(); this.touch(); this.place(d, s); },
+      click: () => { this.touch(); if (this.state.picked) this.place(d, s); else if (c.kind === 'vacated' && !this.state.placed) this.setState({ msg: { type: 'hint', text: 'Сначала возьмите карточку «История» над сеткой.' } }); }
+    };
+  }
+
+  theme() {
+    if (this.state.theme === 'custom') {
+      const c = this.state.custom;
+      return { name: 'Свой цвет', sw: c, bg: `color-mix(in srgb, ${c} 7%, #FFFFFF)`, surface: '#FFFFFF', text: '#1C1C1E', muted: '#6B6B70', line: `color-mix(in srgb, ${c} 25%, #FFFFFF)`, accent: c, onAccent: '#FFFFFF', subst: '#FAE9B9', substText: '#6B5200', ok: '#45875A', dark: false };
+    }
+    return THEMES[this.state.theme] || THEMES.primer;
+  }
+
+  renderVals() {
+    const st = this.state;
+    const placedOk = !!st.placed;
+    const rows = SLOTS.map((time, s) => ({ time, cells: DAYS.map((_, d) => this.cellView(d, s)) }));
+    const dayHeads = DAYS.map((n, i) => ({ name: i === 1 ? 'Вт 15' : n, mobHide: i >= 3 ? true : null, style: i === 1 ? 'text-align:center;font-weight:500;background:#221E1A;color:#F3EFE8;border-radius:4px;padding:3px 0' : 'text-align:center;color:#6B615A;padding:3px 0' }));
+    const tileStyle = 'display:flex;gap:10px;align-items:center;background:#FAE9B9;border:1.5px solid #E3B021;border-radius:8px;padding:8px 12px;cursor:grab;user-select:none;transition:transform .25s,box-shadow .25s;' + (st.picked ? 'transform:rotate(-3deg) translateY(-4px);box-shadow:0 14px 28px rgba(34,30,26,.18);' : 'box-shadow:0 2px 6px rgba(34,30,26,.08);') + (st.conflict ? 'animation:plShake .5s;' : '');
+    const publishStyle = 'border:none;border-radius:5px;padding:6px 12px;font:500 12px \'Onest\',sans-serif;cursor:pointer;transition:background .25s,color .25s;' + (st.published ? 'background:#45875A;color:#fff;cursor:default;' : placedOk ? 'background:#221E1A;color:#F3EFE8;animation:plPulse 1.6s ease-out infinite;' : 'background:#E8E1D6;color:#6B615A;cursor:default;');
+    const msgType = st.msg ? st.msg.type : 'idle';
+    const msgColor = msgType === 'ok' ? '#2A5C3A' : msgType === 'err' ? '#C44B3B' : '#6B615A';
+    const trayHint = st.published ? 'Опубликовано. Студенты и Петренко уже видят новую версию — смотрите на телефон справа.' : placedOk ? 'История стоит во вторник, 10:10. Пока это черновик — студенты его не видят. Нажмите «Опубликовать».' : 'Вместо его Физики во вторник нужна История с Петренко. Перетащите карточку в сетку — или нажмите на неё, а потом на клетку.';
+    const th = this.theme();
+    const themeBtns = Object.keys(THEMES).map(k => { const t = THEMES[k], a = st.theme === k; return { name: t.name, onClick: () => this.setState({ theme: k }), style: `display:inline-flex;align-items:center;gap:10px;border:1.5px solid ${a ? '#221E1A' : '#C9BFB0'};background:${a ? '#221E1A' : '#FFFDF9'};color:${a ? '#F3EFE8' : '#221E1A'};border-radius:999px;padding:6px 14px 6px 6px;font:500 14px 'Onest',sans-serif;cursor:pointer;transition:all .2s`, swStyle: `width:28px;height:28px;border-radius:50%;background:${t.sw};border:1px solid rgba(0,0,0,.1);flex:none` }; });
+    const ca = st.theme === 'custom';
+    const cs = st.cstep;
+    const chip = (on) => `border-radius:4px;padding:4px 9px;font-weight:500;transition:all .3s;border:1px solid ${on ? '#221E1A' : '#C9BFB0'};background:${on ? '#221E1A' : 'transparent'};color:${on ? '#F3EFE8' : '#6B615A'}`;
+    const captions = [
+      'Черновик виден только учебной части. Студенты и преподаватели видят опубликованную версию от 11 сентября — пока вы не нажмёте «Опубликовать».',
+      'Изменение на 15 сентября: История вместо Физики. Только на этот день — постоянное расписание не меняется.',
+      'Нечётная неделя. В среду 3-я пара делится на подгруппы. С 21 сентября у ИС-21 практика — пары на этот период не ставятся.',
+      'История изменений: кто и когда что поменял. Любое изменение можно отменить.'
+    ];
+    const stepStyle = (i) => `display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:start;transition:opacity .45s;opacity:${i === cs ? 1 : .38}`;
+    const fmt = n => n.toLocaleString('ru-RU');
+    return {
+      headline: HEADLINES[this.props.headline ?? 'А'] || HEADLINES['А'],
+      preventSubmit: (e) => e.preventDefault(),
+      fabStyle: st.fabHidden ? 'opacity:0;pointer-events:none;transform:translateY(12px)' : '',
+      devW: 402, devH: 874,
+      rows, dayHeads, tileVisible: !placedOk, placedOk, tileStyle, publishStyle,
+      publishText: st.published ? 'Опубликовано ✓' : 'Опубликовать',
+      badgeDotStyle: `width:6px;height:6px;border-radius:50%;background:${st.published ? '#45875A' : '#E3B021'};transition:background .3s`,
+      badgeText: st.published ? 'Опубликовано' : 'Черновик',
+      trayHint,
+      msgDotStyle: `width:8px;height:8px;border-radius:50%;flex:none;background:${msgType === 'idle' ? 'transparent' : msgColor};transition:background .3s`,
+      msgStyle: `color:${msgColor};transition:color .3s`,
+      msgText: st.msg ? st.msg.text : '',
+      toastStyle: 'margin-top:14px;background:#221E1A;color:#F3EFE8;border-radius:8px;padding:12px 16px;font-size:14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 32px rgba(34,30,26,.22);transition:opacity .5s cubic-bezier(.2,.7,.2,1),transform .5s cubic-bezier(.2,.7,.2,1);' + (st.toast ? 'opacity:1;transform:none' : 'opacity:0;transform:translateY(8px)'),
+      dragStart: (e) => { this.touch(); try { e.dataTransfer.setData('text/plain', 'tile'); e.dataTransfer.effectAllowed = 'copyMove'; } catch (_) { } this.setState({ picked: true, msg: null }); },
+      dragEnd: () => { if (!this.state.placed) this.setState({ picked: false, hover: null }); },
+      togglePick: () => { this.touch(); this.setState(s => ({ picked: !s.picked, msg: null, hover: null })); },
+      publish: () => { this.touch(); this.publish(); },
+      reset: () => { this.touch(); this.reset(); },
+      heroRowStyle: 'display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 10px;margin:0 -10px;border-bottom:1px solid #C9BFB0;border-radius:8px;transition:background .5s;' + (st.published ? 'background:#FAE9B9' : 'background:transparent'),
+      heroRowTitle: st.published ? 'История' : 'Физика',
+      heroRowSub: st.published ? 'Петренко · 118' : 'Громов · 302',
+      heroRowTagStyle: 'font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200;transition:opacity .4s;' + (st.published ? 'opacity:1' : 'opacity:0'),
+      notifStyle: 'position:absolute;left:14px;right:14px;top:62px;z-index:5;background:rgba(255,253,249,.94);border:1px solid #C9BFB0;border-radius:18px;padding:12px 14px;display:flex;gap:12px;box-shadow:0 14px 30px rgba(34,30,26,.16);transition:transform .6s cubic-bezier(.2,.7,.2,1),opacity .6s;' + (st.published ? 'opacity:1;transform:none' : 'opacity:0;transform:translateY(-40px)'),
+      roleKey: ['uch', 'prep', 'stud', 'ruk'][st.role] || 'uch',
+      step0Style: stepStyle(0), step1Style: stepStyle(1), step2Style: stepStyle(2), step3Style: stepStyle(3),
+      dateChipStyle: chip(cs === 1), weekChipStyle: chip(cs === 2), practChipStyle: chip(false) + (cs === 2 ? ';opacity:1' : ';opacity:0;pointer-events:none'),
+      cCaption: captions[cs] || captions[0],
+      tueStyle: 'border-radius:5px;padding:8px;min-height:52px;transition:background .4s,box-shadow .4s;' + (cs >= 1 ? 'background:#FAE9B9;box-shadow:inset 0 0 0 1.5px #E3B021' : 'background:#F3EFE8'),
+      tueTitle: cs >= 1 ? 'История' : 'Физика',
+      tueSub: cs >= 1 ? 'Петренко · 118' : 'Громов · 302',
+      tueSubStyle: cs >= 1 ? 'color:#6B5200' : 'color:#6B615A',
+      tueTagStyle: 'font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#6B5200;flex:none;' + (cs >= 1 ? 'opacity:1' : 'opacity:0'),
+      csSplit: cs >= 2, csNoSplit: cs < 2,
+      histStyle: 'position:absolute;top:0;right:0;bottom:0;width:min(66%,360px);background:#FFFDF9;border-left:1.5px solid #221E1A;padding:16px;font-size:12px;box-shadow:-20px 0 40px rgba(34,30,26,.10);transition:transform .55s cubic-bezier(.2,.7,.2,1);' + (cs === 3 ? 'transform:translateX(0)' : 'transform:translateX(104%)'),
+      themeBtns, custom: st.custom,
+      customStyle: `display:inline-flex;align-items:center;gap:10px;border:1.5px solid ${ca ? '#221E1A' : '#C9BFB0'};background:${ca ? '#221E1A' : '#FFFDF9'};color:${ca ? '#F3EFE8' : '#221E1A'};border-radius:999px;padding:6px 14px 6px 6px;font:500 14px 'Onest',sans-serif;cursor:pointer;transition:all .2s`,
+      setCustom: (e) => this.setState({ custom: e.target.value, theme: 'custom' }),
+      pickCustom: () => this.setState({ theme: 'custom' }),
+      thDark: th.dark,
+      thRoot: `height:100%;background:${th.bg};padding:60px 0 0;display:flex;flex-direction:column;font-family:'Onest',sans-serif;color:${th.text};overflow:hidden;position:relative;transition:background .45s,color .45s`,
+      thLogo: `width:34px;height:34px;border-radius:50%;background:${th.accent};color:${th.onAccent};display:inline-flex;align-items:center;justify-content:center;font:600 15px 'Onest',sans-serif;transition:background .45s`,
+      thTopName: `font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:${th.muted}`,
+      thMutedSm: `font-size:13px;color:${th.muted}`,
+      thDay: `padding:8px 0;color:${th.muted}`,
+      thDayActive: `padding:8px 0;background:${th.accent};color:${th.onAccent};border-radius:8px;font-weight:500;transition:background .45s`,
+      thList: `margin:16px 22px 0;display:flex;flex-direction:column;border-top:1.5px solid ${th.text}`,
+      thRow: `display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid ${th.line}`,
+      thSubstRow: `display:grid;grid-template-columns:58px 1fr;gap:10px;padding:13px 10px;margin:0 -10px;border-bottom:1px solid ${th.line};background:${th.subst};border-radius:8px;transition:background .45s`,
+      thTime: `font-size:15px;color:${th.muted}`,
+      thSub: `font-size:14px;color:${th.muted}`,
+      thTag: `font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:${th.substText}`,
+      thWindow: `font-size:16px;color:${th.muted};font-style:italic`,
+      thOk: `margin:14px 22px 0;color:${th.ok};font-size:15px`,
+      thTabs: `margin:auto 0 0;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid ${th.line};background:${th.surface};padding:14px 0 40px;text-align:center;font-size:12px;color:${th.muted};transition:background .45s`,
+      thTabActive: `color:${th.accent};font-weight:500`,
+      c1: fmt(st.c1), c2: fmt(st.c2), c3: fmt(st.c3), c4: fmt(st.c4)
+    };
+  }
+}
+</script>
+</body>
+</html>

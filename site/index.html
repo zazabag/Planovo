@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Планово — система расписания для колледжей, школ и вузов</title>
+<meta name="description" content="Конструктор расписания для учебной части, актуальное расписание у преподавателей и студентов в телефоне. Готовое ядро, которое мы подстраиваем под правила вашего учреждения.">
+<meta name="theme-color" content="#F3EFE8">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Playfair+Display:wght@400;600&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.classList.add('js');</script>
+<script>window.PLANOVO_LEAD_ENDPOINT = '/lead';</script>
+<script src="js/site.js" defer></script>
+</head>
+<body>
+
+<!-- Шапка -->
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="brand" href="#top"><img src="assets/planovo-logo.png" alt="" width="44" height="44"><span>Планово</span></a>
+    <nav class="site-nav" aria-label="Разделы">
+      <a href="#kak">Как это выглядит</a>
+      <a href="#konstruktor">Конструктор</a>
+      <a href="#sistema">Что в системе</a>
+      <a href="#gde">Где работает</a>
+      <a href="#voprosy">Вопросы</a>
+    </nav>
+    <a class="btn btn--dark btn--sm" href="#svyaz">Обсудить проект</a>
+  </div>
+</header>
+
+<main>
+
+<!-- 1. Первый экран -->
+<section id="top" class="screen screen--paper hero" aria-label="Планово">
+  <div class="hero__lines" aria-hidden="true"></div>
+  <div class="wrap screen__inner hero__inner">
+    <div class="hero__text">
+      <div class="badge" data-reveal><span class="badge__mark"></span>Система расписания для колледжей, школ и вузов</div>
+      <h1 class="h1" data-reveal>Расписание без ручной рутины</h1>
+      <p class="lead hero__lead" data-reveal>Учебная часть собирает и меняет расписание в одном окне, система не даёт поставить накладку, а преподаватели и студенты сразу видят актуальную версию в телефоне.</p>
+      <div class="btn-row" data-reveal>
+        <a class="btn btn--dark btn--lg" href="#demo">Посмотреть, как работает<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
+        <a class="btn btn--line btn--lg" href="#svyaz">Обсудить ваш проект</a>
+      </div>
+      <p class="hero__note" data-reveal>Готовое ядро, которое мы подстраиваем под правила вашего учреждения. Работает в колледже КЭМС.</p>
+    </div>
+    <div class="hero__logo" aria-hidden="true"><img src="assets/planovo-logo.png" alt="" width="240" height="240"></div>
+  </div>
+</section>
+
+<!-- 2. Попробуйте сами -->
+<section id="demo" class="screen screen--surface demo" data-demo aria-labelledby="demo-title">
+  <div class="wrap screen__inner demo__inner">
+    <div class="demo__main" data-reveal>
+      <h2 class="demo__title" id="demo-title"><span class="dot dot--green" aria-hidden="true"></span>Попробуйте сами: поставьте замену так, как это делает учебная часть</h2>
+      <div class="mock demo-mock">
+        <div class="mock__bar"><span class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock__title">Колледж «Пример» · Конструктор · учебная часть</span></div>
+        <div class="demo-mock__head">
+          <span class="demo-mock__week">ИС-21 · неделя 14–19 сентября</span>
+          <div class="demo-mock__actions">
+            <span class="status-badge"><span class="status-badge__dot" data-demo-badge-dot></span><span data-demo-badge>Черновик</span></span>
+            <button type="button" class="publish-btn" data-demo-publish aria-disabled="true">Опубликовать</button>
+          </div>
+        </div>
+        <div class="tray">
+          <p class="tray__hint"><b>Громов заболел.</b> <span data-demo-hint>Вместо его Физики во вторник нужна История с Петренко. Перетащите карточку в сетку — или нажмите на неё, а потом на клетку.</span></p>
+          <div class="tile" data-demo-tile draggable="true" role="button" tabindex="0" aria-pressed="false" aria-label="Карточка: История, Петренко, аудитория 118">
+            <svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor" aria-hidden="true"><circle cx="2.5" cy="2.5" r="1.5"/><circle cx="7.5" cy="2.5" r="1.5"/><circle cx="2.5" cy="8" r="1.5"/><circle cx="7.5" cy="8" r="1.5"/><circle cx="2.5" cy="13.5" r="1.5"/><circle cx="7.5" cy="13.5" r="1.5"/></svg>
+            <span class="tile__text"><b>История</b><span>Петренко · ауд. 118</span></span>
+          </div>
+          <button type="button" class="tray__reset" data-demo-reset hidden>Сбросить и попробовать ещё</button>
+        </div>
+        <div class="sgrid sgrid--days demo-grid" data-demo-grid>
+          <span></span>
+          <span class="sgrid__head">Пн</span><span class="sgrid__head is-on">Вт 15</span><span class="sgrid__head">Ср</span><span class="sgrid__head wide-only">Чт</span><span class="sgrid__head wide-only">Пт</span>
+
+          <span class="sgrid__time">8:30</span>
+          <button type="button" class="cell" data-d="0" data-s="0"><span class="cell__top"><span class="cell__title">Математика</span><span class="cell__tag"></span></span><span class="cell__sub">Иванова · 204</span></button>
+          <button type="button" class="cell" data-d="1" data-s="0"><span class="cell__top"><span class="cell__title">Математика</span><span class="cell__tag"></span></span><span class="cell__sub">Иванова · 204</span></button>
+          <button type="button" class="cell" data-d="2" data-s="0"><span class="cell__top"><span class="cell__title">Физика</span><span class="cell__tag"></span></span><span class="cell__sub">Громов · 302</span></button>
+          <button type="button" class="cell wide-only" data-d="3" data-s="0"><span class="cell__top"><span class="cell__title">Информ.</span><span class="cell__tag"></span></span><span class="cell__sub">Соколова · 410</span></button>
+          <button type="button" class="cell wide-only" data-d="4" data-s="0"><span class="cell__top"><span class="cell__title">История</span><span class="cell__tag"></span></span><span class="cell__sub">Петренко · 118</span></button>
+
+          <span class="sgrid__time">10:10</span>
+          <button type="button" class="cell" data-d="0" data-s="1"><span class="cell__top"><span class="cell__title">Литература</span><span class="cell__tag"></span></span><span class="cell__sub">Орлова · 207</span></button>
+          <button type="button" class="cell cell--vacated" data-d="1" data-s="1"><span class="cell__top"><span class="cell__title">Физика</span><span class="cell__tag">отменена</span></span><span class="cell__sub">Громов · 302</span></button>
+          <button type="button" class="cell" data-d="2" data-s="1"><span class="cell__top"><span class="cell__title">Математика</span><span class="cell__tag"></span></span><span class="cell__sub">Иванова · 204</span></button>
+          <button type="button" class="cell cell--free wide-only" data-d="3" data-s="1"><span class="cell__top"><span class="cell__title">Окно</span><span class="cell__tag"></span></span><span class="cell__sub"></span></button>
+          <button type="button" class="cell wide-only" data-d="4" data-s="1"><span class="cell__top"><span class="cell__title">Физика</span><span class="cell__tag"></span></span><span class="cell__sub">Громов · 302</span></button>
+
+          <span class="sgrid__time">12:00</span>
+          <button type="button" class="cell" data-d="0" data-s="2"><span class="cell__top"><span class="cell__title">Информ.</span><span class="cell__tag"></span></span><span class="cell__sub">Соколова · 410</span></button>
+          <button type="button" class="cell" data-d="1" data-s="2"><span class="cell__top"><span class="cell__title">Англ. яз.</span><span class="cell__tag"></span></span><span class="cell__sub">Белова · 215</span></button>
+          <button type="button" class="cell cell--free" data-d="2" data-s="2"><span class="cell__top"><span class="cell__title">Окно</span><span class="cell__tag"></span></span><span class="cell__sub"></span></button>
+          <button type="button" class="cell wide-only" data-d="3" data-s="2"><span class="cell__top"><span class="cell__title">Физкультура</span><span class="cell__tag"></span></span><span class="cell__sub">Ким · зал</span></button>
+          <button type="button" class="cell wide-only" data-d="4" data-s="2"><span class="cell__top"><span class="cell__title">Англ. яз.</span><span class="cell__tag"></span></span><span class="cell__sub">Белова · 215</span></button>
+
+          <span class="sgrid__time">13:50</span>
+          <button type="button" class="cell" data-d="0" data-s="3"><span class="cell__top"><span class="cell__title">Физкультура</span><span class="cell__tag"></span></span><span class="cell__sub">Ким · зал</span></button>
+          <button type="button" class="cell cell--free" data-d="1" data-s="3"><span class="cell__top"><span class="cell__title">Окно</span><span class="cell__tag"></span></span><span class="cell__sub"></span></button>
+          <button type="button" class="cell" data-d="2" data-s="3"><span class="cell__top"><span class="cell__title">Литература</span><span class="cell__tag"></span></span><span class="cell__sub">Орлова · 207</span></button>
+          <button type="button" class="cell cell--free wide-only" data-d="3" data-s="3"><span class="cell__top"><span class="cell__title">Окно</span><span class="cell__tag"></span></span><span class="cell__sub"></span></button>
+          <button type="button" class="cell cell--free wide-only" data-d="4" data-s="3"><span class="cell__top"><span class="cell__title">Окно</span><span class="cell__tag"></span></span><span class="cell__sub"></span></button>
+        </div>
+        <div class="demo-msg" data-demo-msg-box aria-live="polite"><span class="demo-msg__dot"></span><span data-demo-msg></span></div>
+      </div>
+      <div class="demo-toast" data-demo-toast><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Опубликовано. Группа ИС-21 и Петренко получили уведомление — смотрите на телефон.</div>
+    </div>
+
+    <div class="demo__side" data-reveal>
+      <div class="demo__side-label">Телефон студента ИС-21</div>
+      <div class="fit" data-fit="fixed" data-fit-max=".72">
+        <div class="fit__stage">
+          <div class="iphone">
+            <div class="iphone__island"></div>
+            <div class="iphone__status" aria-hidden="true"><span class="iphone__half"><span class="iphone__time">9:41</span></span><span class="iphone__half iphone__icons"><svg width="19" height="12" viewBox="0 0 19 12" fill="currentColor"><rect x="0" y="7.5" width="3.2" height="4.5" rx=".7"/><rect x="4.8" y="5" width="3.2" height="7" rx=".7"/><rect x="9.6" y="2.5" width="3.2" height="9.5" rx=".7"/><rect x="14.4" y="0" width="3.2" height="12" rx=".7"/></svg><svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z"/><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z"/><circle cx="8.5" cy="10.5" r="1.5"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-opacity=".35"/><rect x="2" y="2" width="20" height="9" rx="2" fill="currentColor"/><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="currentColor" fill-opacity=".4"/></svg></span></div>
+            <div class="iphone__screen ph">
+              <div class="ios-notif ios-notif--in-phone" data-demo-phone-notif>
+                <img src="assets/planovo-logo.png" alt="" width="38" height="38">
+                <div class="ios-notif__body"><div class="ios-notif__meta"><span>Планово</span><span>сейчас</span></div><div class="ios-notif__title">Сегодня вторая пара — История</div><div class="ios-notif__text">Вместо Физики. Петренко, ауд. 118.</div></div>
+              </div>
+              <div class="ph-top"><span class="ph-caps">Колледж «Пример»</span><span>ИС-21</span></div>
+              <div class="ph-date">Вторник, 15 сентября</div>
+              <div class="ph-days"><span>Пн</span><span class="is-on">Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span></div>
+              <div class="ph-list">
+                <div class="ph-row"><span class="ph-time">8:30</span><div><div class="ph-subj">Математика</div><div class="ph-sub">Иванова · 204</div></div></div>
+                <div class="ph-row ph-row--live" data-demo-phone-row><span class="ph-time">10:10</span><div><div class="ph-line"><span class="ph-subj" data-demo-phone-title>Физика</span><span class="ph-tag">Замена</span></div><div class="ph-sub" data-demo-phone-sub>Громов · 302</div></div></div>
+                <div class="ph-row"><span class="ph-time">12:00</span><div><div class="ph-subj">Англ. яз.</div><div class="ph-sub">Белова · 215</div></div></div>
+                <div class="ph-row"><span class="ph-time">13:50</span><div class="ph-window">Окно</div></div>
+              </div>
+              <div class="ph-ok">Дальше свободно.</div>
+              <div class="ph-caps ph-caps--block">Завтра, среда</div>
+              <div class="ph-list ph-list--small">
+                <div class="ph-row ph-row--small"><span class="ph-time">8:30</span><span>Физика · Громов · 302</span></div>
+                <div class="ph-row ph-row--small"><span class="ph-time">10:10</span><span>Математика · Иванова · 204</span></div>
+              </div>
+            </div>
+            <div class="iphone__home"></div>
+          </div>
+        </div>
+      </div>
+      <p class="demo__note">Экраны показаны на данных выдуманного колледжа «Пример».</p>
+    </div>
+  </div>
+  <div class="ios-notif ios-notif--float" data-demo-float-notif aria-hidden="true">
+    <img src="assets/planovo-logo.png" alt="" width="38" height="38">
+    <div class="ios-notif__body"><div class="ios-notif__meta"><span>Планово</span><span>сейчас</span></div><div class="ios-notif__title">Сегодня вторая пара — История</div><div class="ios-notif__text">Вместо Физики. Петренко, ауд. 118.</div></div>
+  </div>
+</section>
+
+<!-- 3. Узнаёте? -->
+<section id="bol" class="screen screen--paper" aria-labelledby="bol-title">
+  <div class="wrap screen__inner stack">
+    <header class="sec-head" data-reveal><span class="eyebrow">Узнаёте?</span><h2 class="h2" id="bol-title">Где сейчас уходит время</h2></header>
+    <div class="carousel" data-carousel>
+      <div class="carousel__track cards4" data-carousel-track>
+        <article class="card pain" data-reveal>
+          <div class="scene scene--seq" aria-hidden="true">
+            <div class="seq"><span>Таблица</span><div class="seq__bar"><div class="seq__fill seq__fill--a"></div></div></div>
+            <div class="seq"><span>Чат</span><div class="seq__bar"><div class="seq__fill seq__fill--b"></div></div></div>
+            <div class="seq"><span>Сайт</span><div class="seq__bar"><div class="seq__fill seq__fill--c"></div></div></div>
+          </div>
+          <div class="pain__body"><div class="eyebrow">Учебная часть</div><p>Одну замену вносят в таблицу, потом в чат, потом на сайт. Накладку замечают, когда два преподавателя пришли в одну аудиторию. Часы преподавателей пересчитывают вручную в конце месяца.</p></div>
+        </article>
+        <article class="card pain" data-reveal>
+          <div class="scene scene--chat" aria-hidden="true">
+            <div class="bubble bubble--a">Ольга Викторовна, а пара будет? <span>7:52</span></div>
+            <div class="bubble bubble--b">Говорят, Громова нет сегодня <span>7:54</span></div>
+            <div class="bubble bubble--me">Сейчас узнаю</div>
+          </div>
+          <div class="pain__body"><div class="eyebrow">Преподаватель</div><p>О замене узнаёт утром от студентов. Сколько часов набрал за месяц — знает примерно. Чтобы попросить перенести пару, ищет завуча по коридорам.</p></div>
+        </article>
+        <article class="card pain" data-reveal>
+          <div class="scene scene--sheet" aria-hidden="true">
+            <div class="sheet"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="stamp">устарело</div>
+          </div>
+          <div class="pain__body"><div class="eyebrow">Студент</div><p>Смотрит фото расписания в чате группы, которое устарело ещё вчера. Приходит к первой паре, которую перенесли.</p></div>
+        </article>
+        <article class="card pain" data-reveal>
+          <div class="scene scene--hours" aria-hidden="true">
+            <div class="hours hours--head"><span>Преподаватель</span><span>План</span><span>Факт</span></div>
+            <div class="hours"><span>Иванова</span><span>72</span><span class="q">?</span></div>
+            <div class="hours"><span>Громов</span><span>80</span><span class="q q--2">?</span></div>
+            <div class="hours"><span>Петренко</span><span>64</span><span class="q q--3">?</span></div>
+          </div>
+          <div class="pain__body"><div class="eyebrow">Руководство</div><p>Не видно, сколько на самом деле проведено занятий и кто сколько отработал. Всё держится на памяти двух-трёх сотрудников.</p></div>
+        </article>
+      </div>
+      <div class="carousel__dots" data-carousel-dots></div>
+    </div>
+    <div class="conclusion" data-reveal><p>У расписания нет одного места, где оно живёт. Поэтому каждое изменение превращается в рассылку по пяти каналам.</p></div>
+  </div>
+</section>
+
+<!-- 4–7. Как это выглядит с Планово: четыре роли -->
+<section id="kak" class="screen screen--surface role" aria-labelledby="role-1">
+  <div class="wrap screen__inner split">
+    <div class="split__text" data-reveal>
+      <span class="eyebrow">Как это выглядит с Планово · 01 / 04</span>
+      <h2 class="h-role" id="role-1">Учебная часть — всё в конструкторе</h2>
+      <p class="role__text">Сетка всего колледжа на одном экране. Поменяли пару, нажали «Опубликовать» — у всех уже новая версия. Замену на один день ставите прямо на дату, постоянное расписание не трогается.</p>
+    </div>
+    <div class="split__visual fit" data-fit="fluid" data-fit-maxw="760" data-reveal>
+      <div class="fit__stage">
+        <div class="mock mock--role">
+          <div class="mock__bar"><span class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock__title">Колледж «Пример» · Конструктор · все группы</span></div>
+          <div class="mock__toolbar">
+            <div class="mock__toolbar-l"><span class="mock__date">Вторник, 15 сентября</span><span class="chip">Нечётная неделя</span></div>
+            <div class="mock__toolbar-r"><span class="status-badge"><span class="status-badge__dot"></span>Черновик</span><span class="fake-btn">Опубликовать</span></div>
+          </div>
+          <div class="sgrid sgrid--groups">
+            <span></span><span class="sgrid__head">ИС-21</span><span class="sgrid__head">ИС-22</span><span class="sgrid__head wide-only">ПКС-31</span><span class="sgrid__head wide-only">ПКС-32</span>
+            <span class="sgrid__time">8:30</span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell"><b>История</b><span>Петренко · 118</span></span><span class="gcell wide-only"><b>Физика</b><span>Громов · 302</span></span><span class="gcell wide-only"><b>Англ. яз.</b><span>Белова · 215</span></span>
+            <span class="sgrid__time">10:10</span><span class="gcell gcell--subst"><b>История</b><span>Петренко · 118 · замена</span></span><span class="gcell"><b>Информатика</b><span>Соколова · 410</span></span><span class="gcell gcell--window wide-only">Окно</span><span class="gcell wide-only"><b>Литература</b><span>Орлова · 207</span></span>
+            <span class="sgrid__time">12:00</span><span class="gcell"><b>Физкультура</b><span>Ким · зал</span></span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell wide-only"><b>История</b><span>Петренко · 118</span></span><span class="gcell wide-only"><b>Физика</b><span>Громов · 302</span></span>
+            <span class="sgrid__time">13:50</span><span class="gcell gcell--window">Окно</span><span class="gcell"><b>Англ. яз.</b><span>Белова · 215</span></span><span class="gcell wide-only"><b>Информатика</b><span>Соколова · 410</span></span><span class="gcell gcell--window wide-only">Окно</span>
+          </div>
+          <div class="mock__caption"><b>Изменение на 15 сентября:</b> <span>ИС-21, 2-я пара — История вместо Физики. Постоянное расписание не меняется.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kak-2" class="screen screen--paper role" aria-labelledby="role-2">
+  <div class="wrap screen__inner split">
+    <div class="split__text" data-reveal>
+      <span class="eyebrow">Как это выглядит с Планово · 02 / 04</span>
+      <h2 class="h-role" id="role-2">Преподаватель — своё расписание и свои часы</h2>
+      <p class="role__text">Личный кабинет: пары на неделю, замены, нагрузка и отработанные часы. Написать в учебную часть можно оттуда же.</p>
+    </div>
+    <div class="split__visual fit" data-fit="fixed" data-fit-max=".74" data-reveal>
+      <div class="fit__stage">
+        <div class="iphone iphone--compact">
+          <div class="iphone__island"></div>
+          <div class="iphone__status" aria-hidden="true"><span class="iphone__half"><span class="iphone__time">9:41</span></span><span class="iphone__half iphone__icons"><svg width="19" height="12" viewBox="0 0 19 12" fill="currentColor"><rect x="0" y="7.5" width="3.2" height="4.5" rx=".7"/><rect x="4.8" y="5" width="3.2" height="7" rx=".7"/><rect x="9.6" y="2.5" width="3.2" height="9.5" rx=".7"/><rect x="14.4" y="0" width="3.2" height="12" rx=".7"/></svg><svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z"/><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z"/><circle cx="8.5" cy="10.5" r="1.5"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-opacity=".35"/><rect x="2" y="2" width="20" height="9" rx="2" fill="currentColor"/><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="currentColor" fill-opacity=".4"/></svg></span></div>
+          <div class="iphone__screen ph">
+            <div class="ph-top ph-top--tight"><span class="ph-caps">Колледж «Пример»</span><span>Кабинет</span></div>
+            <div class="ph-head"><div class="ph-date ph-date--flush">Петренко О. В.</div><div class="ph-week">Неделя 14–19 сентября · нечётная</div></div>
+            <div class="ph-stats">
+              <div class="ph-stat"><div class="ph-stat__n">16</div><div class="ph-stat__l">часов на этой неделе</div></div>
+              <div class="ph-stat"><div class="ph-stat__n">58</div><div class="ph-stat__l">отработано в сентябре</div></div>
+            </div>
+            <div class="ph-caps ph-caps--block">Сегодня, вторник</div>
+            <div class="ph-list ph-list--tight">
+              <div class="ph-row"><span class="ph-time">8:30</span><div><div class="ph-subj">История · ИС-22</div><div class="ph-sub">ауд. 118</div></div></div>
+              <div class="ph-row ph-row--subst"><span class="ph-time">10:10</span><div><div class="ph-line"><span class="ph-subj">История · ИС-21</span><span class="ph-tag">Замена</span></div><div class="ph-sub">ауд. 118 · вместо Громова</div></div></div>
+              <div class="ph-row"><span class="ph-time">12:00</span><div><div class="ph-subj">Обществознание · ПКС-32</div><div class="ph-sub">ауд. 118</div></div></div>
+              <div class="ph-row"><span class="ph-time">13:50</span><div class="ph-window">Окно</div></div>
+            </div>
+            <div class="ph-action">Написать в учебную часть</div>
+          </div>
+          <div class="iphone__home"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kak-3" class="screen screen--surface role" aria-labelledby="role-3">
+  <div class="wrap screen__inner split">
+    <div class="split__text" data-reveal>
+      <span class="eyebrow">Как это выглядит с Планово · 03 / 04</span>
+      <h2 class="h-role" id="role-3">Студент — расписание своей группы</h2>
+      <p class="role__text">Открыл ссылку — видит свою группу на сегодня и неделю. Пару перенесли — пришло уведомление.</p>
+    </div>
+    <div class="split__visual fit" data-fit="fixed" data-fit-max=".74" data-reveal>
+      <div class="fit__stage">
+        <div class="iphone iphone--compact">
+          <div class="iphone__island"></div>
+          <div class="iphone__status" aria-hidden="true"><span class="iphone__half"><span class="iphone__time">9:41</span></span><span class="iphone__half iphone__icons"><svg width="19" height="12" viewBox="0 0 19 12" fill="currentColor"><rect x="0" y="7.5" width="3.2" height="4.5" rx=".7"/><rect x="4.8" y="5" width="3.2" height="7" rx=".7"/><rect x="9.6" y="2.5" width="3.2" height="9.5" rx=".7"/><rect x="14.4" y="0" width="3.2" height="12" rx=".7"/></svg><svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z"/><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z"/><circle cx="8.5" cy="10.5" r="1.5"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-opacity=".35"/><rect x="2" y="2" width="20" height="9" rx="2" fill="currentColor"/><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="currentColor" fill-opacity=".4"/></svg></span></div>
+          <div class="iphone__screen ph">
+            <div class="ios-notif ios-notif--in-phone is-on">
+              <img src="assets/planovo-logo.png" alt="" width="38" height="38">
+              <div class="ios-notif__body"><div class="ios-notif__meta"><span>Планово</span><span>7:40</span></div><div class="ios-notif__title">Сегодня вторая пара — История</div><div class="ios-notif__text">Вместо Физики. Петренко, ауд. 118.</div></div>
+            </div>
+            <div class="ph-top ph-top--under-notif"><span class="ph-caps">Колледж «Пример»</span><span>ИС-21</span></div>
+            <div class="ph-date">Вторник, 15 сентября</div>
+            <div class="ph-days"><span>Пн</span><span class="is-on">Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span></div>
+            <div class="ph-list">
+              <div class="ph-row"><span class="ph-time">8:30</span><div><div class="ph-subj">Математика</div><div class="ph-sub">Иванова · 204</div></div></div>
+              <div class="ph-row ph-row--subst"><span class="ph-time">10:10</span><div><div class="ph-line"><span class="ph-subj">История</span><span class="ph-tag">Замена</span></div><div class="ph-sub">Петренко · 118</div></div></div>
+              <div class="ph-row"><span class="ph-time">12:00</span><div><div class="ph-subj">Англ. яз.</div><div class="ph-sub">Белова · 215</div></div></div>
+              <div class="ph-row"><span class="ph-time">13:50</span><div class="ph-window">Окно</div></div>
+            </div>
+            <div class="ph-ok">Дальше свободно. Завтра первая пара в 8:30.</div>
+          </div>
+          <div class="iphone__home"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kak-4" class="screen screen--paper role" aria-labelledby="role-4">
+  <div class="wrap screen__inner split">
+    <div class="split__text" data-reveal>
+      <span class="eyebrow">Как это выглядит с Планово · 04 / 04</span>
+      <h2 class="h-role" id="role-4">Руководство — цифры, а не догадки</h2>
+      <p class="role__text">Сколько занятий проведено и сорвано, сколько часов отработал каждый преподаватель — без запросов в учебную часть.</p>
+    </div>
+    <div class="split__visual fit" data-fit="fluid" data-fit-maxw="760" data-reveal>
+      <div class="fit__stage">
+        <div class="mock mock--role mock--ruk">
+          <div class="mock__bar"><span class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock__title">Колледж «Пример» · Сводка · сентябрь</span></div>
+          <div class="kpis">
+            <div class="kpi"><div class="kpi__n">1 412</div><div class="kpi__l">занятий проведено</div></div>
+            <div class="kpi"><div class="kpi__n">37</div><div class="kpi__l">замен за месяц</div></div>
+            <div class="kpi"><div class="kpi__n kpi__n--ok">0</div><div class="kpi__l">накладок</div></div>
+          </div>
+          <div class="load">
+            <div class="load__row load__row--head"><span>Преподаватель</span><span>План</span><span>Факт</span><span>Нагрузка</span></div>
+            <div class="load__row"><span>Иванова Е. С.</span><span class="load__plan">72</span><span>70</span><span class="load__bar"><span class="load__fill load__fill--ok load__fill--97"></span></span></div>
+            <div class="load__row"><span>Петренко О. В.</span><span class="load__plan">64</span><span>68</span><span class="load__bar"><span class="load__fill load__fill--over"></span></span></div>
+            <div class="load__row"><span>Громов А. П.</span><span class="load__plan">80</span><span class="load__low">52</span><span class="load__bar"><span class="load__fill load__fill--low"></span></span></div>
+            <div class="load__row"><span>Белова М. И.</span><span class="load__plan">60</span><span>60</span><span class="load__bar"><span class="load__fill load__fill--ok"></span></span></div>
+            <div class="load__foot"><span>Сейчас идёт 3-я пара · 14 аудиторий заняты</span><span>Свободны: 207, 215, 410</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Подстраиваем под вас (на телефоне — два экрана) -->
+<section id="pod" class="screen screen--surface screen--split pod" aria-labelledby="pod-title">
+  <div class="wrap split-wrap">
+    <div class="panel panel--a">
+      <div class="panel__inner" data-reveal>
+        <span class="eyebrow">Подстраиваем под вас</span>
+        <h2 class="h2" id="pod-title">Ядро готовое, подключение — под вас</h2>
+        <p class="pod__lead">Мы не ставим коробку «как есть». Сначала разбираемся, как устроено расписание у вас, и подстраиваем систему под ваш порядок. Готовое ядро экономит месяцы, доработка делает его вашим.</p>
+        <div class="rows">
+          <div class="rows__item"><b>Ваши правила</b><span>Звонки, чётные и нечётные недели, подгруппы, практика, каникулы.</span></div>
+          <div class="rows__item"><b>Ваши данные</b><span>Переносим расписание и справочники из Excel, 1С или с бумаги.</span></div>
+          <div class="rows__item"><b>Ваши документы</b><span>Печатные формы и отчёты в том виде, к которому привыкла учебная часть.</span></div>
+          <div class="rows__item"><b>Ваши системы</b><span>Если нужно, связываем с тем, что у вас уже работает.</span></div>
+          <div class="rows__item"><b>Ваш вид</b><span>Название, логотип и цвета учреждения. Переключите тему или выберите свой цвет — телефон перекрасится.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel--b" id="pod-vid">
+      <div class="panel__inner pod__vid" data-reveal>
+        <span class="eyebrow mobile-only">Ваш вид</span>
+        <p class="pod__note">Так выглядит экран студента в колледже «Пример». У вас здесь будут ваше название, логотип и цвета.</p>
+        <div class="fit pod__phone" data-fit="fixed" data-fit-max=".7">
+          <div class="fit__stage">
+            <div class="iphone iphone--compact" data-theme-device>
+              <div class="iphone__island"></div>
+              <div class="iphone__status" aria-hidden="true"><span class="iphone__half"><span class="iphone__time">9:41</span></span><span class="iphone__half iphone__icons"><svg width="19" height="12" viewBox="0 0 19 12" fill="currentColor"><rect x="0" y="7.5" width="3.2" height="4.5" rx=".7"/><rect x="4.8" y="5" width="3.2" height="7" rx=".7"/><rect x="9.6" y="2.5" width="3.2" height="9.5" rx=".7"/><rect x="14.4" y="0" width="3.2" height="12" rx=".7"/></svg><svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z"/><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z"/><circle cx="8.5" cy="10.5" r="1.5"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" stroke-opacity=".35"/><rect x="2" y="2" width="20" height="9" rx="2" fill="currentColor"/><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="currentColor" fill-opacity=".4"/></svg></span></div>
+              <div class="iphone__screen th" data-theme-screen>
+                <div class="th__top"><div class="th__brand"><span class="th__logo">П</span><span class="th__name">Колледж «Пример»</span></div><span class="th__muted">ИС-21</span></div>
+                <div class="th__date">Вторник, 15 сентября</div>
+                <div class="th__days"><span>Пн</span><span class="is-on">Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span></div>
+                <div class="th__list">
+                  <div class="th__row"><span class="th__time">8:30</span><div><div class="th__subj">Математика</div><div class="th__sub">Иванова · 204</div></div></div>
+                  <div class="th__row th__row--subst"><span class="th__time">10:10</span><div><div class="th__line"><span class="th__subj">История</span><span class="th__tag">Замена</span></div><div class="th__sub">Петренко · 118</div></div></div>
+                  <div class="th__row"><span class="th__time">12:00</span><div><div class="th__subj">Англ. яз.</div><div class="th__sub">Белова · 215</div></div></div>
+                  <div class="th__row"><span class="th__time">13:50</span><div class="th__window">Окно</div></div>
+                </div>
+                <div class="th__ok">Дальше свободно. Завтра первая пара в 8:30.</div>
+                <div class="th__tabs"><span class="is-on">Сегодня</span><span>Неделя</span><span>Группа</span></div>
+              </div>
+              <div class="iphone__home"></div>
+            </div>
+          </div>
+        </div>
+        <div class="theme-switch" role="group" aria-label="Тема экрана студента">
+          <button type="button" class="theme-btn is-on" data-theme="primer" aria-pressed="true"><span class="theme-btn__sw theme-btn__sw--primer"></span>Пример</button>
+          <button type="button" class="theme-btn" data-theme="vesna" aria-pressed="false"><span class="theme-btn__sw theme-btn__sw--vesna"></span>Весна</button>
+          <button type="button" class="theme-btn" data-theme="noch" aria-pressed="false"><span class="theme-btn__sw theme-btn__sw--noch"></span>Ночь</button>
+          <label class="theme-btn theme-btn--custom" data-theme-custom-label><input type="color" value="#2F5BD8" data-theme-custom aria-label="Выбрать свой цвет">Свой цвет</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Всё держится на конструкторе -->
+<section id="konstruktor" class="screen screen--paper intro" aria-labelledby="konstruktor-title">
+  <div class="wrap screen__inner intro__inner">
+    <div class="intro__text" data-reveal>
+      <span class="eyebrow">Конструктор — сердце системы</span>
+      <h2 class="h2 intro__title" id="konstruktor-title">Всё держится на конструкторе</h2>
+      <p class="intro__lead">Группы, преподаватели, аудитории, предметы, звонки, учебный план — всё связано с конструктором. Поэтому он сразу видит, что преподаватель уже занят, аудитория занята, а у группы в это время другая пара, — и не даст сохранить такую ошибку. Ошибка, которая раньше всплывала у двери аудитории, теперь не доходит даже до публикации.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10–13. Шаги конструктора -->
+<section id="konstruktor-1" class="screen screen--surface cstep" aria-labelledby="cstep-1">
+  <div class="wrap screen__inner split split--cstep">
+    <div class="split__text cstep__text" data-reveal>
+      <span class="eyebrow">Конструктор · 01 / 04</span>
+      <div class="cstep__head"><span class="cstep__num">1</span><h3 class="cstep__title" id="cstep-1">Черновик и публикация</h3></div>
+      <p class="cstep__p">Правите сколько нужно — студенты и преподаватели видят только опубликованную версию. Нажали «Опубликовать» — у всех новая, без рассылок по чатам.</p>
+    </div>
+    <div class="split__visual fit" data-fit="fluid" data-fit-maxw="640" data-reveal>
+      <div class="fit__stage">
+        <div class="mock cmock">
+          <div class="mock__bar"><span class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock__title">Колледж «Пример» · Конструктор · ИС-21</span></div>
+          <div class="mock__toolbar">
+            <div class="mock__toolbar-l"><span class="chip">Вт, 15 сентября</span><span class="chip">Нечётная неделя</span></div>
+            <div class="mock__toolbar-r"><span class="status-badge"><span class="status-badge__dot"></span>Черновик</span><span class="fake-btn">Опубликовать</span></div>
+          </div>
+          <div class="sgrid sgrid--days">
+            <span></span><span class="sgrid__head">Пн</span><span class="sgrid__head is-on">Вт 15</span><span class="sgrid__head">Ср</span><span class="sgrid__head wide-only">Чт</span><span class="sgrid__head wide-only">Пт</span>
+            <span class="sgrid__time">8:30</span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell"><b>Физика</b><span>Громов · 302</span></span><span class="gcell wide-only"><b>Информ.</b><span>Соколова · 410</span></span><span class="gcell wide-only"><b>История</b><span>Петренко · 118</span></span>
+            <span class="sgrid__time">10:10</span><span class="gcell"><b>Литература</b><span>Орлова · 207</span></span><span class="gcell"><b>Физика</b><span>Громов · 302</span></span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell gcell--window wide-only">Окно</span><span class="gcell wide-only"><b>Физика</b><span>Громов · 302</span></span>
+            <span class="sgrid__time">12:00</span><span class="gcell"><b>Информ.</b><span>Соколова · 410</span></span><span class="gcell"><b>Англ. яз.</b><span>Белова · 215</span></span><span class="gcell"><b>Англ. яз.</b><span>Белова · 215</span></span><span class="gcell wide-only"><b>Физкультура</b><span>Ким · зал</span></span><span class="gcell wide-only"><b>Англ. яз.</b><span>Белова · 215</span></span>
+            <span class="sgrid__time">13:50</span><span class="gcell"><b>Физкультура</b><span>Ким · зал</span></span><span class="gcell gcell--window">Окно</span><span class="gcell"><b>Литература</b><span>Орлова · 207</span></span><span class="gcell gcell--window wide-only">Окно</span><span class="gcell gcell--window wide-only">Окно</span>
+          </div>
+          <div class="mock__caption">Черновик виден только учебной части. Студенты и преподаватели видят опубликованную версию от 11 сентября — пока вы не нажмёте «Опубликовать».</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="konstruktor-2" class="screen screen--paper cstep" aria-labelledby="cstep-2">
+  <div class="wrap screen__inner split split--cstep">
+    <div class="split__text cstep__text" data-reveal>
+      <span class="eyebrow">Конструктор · 02 / 04</span>
+      <div class="cstep__head"><span class="cstep__num">2</span><h3 class="cstep__title" id="cstep-2">Изменения на дату</h3></div>
+      <p class="cstep__p">Заменить, перенести или отменить пару на конкретный день. Постоянное расписание не трогается, на следующей неделе всё снова по плану.</p>
+    </div>
+    <div class="split__visual fit" data-fit="fluid" data-fit-maxw="640" data-reveal>
+      <div class="fit__stage">
+        <div class="mock cmock">
+          <div class="mock__bar"><span class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock__title">Колледж «Пример» · Конструктор · ИС-21</span></div>
+          <div class="mock__toolbar">
+            <div class="mock__toolbar-l"><span class="chip chip--on">Вт, 15 сентября</span><span class="chip">Нечётная неделя</span></div>
+            <div class="mock__toolbar-r"><span class="status-badge"><span class="status-badge__dot"></span>Черновик</span><span class="fake-btn">Опубликовать</span></div>
+          </div>
+          <div class="sgrid sgrid--days">
+            <span></span><span class="sgrid__head">Пн</span><span class="sgrid__head is-on">Вт 15</span><span class="sgrid__head">Ср</span><span class="sgrid__head wide-only">Чт</span><span class="sgrid__head wide-only">Пт</span>
+            <span class="sgrid__time">8:30</span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell"><b>Физика</b><span>Громов · 302</span></span><span class="gcell wide-only"><b>Информ.</b><span>Соколова · 410</span></span><span class="gcell wide-only"><b>История</b><span>Петренко · 118</span></span>
+            <span class="sgrid__time">10:10</span><span class="gcell"><b>Литература</b><span>Орлова · 207</span></span><span class="gcell gcell--subst"><span class="gcell__line"><b>История</b><span class="gcell__tag">Замена</span></span><span>Петренко · 118</span></span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell gcell--window wide-only">Окно</span><span class="gcell wide-only"><b>Физика</b><span>Громов · 302</span></span>
+            <span class="sgrid__time">12:00</span><span class="gcell"><b>Информ.</b><span>Соколова · 410</span></span><span class="gcell"><b>Англ. яз.</b><span>Белова · 215</span></span><span class="gcell"><b>Англ. яз.</b><span>Белова · 215</span></span><span class="gcell wide-only"><b>Физкультура</b><span>Ким · зал</span></span><span class="gcell wide-only"><b>Англ. яз.</b><span>Белова · 215</span></span>
+            <span class="sgrid__time">13:50</span><span class="gcell"><b>Физкультура</b><span>Ким · зал</span></span><span class="gcell gcell--window">Окно</span><span class="gcell"><b>Литература</b><span>Орлова · 207</span></span><span class="gcell gcell--window wide-only">Окно</span><span class="gcell gcell--window wide-only">Окно</span>
+          </div>
+          <div class="mock__caption">Изменение на 15 сентября: История вместо Физики. Только на этот день — постоянное расписание не меняется.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="konstruktor-3" class="screen screen--surface cstep" aria-labelledby="cstep-3">
+  <div class="wrap screen__inner split split--cstep">
+    <div class="split__text cstep__text" data-reveal>
+      <span class="eyebrow">Конструктор · 03 / 04</span>
+      <div class="cstep__head"><span class="cstep__num">3</span><h3 class="cstep__title" id="cstep-3">Ваши правила внутри сетки</h3></div>
+      <p class="cstep__p">Чётные и нечётные недели, подгруппы, каникулы и практика учтены в самом конструкторе — ничего не нужно держать в голове.</p>
+    </div>
+    <div class="split__visual fit" data-fit="fluid" data-fit-maxw="640" data-reveal>
+      <div class="fit__stage">
+        <div class="mock cmock">
+          <div class="mock__bar"><span class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock__title">Колледж «Пример» · Конструктор · ИС-21</span></div>
+          <div class="mock__toolbar">
+            <div class="mock__toolbar-l"><span class="chip">Вт, 15 сентября</span><span class="chip chip--on">Нечётная неделя</span><span class="chip">Практика с 21 сентября</span></div>
+            <div class="mock__toolbar-r"><span class="status-badge"><span class="status-badge__dot"></span>Черновик</span><span class="fake-btn">Опубликовать</span></div>
+          </div>
+          <div class="sgrid sgrid--days">
+            <span></span><span class="sgrid__head">Пн</span><span class="sgrid__head is-on">Вт 15</span><span class="sgrid__head">Ср</span><span class="sgrid__head wide-only">Чт</span><span class="sgrid__head wide-only">Пт</span>
+            <span class="sgrid__time">8:30</span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell"><b>Физика</b><span>Громов · 302</span></span><span class="gcell wide-only"><b>Информ.</b><span>Соколова · 410</span></span><span class="gcell wide-only"><b>История</b><span>Петренко · 118</span></span>
+            <span class="sgrid__time">10:10</span><span class="gcell"><b>Литература</b><span>Орлова · 207</span></span><span class="gcell gcell--subst"><span class="gcell__line"><b>История</b><span class="gcell__tag">Замена</span></span><span>Петренко · 118</span></span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell gcell--window wide-only">Окно</span><span class="gcell wide-only"><b>Физика</b><span>Громов · 302</span></span>
+            <span class="sgrid__time">12:00</span><span class="gcell"><b>Информ.</b><span>Соколова · 410</span></span><span class="gcell"><b>Англ. яз.</b><span>Белова · 215</span></span><span class="gcell gcell--split"><span class="gcell__half"><b>1 п/г</b> · Англ. яз. · 215</span><span class="gcell__half"><b>2 п/г</b> · Информ. · 410</span></span><span class="gcell wide-only"><b>Физкультура</b><span>Ким · зал</span></span><span class="gcell wide-only"><b>Англ. яз.</b><span>Белова · 215</span></span>
+            <span class="sgrid__time">13:50</span><span class="gcell"><b>Физкультура</b><span>Ким · зал</span></span><span class="gcell gcell--window">Окно</span><span class="gcell"><b>Литература</b><span>Орлова · 207</span></span><span class="gcell gcell--window wide-only">Окно</span><span class="gcell gcell--window wide-only">Окно</span>
+          </div>
+          <div class="mock__caption">Нечётная неделя. В среду 3-я пара делится на подгруппы. С 21 сентября у ИС-21 практика — пары на этот период не ставятся.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="konstruktor-4" class="screen screen--paper cstep" aria-labelledby="cstep-4">
+  <div class="wrap screen__inner split split--cstep">
+    <div class="split__text cstep__text" data-reveal>
+      <span class="eyebrow">Конструктор · 04 / 04</span>
+      <div class="cstep__head"><span class="cstep__num">4</span><h3 class="cstep__title" id="cstep-4">История и откат</h3></div>
+      <p class="cstep__p">Видно, кто и когда что поменял. Ошибочное действие можно отменить — ничего непоправимого в конструкторе сделать нельзя.</p>
+    </div>
+    <div class="split__visual fit" data-fit="fluid" data-fit-maxw="640" data-reveal>
+      <div class="fit__stage">
+        <div class="mock cmock">
+          <div class="mock__bar"><span class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="mock__title">Колледж «Пример» · Конструктор · ИС-21</span></div>
+          <div class="mock__toolbar">
+            <div class="mock__toolbar-l"><span class="chip">Вт, 15 сентября</span><span class="chip">Нечётная неделя</span></div>
+            <div class="mock__toolbar-r"><span class="status-badge"><span class="status-badge__dot"></span>Черновик</span><span class="fake-btn">Опубликовать</span></div>
+          </div>
+          <div class="sgrid sgrid--days">
+            <span></span><span class="sgrid__head">Пн</span><span class="sgrid__head is-on">Вт 15</span><span class="sgrid__head">Ср</span><span class="sgrid__head wide-only">Чт</span><span class="sgrid__head wide-only">Пт</span>
+            <span class="sgrid__time">8:30</span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell"><b>Физика</b><span>Громов · 302</span></span><span class="gcell wide-only"><b>Информ.</b><span>Соколова · 410</span></span><span class="gcell wide-only"><b>История</b><span>Петренко · 118</span></span>
+            <span class="sgrid__time">10:10</span><span class="gcell"><b>Литература</b><span>Орлова · 207</span></span><span class="gcell gcell--subst"><span class="gcell__line"><b>История</b><span class="gcell__tag">Замена</span></span><span>Петренко · 118</span></span><span class="gcell"><b>Математика</b><span>Иванова · 204</span></span><span class="gcell gcell--window wide-only">Окно</span><span class="gcell wide-only"><b>Физика</b><span>Громов · 302</span></span>
+            <span class="sgrid__time">12:00</span><span class="gcell"><b>Информ.</b><span>Соколова · 410</span></span><span class="gcell"><b>Англ. яз.</b><span>Белова · 215</span></span><span class="gcell gcell--split"><span class="gcell__half"><b>1 п/г</b> · Англ. яз. · 215</span><span class="gcell__half"><b>2 п/г</b> · Информ. · 410</span></span><span class="gcell wide-only"><b>Физкультура</b><span>Ким · зал</span></span><span class="gcell wide-only"><b>Англ. яз.</b><span>Белова · 215</span></span>
+            <span class="sgrid__time">13:50</span><span class="gcell"><b>Физкультура</b><span>Ким · зал</span></span><span class="gcell gcell--window">Окно</span><span class="gcell"><b>Литература</b><span>Орлова · 207</span></span><span class="gcell gcell--window wide-only">Окно</span><span class="gcell gcell--window wide-only">Окно</span>
+          </div>
+          <div class="mock__caption">История изменений: кто и когда что поменял. Любое изменение можно отменить.</div>
+          <div class="history">
+            <div class="history__head"><span class="history__title">История изменений</span><span class="history__muted">ИС-21</span></div>
+            <div class="history__row"><span class="history__muted">14:12</span><span><b>О. Лебедева</b> поставила замену: История вместо Физики, 15 сен</span></div>
+            <div class="history__row"><span class="history__muted">13:58</span><span><b>О. Лебедева</b> разделила Англ. яз. на подгруппы, среда</span></div>
+            <div class="history__row"><span class="history__muted">вчера</span><span><b>О. Лебедева</b> перенесла Физкультуру на 13:50, понедельник</span></div>
+            <div class="history__row history__row--last"><span class="history__muted">11 сен</span><span>Опубликована неделя 14–19 сентября</span></div>
+            <div class="history__muted history__foot">Ошибочное изменение можно отменить.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14. Что ещё есть в системе -->
+<section id="sistema" class="screen screen--surface" aria-labelledby="sistema-title">
+  <div class="wrap screen__inner stack">
+    <h2 class="h2" id="sistema-title" data-reveal>Что ещё есть в системе</h2>
+    <div class="features">
+      <div class="card feat" data-reveal><svg class="feat__icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/><circle cx="17" cy="6" r="2.5" fill="#E3B021" stroke="none"/></svg><p class="feat__text"><b>Уведомления</b> <span>Студенты и преподаватели узнают о замене сразу, а не утром</span></p></div>
+      <div class="card feat" data-reveal><svg class="feat__icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/><path d="M15 16l1.5 1.5L19 15" stroke="#45875A"/></svg><p class="feat__text"><b>Проведённые занятия и посещаемость</b> <span>Журнал по каждой паре: состоялась ли, кто был</span></p></div>
+      <div class="card feat" data-reveal><svg class="feat__icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="1.5" fill="#E3B021" stroke="none"/></svg><p class="feat__text"><b>Нагрузка и часы</b> <span>Система сама считает отработанные часы преподавателя</span></p></div>
+      <div class="card feat" data-reveal><svg class="feat__icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><rect x="8" y="9" width="8" height="2" rx=".5" fill="#E3B021" stroke="none"/></svg><p class="feat__text"><b>Обращения в учебную часть</b> <span>Преподаватель пишет из кабинета, заявка не теряется в чатах</span></p></div>
+      <div class="card feat" data-reveal><svg class="feat__icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16M15 4v16"/><rect x="9" y="10" width="6" height="5" fill="#E3B021" stroke="none"/></svg><p class="feat__text"><b>Импорт из Excel</b> <span>Переносим ваше нынешнее расписание, а не набираем заново</span></p></div>
+      <div class="card feat" data-reveal><svg class="feat__icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V3h10v5M7 17H4v-7h16v7h-3"/><rect x="7" y="14" width="10" height="7"/><rect x="9" y="17" width="6" height="1.5" fill="#E3B021" stroke="none"/></svg><p class="feat__text"><b>Печать</b> <span>Расписание на лист для стенда</span></p></div>
+      <div class="card feat" data-reveal><svg class="feat__icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="3" fill="#E3B021" stroke="none"/></svg><p class="feat__text"><b>Сводка дня</b> <span>Что идёт сейчас, следующая пара, свободные аудитории, проблемы в расписании</span></p></div>
+      <div class="feat feat--soon" data-reveal>
+        <div class="feat__soon-head"><b>Скоро</b><span class="tag-yellow">в планах</span></div>
+        <ul class="feat__soon-list">
+          <li>Мобильное приложение для студентов и преподавателей</li>
+          <li>Автоматическое составление расписания</li>
+          <li>Не только расписание: личные кабинеты и вся система учебного заведения — вход по логину, оценки, оплата</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 15. Почему не коробка -->
+<section id="sravnenie" class="screen screen--paper" aria-labelledby="sravnenie-title">
+  <div class="wrap screen__inner stack">
+    <h2 class="h2 h2--narrow" id="sravnenie-title" data-reveal>Почему не коробка и не разработка с нуля</h2>
+    <div class="carousel" data-carousel>
+      <div class="carousel__track cards4" data-carousel-track>
+        <div class="card compare" data-reveal><div class="compare__title">Сроки</div><div class="compare__row"><span>Готовая коробка</span>Быстро</div><div class="compare__row"><span>Разработка с нуля</span>Полгода и больше</div><div class="compare__row compare__row--us"><span>Планово</span><b>Недели</b></div></div>
+        <div class="card compare" data-reveal><div class="compare__title">Ваши правила</div><div class="compare__row"><span>Готовая коробка</span>Подстраиваетесь вы</div><div class="compare__row"><span>Разработка с нуля</span>Как угодно</div><div class="compare__row compare__row--us"><span>Планово</span><b>Подстраиваем мы</b></div></div>
+        <div class="card compare" data-reveal><div class="compare__title">Цена</div><div class="compare__row"><span>Готовая коробка</span>Подписка за всё сразу</div><div class="compare__row"><span>Разработка с нуля</span>Дорого</div><div class="compare__row compare__row--us"><span>Планово</span><b>Платите за то, что нужно вам</b></div></div>
+        <div class="card compare" data-reveal><div class="compare__title">Развитие</div><div class="compare__row"><span>Готовая коробка</span>Как решит производитель</div><div class="compare__row"><span>Разработка с нуля</span>Своя команда</div><div class="compare__row compare__row--us"><span>Планово</span><b>Дорабатываем вместе с вами</b></div></div>
+      </div>
+      <div class="carousel__dots" data-carousel-dots></div>
+    </div>
+    <div class="conclusion" data-reveal><p>Готовое ядро, которое уже работает в колледже, плюс доработка под ваши подгруппы, недели, звонки и порядки.</p></div>
+  </div>
+</section>
+
+<!-- 16. Где будет работать -->
+<section id="gde" class="screen screen--surface" aria-labelledby="gde-title">
+  <div class="wrap screen__inner gde">
+    <h2 class="h2" id="gde-title" data-reveal>Где будет работать — решаете вы</h2>
+    <div class="places">
+      <div class="card place" data-reveal><svg class="place__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="8" width="30" height="9" rx="2"/><rect x="5" y="23" width="30" height="9" rx="2"/><rect x="27" y="11.5" width="4" height="2" rx=".5" fill="#E3B021" stroke="none"/><rect x="27" y="26.5" width="4" height="2" rx=".5" fill="#E3B021" stroke="none"/></svg><div><div class="place__title">У нас</div><p>Мы держим сервер, делаем копии и обновления. Вам ничего настраивать не нужно.</p></div></div>
+      <div class="card place" data-reveal><svg class="place__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="6" width="30" height="9" rx="2"/><path d="M20 15v6"/><ellipse cx="20" cy="24" rx="10" ry="3.5"/><path d="M10 24v6c0 1.9 4.5 3.5 10 3.5s10-1.6 10-3.5v-6"/><rect x="27" y="9.5" width="4" height="2" rx=".5" fill="#E3B021" stroke="none"/></svg><div><div class="place__title">У нас, а данные у вас</div><p>Система работает на нашем сервере, а база хранится на вашем.</p></div></div>
+      <div class="card place" data-reveal><svg class="place__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 34V15l14-9 14 9v19z"/><path d="M6 34h28"/><rect x="17" y="23" width="6" height="11" fill="#E3B021" stroke="none"/></svg><div><div class="place__title">Полностью у вас</div><p>Ставим на сервер учреждения, данные не покидают вашу сеть.</p></div></div>
+      <div class="card place" data-reveal><svg class="place__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 14l14-7 14 7v14l-14 7-14-7z"/><path d="M6 14l14 7 14-7M20 21v14"/><rect x="17" y="18" width="6" height="6" rx=".5" fill="#E3B021" stroke="none"/></svg><div><div class="place__title">Передаём программу</div><p>Коробочная версия, которой вы владеете сами.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 17. КЭМС -->
+<section id="kems" class="screen screen--paper" aria-labelledby="kems-title">
+  <div class="wrap screen__inner stack">
+    <header class="sec-head sec-head--wide" data-reveal>
+      <span class="eyebrow">Уже внедрено</span>
+      <h2 class="h2" id="kems-title">Уже работает в колледже КЭМС</h2>
+      <p class="sec-head__lead">Планово каждый день используют учебная часть, преподаватели и студенты КЭМС — Колледжа экономических и международных связей.</p>
+    </header>
+    <div class="counters" data-counters>
+      <div class="counter" data-reveal><div class="counter__n" data-count="60">60</div><div class="counter__l">групп</div></div>
+      <div class="counter" data-reveal><div class="counter__n" data-count="64">64</div><div class="counter__l">преподавателя</div></div>
+      <div class="counter" data-reveal><div class="counter__n" data-count="2800" data-count-prefix="~" data-count-step="100">~2&nbsp;800</div><div class="counter__l">занятий в месяц</div></div>
+      <div class="counter" data-reveal><div class="counter__n" data-count="2600" data-count-step="100">2&nbsp;600</div><div class="counter__l">уведомлений студентам и преподавателям за сентябрь</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 18. Как запускаем -->
+<section id="zapusk" class="screen screen--surface" aria-labelledby="zapusk-title">
+  <div class="wrap screen__inner stack">
+    <h2 class="h2" id="zapusk-title" data-reveal>Как запускаем</h2>
+    <ol class="steps">
+      <li class="step" data-reveal><span class="step__num">1</span><div class="step__body"><div class="step__title">Разбор — 30 минут, бесплатно</div><p>Рассказываете, как сейчас устроено расписание. Показываем, где теряется время.</p></div></li>
+      <li class="step" data-reveal><span class="step__num">2</span><div class="step__body"><div class="step__title">Показ на ваших данных</div><p>Загружаем ваше расписание и показываем его в Планово.</p></div></li>
+      <li class="step" data-reveal><span class="step__num">3</span><div class="step__body"><div class="step__title">Доработка под вас</div><p>Настраиваем ваши правила, роли, печатные формы.</p></div></li>
+      <li class="step" data-reveal><span class="step__num">4</span><div class="step__body"><div class="step__title">Запуск</div><p>Учим учебную часть, раздаём ссылки преподавателям и студентам.</p></div></li>
+      <li class="step" data-reveal><span class="step__num">5</span><div class="step__body"><div class="step__title">Сопровождение</div><p>Остаёмся на связи, дорабатываем по ходу.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 19. Кто мы + Не только учебные заведения -->
+<section id="komanda" class="screen screen--paper" aria-labelledby="komanda-title">
+  <div class="wrap screen__inner team">
+    <div class="team__part" data-reveal>
+      <h2 class="h2" id="komanda-title">Кто мы</h2>
+      <div class="team__text">
+        <p>Планово делают Андрей Шпарага и Савва Каретин — основатели проекта. Мы сами прошли внедрение в колледже: сидели с учебной частью, разбирали каждую замену и переделывали то, что было неудобно.</p>
+        <p>За нами — IT-компания <a href="https://akeda.ru" target="_blank" rel="noopener">Акеда</a>: разработчики, инфраструктура и опыт внедрения систем для бизнеса.</p>
+      </div>
+    </div>
+    <div class="team__part team__part--more" id="ne-tolko" data-reveal>
+      <h2 class="h2">Не только учебные заведения</h2>
+      <div class="team__text">
+        <p>То же ядро подходит всем, у кого есть люди, помещения и расписание: спортивным клубам, курсам, учебным центрам, секциям и кружкам.</p>
+        <div class="pills"><span class="pill">Спортивные клубы</span><span class="pill">Курсы и учебные центры</span><span class="pill">Школы искусств</span><span class="pill">Секции и кружки</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 20. Вопросы -->
+<section id="voprosy" class="screen screen--surface" aria-labelledby="voprosy-title">
+  <div class="wrap screen__inner faq-wrap">
+    <h2 class="h2" id="voprosy-title" data-reveal>Вопросы</h2>
+    <div class="faq" data-reveal>
+      <details name="faq"><summary>Сколько стоит?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Зависит от того, что нужно доработать и где будет работать система. Назовём после разбора.</p></details>
+      <details name="faq"><summary>Сколько занимает запуск?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Зависит от объёма доработок. Ядро готово, поэтому считаем в неделях, а не в месяцах.</p></details>
+      <details name="faq"><summary>Что будет с нашими таблицами?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Перенесём расписание из Excel. Набирать заново не придётся.</p></details>
+      <details name="faq"><summary>Мы ведём расписание в 1С или на бумаге<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Тоже подходит. Из 1С выгрузим таблицы и перенесём, с бумаги заведём вместе с вами на показе. Главное, чтобы расписание было — в каком виде, неважно.</p></details>
+      <details name="faq"><summary>Можно посмотреть на наших данных до покупки?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Да, это второй шаг запуска: загружаем ваше расписание и показываем его в Планово ещё до каких-либо обязательств.</p></details>
+      <details name="faq"><summary>Что будет, если мы захотим уйти?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Расписание и справочники отдадим в Excel. Если система стоит у вас или передана как коробка, она просто остаётся у вас.</p></details>
+      <details name="faq"><summary>Нужно ли учить сотрудников?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Учебной части покажем конструктор. Преподавателям и студентам достаточно ссылки.</p></details>
+      <details name="faq"><summary>Где хранятся данные?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Где решите вы: у нас, у вас или вперемешку.</p></details>
+      <details name="faq"><summary>У нас нестандартное расписание<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Для этого мы и дорабатываем. Расскажите на разборе.</p></details>
+      <details name="faq"><summary>Нужно ли ставить приложение?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Сейчас достаточно браузера: сайт можно добавить на главный экран телефона. Официальное приложение — скоро.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 21. Связаться (на телефоне — два экрана) -->
+<section id="svyaz" class="screen screen--paper screen--split screen--ruled svyaz" aria-labelledby="svyaz-title">
+  <div class="wrap split-wrap">
+    <div class="panel panel--a">
+      <div class="panel__inner" data-reveal>
+        <h2 class="h2 svyaz__title" id="svyaz-title">Расскажите, как устроено ваше расписание</h2>
+        <p class="svyaz__lead">Покажем на разборе, что можно убрать из ручной работы уже в этом семестре.</p>
+        <div class="contacts">
+          <a class="contact" href="https://t.me/planovosells_bot?start=site" target="_blank" rel="noopener"><span class="contact__k">Telegram</span><span class="contact__v">Написать в Telegram</span></a>
+          <a class="contact" href="mailto:an.shpar@mail.ru"><span class="contact__k">Почта</span><span class="contact__v">an.shpar@mail.ru</span></a>
+          <a class="contact" href="tel:+79819408161"><span class="contact__k">Телефон</span><span class="contact__v">+7 981 940-81-61</span></a>
+        </div>
+        <a class="btn btn--dark btn--lg mobile-only svyaz__cta" href="#zayavka">Оставить заявку</a>
+      </div>
+    </div>
+    <div class="panel panel--b" id="zayavka">
+      <div class="panel__inner svyaz__b">
+        <form class="lead-form" data-lead-form novalidate data-reveal>
+          <label class="field"><span class="field__label">Имя</span><input name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name"></label>
+          <label class="field"><span class="field__label">Учреждение</span><input name="organization" type="text" placeholder="Колледж, школа, вуз" autocomplete="organization"></label>
+          <label class="field"><span class="field__label">Телефон или почта</span><input name="contact" type="text" placeholder="Куда ответить" required autocomplete="email"></label>
+          <label class="field"><span class="field__label">Комментарий</span><textarea name="message" placeholder="Как сейчас устроено расписание, что мешает" rows="3"></textarea></label>
+          <label class="consent"><input type="checkbox" name="consent" required><span>Соглашаюсь на <a href="/consent-pdn.html" target="_blank" rel="noopener">обработку персональных данных</a></span></label>
+          <button class="btn btn--dark btn--lg lead-form__submit" type="submit">Отправить</button>
+          <p class="lead-form__status" data-lead-status role="status" aria-live="polite" hidden></p>
+          <p class="lead-form__note">Если удобнее — напишите в Telegram или позвоните, ответим в тот же день.</p>
+        </form>
+        <footer class="site-footer">
+          <div class="site-footer__row">
+            <div class="site-footer__brand"><img src="assets/planovo-logo.png" alt="Планово" width="36" height="36"><span>Планово — продукт команды <a href="https://akeda.ru" target="_blank" rel="noopener">Акеда</a></span></div>
+            <nav class="site-footer__links" aria-label="Документы"><a href="/privacy.html">Политика обработки персональных данных</a><a href="/consent-pdn.html">Согласие на обработку персональных данных</a><a href="/cookies.html">Cookie</a></nav>
+          </div>
+          <div class="site-footer__legal">ИП Шпарага Андрей Дмитриевич · ИНН 781457531980 · ОГРНИП 326784700129638</div>
+        </footer>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<a class="tg-fab" data-tg-fab href="https://t.me/planovosells_bot?start=site" target="_blank" rel="noopener" aria-label="Написать нам в Telegram"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.1c.3-1.2-.9-2.2-2-1.7L2.7 9.5c-1.2.5-1.1 2.2.1 2.6l4.4 1.4 1.7 5.3c.3 1.1 1.7 1.4 2.5.6l2.4-2.4 4.5 3.3c1 .7 2.3.2 2.6-1l3-15.2zm-4.6 3.4-7.6 6.9-.3 3-1.3-4.1 9.2-5.8z"/></svg><span>Ответим в тот же день</span></a>
+
+</body>
+</html>
