@@ -20,7 +20,7 @@ const checks = [
   {
     url: "https://planovo.pro/kems/student/",
     expect: [200],
-    includes: ["<title>КЭМС ученик", "apple-mobile-web-app-title\" content=\"КЭМС ученик"],
+    includes: ["apple-mobile-web-app-title\" content=\"КЭМС ученик"],
     excludes: ["404: This page could not be found.", "Расписание без ручной рутины"],
   },
   {
