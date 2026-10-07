@@ -43,6 +43,8 @@ planovo.pro, www.planovo.pro {
 		}
 
 		handle {
+			# Файлы сайта без хешей в имени: пусть браузер сверяет их по ETag при каждом открытии.
+			header Cache-Control "no-cache"
 			root * /srv/site
 			try_files {path} {path}/ /404.html
 			file_server
